@@ -15,7 +15,7 @@ body {
 	grid-template-areas:
 		"_left midle midle midle _right"
 	;
-	height: 110vh;
+	min-height: 110vh;
 }
 
 .section_0 .introduce .left {
@@ -44,6 +44,7 @@ body {
 .section_0 .introduce .wrapper_img {
 	width: 270px;
 	height: 320px;
+	transition: .3s ease-in-out;
 
 }
 
@@ -58,7 +59,9 @@ body {
 	display: grid;
 	place-items: center;
 }
-
+.section_0 .introduce .middle .wrapper .content p{
+	transition: .3s ease-in-out;
+}
 .section_0 .introduce .middle .wrapper .content p:nth-child(1) {
 	font-weight: 600;
 	font-size: 6.0rem;
@@ -120,16 +123,20 @@ body {
 .section_0 .introduce .middle .analytics .item{
 	display: grid;
 	place-items: center;
+
 }
 .section_0 .introduce .middle .analytics .item span{
 	font-size: 5.0rem;
 	color: rgb(80,106,243);
 	font-weight: 600;
+	transition: .3s ease-in-out;
+
 }
 .section_0 .introduce .middle .analytics .item p{
 	font-size: 2.2rem;
 	text-align: center;
 	color: rgb(103, 103, 103);
+	transition: .3s ease-in-out;
 	
 }
 .section_0 .introduce .middle .why_choose{
@@ -139,19 +146,59 @@ body {
 	transform: translate(-50%,0);
 }
 
-.section_0 .introduce .middle .why_choose .left{
-	bottom: 0;
-	left: -5%;
-	border-top-left-radius:70% ;
-}
+
 .section_0 .introduce .middle .why_choose p{
 	font-size: 3.2rem;
 	font-weight: 600;
 	color: rgb(57, 57, 57);
 	background-color: white;
-	/* display: inline-block;	 */
 	padding: 20px 60px;
 	width: max-content;
 	border-top-left-radius:40px ;
 	border-top-right-radius:40px ;
+	transition: .3s ease-in-out;
 }
+/* Handle responsive laptop 1024px */
+@media (max-width:1024px){
+	.section_0 .introduce .wrapper_img {
+		width: 170px;
+		height: 220px;
+	}
+	.section_0 .introduce .middle .wrapper .content p:nth-child(1){
+		font-size: 4.5rem;
+
+	}
+	.section_0 .introduce .middle .wrapper .content p:nth-child(2){
+		font-size: 4.0rem;
+
+	}
+	.section_0 .introduce .middle .wrapper .content p:nth-child(3), 
+	.section_0 .introduce .middle .wrapper .content p:nth-child(4){
+		font-size: 1.8rem;
+	}
+	.section_0 .introduce .middle .wrapper .explore a{
+		font-size: 2.0rem;
+	}
+	.section_0 .introduce .middle .analytics{
+		row-gap: 30px;
+	}
+	.section_0 .introduce .middle .analytics .item{
+		row-gap: 3px;
+	}
+	.section_0 .introduce .middle .analytics .item span{
+		font-size: 3.5rem;
+		
+	}
+	.section_0 .introduce .middle .analytics .item p{
+		font-size: 1.8rem;
+	}
+	.section_0 .introduce .middle .why_choose p{
+		font-size: 2.5rem;
+	}
+}
+/* //////////////////////////////// */
+/* Handle responsive tablet 768px */
+@media (max-width:768px){
+	
+}
+/* //////////////////////////////// */
