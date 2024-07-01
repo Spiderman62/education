@@ -119,7 +119,7 @@
 </div>
 <div class="section_2">
 	<div class="title-section-2">
-	Được tin cậy bởi các trường đại học
+		Được tin cậy bởi các trường đại học
 	</div>
 	<div class="wrapper">
 		<div class="left">
@@ -154,5 +154,51 @@
 	</div>
 </div>
 <div class="section_3">
-	
+	<div class="title">Tính năng nổi bật</div>
+	<div class="wrapper">
+		<div class="item">
+			<div class="wrapper_image">
+				<img src=<?php echo __ROOT__ . "public/clients/images/testing_1_1.webp" ?> alt="">
+			</div>
+			<div class="wrapper_content">
+				<div class="content">
+					<div class="title">Tạo đề và thi miễn phí</div>
+					<div class="description">Chỉ cần đăng nhập tài khoản, người dùng đã có thể tham gia tạo đề thi và ôn thi miễn phí, nhanh chóng, hiệu quả.</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="wrapper_content">
+				<div class="content">
+					<div class="title">Chia sẻ đề thi nhanh</div>
+					<div class="description">Chia sẻ đề thi đến các hội, nhóm, lớp học để cùng nhau học tập, tiến bộ.</div>
+				</div>
+			</div>
+			<div class="wrapper_image">
+				<img src=<?php echo __ROOT__ . "public/clients/images/testing_2_1.webp" ?> alt="">
+			</div>
+		</div>
+		<div class="item">
+			<div class="wrapper_image">
+				<img src=<?php echo __ROOT__ . "public/clients/images/testing_3_1.webp" ?> alt="">
+			</div>
+			<div class="wrapper_content">
+				<div class="content">
+					<div class="title">Đảo câu hỏi</div>
+					<div class="description">Cho phép ôn tập thông minh, hiệu quả, tránh tình trạng "học vẹt" hay "thấy đáp án quen nên chọn".</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<div class="wrapper_content">
+				<div class="content">
+					<div class="title">Cấu hình thang điểm, thời gian thi</div>
+					<div class="description">Tự cài đặt thang điểm và thời gian thi phù hợp với nhu cầu của người tạo đề.</div>
+				</div>
+			</div>
+			<div class="wrapper_image">
+				<img src=<?php echo __ROOT__ . "public/clients/images/testing_4_1.webp" ?> alt="">
+			</div>
+		</div>
+	</div>
 </div>

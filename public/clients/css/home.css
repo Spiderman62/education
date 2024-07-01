@@ -9,9 +9,11 @@
 body {
 	background-color: rgb(244, 247, 254);
 }
-body::-webkit-scrollbar{
+
+body::-webkit-scrollbar {
 	display: none;
 }
+
 .section_0 .introduce {
 	display: grid;
 	grid-template-areas:
@@ -62,9 +64,11 @@ body::-webkit-scrollbar{
 	display: grid;
 	place-items: center;
 }
-.section_0 .introduce .middle .wrapper .content p{
+
+.section_0 .introduce .middle .wrapper .content p {
 	transition: .3s ease-in-out;
 }
+
 .section_0 .introduce .middle .wrapper .content p:nth-child(1) {
 	font-weight: 600;
 	font-size: 6.0rem;
@@ -117,57 +121,64 @@ body::-webkit-scrollbar{
 		transform: scale(1.1);
 	}
 }
-.section_0 .introduce .middle .analytics{
+
+.section_0 .introduce .middle .analytics {
 	display: grid;
-	grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	margin-top: 40px;
 	row-gap: 15px;
 }
-.section_0 .introduce .middle .analytics .item{
+
+.section_0 .introduce .middle .analytics .item {
 	display: grid;
 	place-items: center;
 
 }
-.section_0 .introduce .middle .analytics .item span{
+
+.section_0 .introduce .middle .analytics .item span {
 	font-size: 5.0rem;
-	color: rgb(80,106,243);
+	color: rgb(80, 106, 243);
 	font-weight: 600;
 	transition: .3s ease-in-out;
 
 }
-.section_0 .introduce .middle .analytics .item p{
+
+.section_0 .introduce .middle .analytics .item p {
 	font-size: 2.2rem;
 	text-align: center;
 	color: rgb(103, 103, 103);
 	transition: .3s ease-in-out;
-	
+
 }
-.section_0 .introduce .middle .why_choose{
+
+.section_0 .introduce .middle .why_choose {
 	position: absolute;
 	bottom: 0;
 	left: 50%;
-	transform: translate(-50%,0);
+	transform: translate(-50%, 0);
 }
 
 
-.section_0 .introduce .middle .why_choose p{
+.section_0 .introduce .middle .why_choose p {
 	font-size: 3.2rem;
 	font-weight: 600;
 	color: rgb(57, 57, 57);
 	background-color: white;
 	padding: 20px 60px;
 	width: max-content;
-	border-top-left-radius:40px ;
-	border-top-right-radius:40px ;
+	border-top-left-radius: 40px;
+	border-top-right-radius: 40px;
 	transition: .3s ease-in-out;
 }
-.section_1{
+
+.section_1 {
 	background-color: white;
 	min-height: 100vh;
 	overflow: hidden;
 }
-.section_1 .percent{
-	background-image: linear-gradient(to bottom, rgb(142,141,255), rgb(104,127,255));
+
+.section_1 .percent {
+	background-image: linear-gradient(to bottom, rgb(142, 141, 255), rgb(104, 127, 255));
 	background-size: 100% 100%;
 	background-clip: text;
 	color: transparent;
@@ -175,106 +186,120 @@ body::-webkit-scrollbar{
 	padding-top: 70px;
 	font-size: 13.0rem;
 }
-.section_1 .wrapper{
+
+.section_1 .wrapper {
 	max-width: 100%;
 	width: 920px;
 	height: 130px;
 	margin: 0 auto;
-	background-color: rgb(240,242,255);
+	background-color: rgb(240, 242, 255);
 	border-radius: 75px;
 	display: grid;
 	grid-template-columns: 1fr 4fr 1fr;
 	overflow: hidden;
 	margin-top: 30px;
 }
-.section_1 .wrapper .wrapper_image{
+
+.section_1 .wrapper .wrapper_image {
 	height: 118px;
 	width: 118px;
 	position: relative;
 }
-.section_1 .wrapper .wrapper_image img{
+
+.section_1 .wrapper .wrapper_image img {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
-.section_1 .wrapper .wrapper_image.right img{
+
+.section_1 .wrapper .wrapper_image.right img {
 	right: -30px;
 }
-.section_1 .wrapper .wrapper_image.left img, 
-.section_1 .wrapper .wrapper_image.right img{
+
+.section_1 .wrapper .wrapper_image.left img,
+.section_1 .wrapper .wrapper_image.right img {
 	bottom: -10px;
 }
 
-.section_1 .wrapper .text{
+.section_1 .wrapper .text {
 	display: grid;
 	place-items: center;
 	font-size: 2.2rem;
 	font-weight: 600;
-	color: rgb(58,60,63);
+	color: rgb(58, 60, 63);
 	text-align: center;
 	line-height: 1.5;
 }
-.section_1 .details{
+
+.section_1 .details {
 	max-width: 100%;
 	width: 1200px;
 	margin: 80px auto 0;
 	display: grid;
-	grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
+	grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
 	text-align: center;
 	column-gap: 30px;
 	row-gap: 40px;
 	padding: 0 10px;
 }
-.section_1 .details .item .wrapper-icon{
+
+.section_1 .details .item .wrapper-icon {
 	padding: 4px 8px;
 	border: 1px solid rgb(229, 229, 229);
 	border-radius: 10px;
 	display: inline-block;
 }
-.section_1 .details .item .wrapper-icon svg{
+
+.section_1 .details .item .wrapper-icon svg {
 	font-size: 3.5rem;
 }
-.section_1 .details .item .wrapper-icon svg.text-green{
-	fill: rgb(34,197,94);
+
+.section_1 .details .item .wrapper-icon svg.text-green {
+	fill: rgb(34, 197, 94);
 }
-.section_1 .details .item .wrapper-icon svg.text-blue{
+
+.section_1 .details .item .wrapper-icon svg.text-blue {
 	stroke: rgb(33, 150, 243);
 }
-.section_1 .details .item .wrapper-icon svg.text-yellow{
-	stroke: rgb(251,192,45);
+
+.section_1 .details .item .wrapper-icon svg.text-yellow {
+	stroke: rgb(251, 192, 45);
 }
-.section_1 .details .item .wrapper-icon svg.text-red{
-	fill: rgb(255,85,85);
+
+.section_1 .details .item .wrapper-icon svg.text-red {
+	fill: rgb(255, 85, 85);
 }
-.section_1 .details .item .title{
+
+.section_1 .details .item .title {
 	font-size: 2.0rem;
 	font-weight: 600;
-	color: rgb(58,60,63);
+	color: rgb(58, 60, 63);
 	margin: 30px 0;
 }
-.section_1 .details .item .content{
+
+.section_1 .details .item .content {
 	font-size: 2.0rem;
 	color: rgb(97, 97, 97);
 	line-height: 1.5;
 }
-.section_2{
+
+.section_2 {
 	padding: 20px 0 100px 0;
 	background-color: white;
 }
-.section_2 .title-section-2{
+
+.section_2 .title-section-2 {
 	text-align: center;
 	font-size: 5.0rem;
-	margin-bottom: 50px;
-	background-image: linear-gradient(to bottom, rgb(142,141,255), rgb(104,127,255));
-	background-size: 100% 100%;
-	background-clip: text;
-	color: transparent;
+	padding-top: 20px;
+	margin: 0px 0 80px 0;
 	font-weight: 600;
 }
-.section_2 .wrapper{
+
+.section_2 .wrapper {
 	display: grid;
-	grid-template-columns: repeat(2,1fr);
+	grid-template-columns: repeat(2, 1fr);
 	width: 1200px;
 	margin: 0 auto;
 	max-width: 100%;
@@ -282,182 +307,345 @@ body::-webkit-scrollbar{
 	row-gap: 30px;
 }
 
-.section_2 .wrapper .left img{
+.section_2 .wrapper .left img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	border-radius: 20px;
 }
-.section_2 .wrapper .right .item{
+
+.section_2 .wrapper .right .item {
 	margin-bottom: 40px;
 }
-.section_2 .wrapper .item .title{
+
+.section_2 .wrapper .item .title {
 	font-size: 3.0rem;
 	font-weight: 600;
 	margin-bottom: 10px;
 }
-.section_2 .wrapper .right .description{
+
+.section_2 .wrapper .right .description {
 	font-size: 2.4rem;
 	color: rgb(97, 97, 97);
 
 }
-.section_3{
-	
+
+.section_3 {
+	background-color: white;
 }
+
+.section_3>.title {
+	font-size: 5.0rem;
+	text-align: center;
+	font-weight: 600;
+	margin-bottom: 50px;
+}
+
+.section_3 .wrapper {
+	width: 1200px;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.section_3 .wrapper .item {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	column-gap: 20px;
+	row-gap: 30px;
+}
+
+.section_3 .wrapper .item .wrapper_content .content {
+	line-height: 1.6;
+}
+
+.section_3 .wrapper .item .wrapper_content {
+	display: grid;
+	place-items: center;
+}
+
+.section_3 .wrapper .item .wrapper_content .content .title {
+	font-size: 2.8rem;
+	font-weight: 600;
+}
+
+.section_3 .wrapper .item .wrapper_content .content .description {
+	font-size: 2.5rem;
+}
+
+.section_3 .wrapper .item .wrapper_image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 /* Handle responsive laptop 1024px */
-@media (max-width:1024px){
+@media (max-width:1024px) {
 	.section_0 .introduce .wrapper_img {
 		width: 170px;
 		height: 220px;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(1){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(1) {
 		font-size: 4.5rem;
 
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(2){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(2) {
 		font-size: 4.0rem;
 
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(3), 
-	.section_0 .introduce .middle .wrapper .content p:nth-child(4){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(3),
+	.section_0 .introduce .middle .wrapper .content p:nth-child(4) {
 		font-size: 1.8rem;
 	}
-	.section_0 .introduce .middle .wrapper .explore a{
+
+	.section_0 .introduce .middle .wrapper .explore a {
 		font-size: 2.0rem;
 	}
-	.section_0 .introduce .middle .analytics{
+
+	.section_0 .introduce .middle .analytics {
 		row-gap: 30px;
 	}
-	.section_0 .introduce .middle .analytics .item{
+
+	.section_0 .introduce .middle .analytics .item {
 		row-gap: 3px;
 	}
-	.section_0 .introduce .middle .analytics .item span{
+
+	.section_0 .introduce .middle .analytics .item span {
 		font-size: 3.5rem;
-		
+
 	}
-	.section_0 .introduce .middle .analytics .item p{
+
+	.section_0 .introduce .middle .analytics .item p {
 		font-size: 1.8rem;
 	}
-	.section_0 .introduce .middle .why_choose p{
+
+	.section_0 .introduce .middle .why_choose p {
 		font-size: 2.5rem;
 	}
-	.section_2 .wrapper{
+
+	.section_2 .wrapper {
 		padding: 0 10px;
 	}
-	.section_2 .title-section-2{
+
+	.section_2 .title-section-2 {
 		font-size: 4.0rem;
 	}
-	.section_2 .wrapper .item .title{
+
+	.section_2 .wrapper .item .title {
 		font-size: 2.5rem;
 	}
-	.section_2 .wrapper .right .description{
-		font-size: 2.0rem;	
+
+	.section_2 .wrapper .right .description {
+		font-size: 2.0rem;
+	}
+
+	.section_3 .wrapper {
+		padding: 0 10px;
+	}
+
+	.section_3 .title {
+		font-size: 3.7rem;
 	}
 }
+
 /* //////////////////////////////// */
 /* Handle responsive tablet 768px */
-@media (max-width:768px){
-	.section_0{
+@media (max-width:768px) {
+	.section_0 {
 		padding: 0 24px;
 	}
+
 	.section_0 .introduce .wrapper_img {
 		width: 120px;
 		height: 120px;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(1){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(1) {
 		font-size: 3.8rem;
 
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(2){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(2) {
 		font-size: 3.0rem;
 		width: max-content;
 		text-align: center;
 		margin: 0 auto 15px auto;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(3), 
-	.section_0 .introduce .middle .wrapper .content p:nth-child(4){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(3),
+	.section_0 .introduce .middle .wrapper .content p:nth-child(4) {
 		font-size: 1.6rem;
 	}
-	.section_0 .introduce .middle .wrapper .explore a{
+
+	.section_0 .introduce .middle .wrapper .explore a {
 		font-size: 1.7rem;
 	}
-	.section_1 .percent{
+
+	.section_1 {
+		padding: 0 20px;
+	}
+
+	.section_1 .percent {
 		font-size: 9.0rem;
 		padding-top: 50px;
 	}
-	.section_1 .wrapper .text{
+
+	.section_1 .wrapper .text {
 		font-size: 2.0rem;
 	}
-	.section_2 .wrapper{
+
+	.section_2 {
+		padding: 0 20px;
+	}
+
+	.section_2 .wrapper {
 		grid-template-columns: 1fr;
-		grid-template-rows: 1fr 1fr;
 	}
-	.section_2 .title-section-2{
+
+	.section_2 .title-section-2 {
 		font-size: 3.5rem;
+		padding-top: 40px;
 	}
-	.section_2 .wrapper .right .item{
+
+	.section_2 .wrapper .right .item {
 		margin-bottom: 30px;
 	}
-	.section_2 .wrapper .item .title{
+
+	.section_2 .wrapper .item .title {
 		font-size: 2.2rem;
+		text-align: center;
 	}
-	.section_2 .wrapper .right .description{
-		font-size: 1.8rem;	
+
+	.section_2 .wrapper .right .description {
+		font-size: 1.8rem;
+		text-align: center;
+
 	}
+
+	.section_3 {
+		padding: 0 20px;
+	}
+
+	.section_3 .title {
+		font-size: 3.2rem;
+		padding-top: 40px;
+	}
+	.section_3 .wrapper .item {
+		margin-bottom: 40px;
+	}
+
+	.section_3 .wrapper .item .wrapper_content .content .title {
+		font-size: 2.5rem;
+		text-align: center;
+	}
+	
+	.section_3 .wrapper .item .wrapper_content .content .description {
+		font-size: 1.8rem;
+		text-align: center;
+	
+	}
+	.section_3 .wrapper .item{
+		row-gap: 0px;
+	}
+
 }
+
+
+
 /* //////////////////////////////// */
 /* Handle responsive iphone 600px */
-@media (max-width:600px){
-	.section_0{
+@media (max-width:600px) {
+	.section_0 {
 		padding: unset
 	}
+
 	.section_0 .introduce .wrapper_img {
 		width: 100px;
 		height: 100px;
 	}
+
 	.section_0 .introduce .wrapper_img img {
-		border-radius:50%;
+		border-radius: 50%;
 		overflow: hidden;
 		object-position: top center;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(1){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(1) {
 		font-size: 3.0rem;
 		margin-bottom: 15px;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(2){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(2) {
 		font-size: 2.4rem;
 	}
-	.section_0 .introduce .middle .wrapper .content p:nth-child(3), 
-	.section_0 .introduce .middle .wrapper .content p:nth-child(4){
+
+	.section_0 .introduce .middle .wrapper .content p:nth-child(3),
+	.section_0 .introduce .middle .wrapper .content p:nth-child(4) {
 		font-size: 1.5rem;
 	}
-	.section_0 .introduce .middle .wrapper .explore a{
+
+	.section_0 .introduce .middle .wrapper .explore a {
 		font-size: 1.6rem;
 	}
-	.section_0 .introduce .middle .analytics{
+
+	.section_0 .introduce .middle .analytics {
 		margin-top: 20px;
 
 	}
-	.section_0 .introduce .middle .analytics .item span{
+
+	.section_0 .introduce .middle .analytics .item span {
 		font-size: 2.8rem;
-	
+
 	}
-	.section_0 .introduce .middle .analytics .item p{
-		font-size: 1.8rem;		
+
+	.section_0 .introduce .middle .analytics .item p {
+		font-size: 1.8rem;
 	}
-	.section_1 .percent{
+
+	.section_1 .percent {
 		font-size: 7.0rem;
 		padding-top: 20px;
 	}
-	.section_1 .wrapper .text{
+
+	.section_1 .wrapper .text {
 		font-size: 1.7rem;
 	}
-	.section_2 .wrapper .right .item{
+
+	.section_2 .wrapper .right .item {
 		margin-bottom: 20px;
 	}
-	.section_2 .title-section-2{
+
+	.section_2 .title-section-2 {
 		font-size: 2.8rem;
-		padding: 0 4px;
+		padding: 40px 20px 0;
+	}
+	.section_3 .title{
+		padding-top: 40px;
+		margin-bottom: 20px;
+	}
+	.section_3 .wrapper .item .wrapper_content {
+		order: 2;
+	}
+	.section_3 .wrapper .item .wrapper_image {
+		order: 1;
+		width: 70%;
+		margin: 0 auto;
+	}
+
+	.section_3 .wrapper .item .wrapper_content .content .title {
+		font-size: 2.2rem;
+	}
+
+	.section_3 .wrapper .item .wrapper_content .content .description {
+		font-size: 1.6rem;
+
+	}
+
+	.section_3 .wrapper .item{
+		row-gap: 0px;
 	}
 }
+
 /* //////////////////////////////// */
