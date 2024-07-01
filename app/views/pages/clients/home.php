@@ -117,3 +117,42 @@
 
 	</div>
 </div>
+<div class="section_2">
+	<div class="title-section-2">
+	Được tin cậy bởi các trường đại học
+	</div>
+	<div class="wrapper">
+		<div class="left">
+			<img src=<?php echo __ROOT__ . "public/clients/images/mission_1.webp" ?> alt="">
+		</div>
+		<div class="right">
+			<div class="item">
+				<div class="title">
+					205K+ Tài khoản
+				</div>
+				<div class="description">Cộng đồng sinh viên, học sinh trên khắp cả nước cùng tham gia học tập.</div>
+			</div>
+			<div class="item">
+				<div class="title">
+					60K+ Đề thi
+				</div>
+				<div class="description">Tổng hợp đề thi chất lượng của các môn đại cương, chuyên ngành từ tất cả ngành học; môn học thuộc khối THPT.</div>
+			</div>
+			<div class="item">
+				<div class="title">
+					10M+ Lượt thi
+				</div>
+				<div class="description">Kho đề thi chất lượng, đa dạng thu hút hàng ngàn lượt thi mỗi ngày.</div>
+			</div>
+			<div class="item">
+				<div class="title">
+					174K+ Lượt tải
+				</div>
+				<div class="description">Đề thi hay, sát thực tế được tải về để ôn tập mỗi ngày.</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section_3">
+	
+</div>
