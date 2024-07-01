@@ -29,6 +29,9 @@
 	<?php
 	//  $this->view($footer) 
 	?>
+	<?php if ($lenis) { ?>
+		<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+	<?php } ?>
 	<?php if ($gsap) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $gsap . ".js?v=" . time(); ?>></script>
@@ -41,6 +44,7 @@
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $header_js . ".js?v=" . time(); ?>></script>
 	<?php } ?>
+
 </body>
 
 </html>

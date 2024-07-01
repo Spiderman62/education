@@ -15,6 +15,7 @@ class Home extends Controller{
 		$this->data['page'] = "pages/clients/home";
 		$this->data['gsap'] = "gsap/umd/gsap";
 		$this->data['icon'] = true;
+		$this->data['lenis'] = true;
 		$this->data['jQuery'] = "jQuery";
 		$this->view('clients_layout',$this->data);
 	}
