@@ -200,6 +200,9 @@ body {
 /* //////////////////////////////// */
 /* Handle responsive tablet 768px */
 @media (max-width:768px){
+	.section_0{
+		padding: 0 24px;
+	}
 	.section_0 .introduce .wrapper_img {
 		width: 120px;
 		height: 120px;
@@ -226,6 +229,9 @@ body {
 /* //////////////////////////////// */
 /* Handle responsive iphone 600px */
 @media (max-width:600px){
+	.section_0{
+		padding: unset
+	}
 	.section_0 .introduce .wrapper_img {
 		width: 100px;
 		height: 100px;
