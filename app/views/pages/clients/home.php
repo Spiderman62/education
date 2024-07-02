@@ -346,7 +346,7 @@
 					<div class="wrapper_icon">
 						<img src=<?php echo __ROOT__ . "public/clients/images/logo_cit.webp" ?> alt="">
 					</div>
-					
+
 				</div>
 			</div>
 		</div>

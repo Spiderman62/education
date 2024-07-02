@@ -16,6 +16,7 @@ class Home extends Controller{
 		$this->data['footer'] = "layouts/clients_footer";
 		$this->data['page'] = "pages/clients/home";
 		$this->data['gsap'] = "gsap/umd/gsap";
+		$this->data['scrollTrigger'] = "gsap/umd/ScrollTrigger";
 		$this->data['icon'] = true;
 		$this->data['lenis'] = true;
 		$this->data['jQuery'] = "jQuery";

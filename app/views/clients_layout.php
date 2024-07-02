@@ -38,6 +38,10 @@
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $gsap . ".js?v=" . time(); ?>></script>
 	<?php } ?>
+	<?php if ($scrollTrigger) {
+	?>
+		<script src=<?php echo __ROOT__ . "public/" . $scrollTrigger . ".js?v=" . time(); ?>></script>
+	<?php } ?>
 	<?php if ($script) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $script . ".js?v=" . time(); ?>></script>
