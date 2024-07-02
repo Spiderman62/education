@@ -5,6 +5,8 @@ class Home extends Controller{
 		$this->data['header_css'] = "clients/css/header";
 		$this->data['header'] = "layouts/clients_header";
 		$this->data['header_js'] = "clients/javascript/clients_header";
+		$this->data['footer_css'] = "clients/css/footer";
+		$this->data['footer'] = "layouts/clients_footer";
 		$this->data['page'] = 'home';
 		$this->data['title'] = "Home";
 		$this->data['css'] = "clients/css/home";

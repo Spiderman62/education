@@ -234,7 +234,7 @@ body::-webkit-scrollbar {
 
 .section_1 .details {
 	max-width: 100%;
-	width: 1200px;
+	width: 1300px;
 	margin: 80px auto 0;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -300,7 +300,7 @@ body::-webkit-scrollbar {
 .section_2 .wrapper {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	width: 1200px;
+	width: 1300px;
 	margin: 0 auto;
 	max-width: 100%;
 	column-gap: 40px;
@@ -343,7 +343,7 @@ body::-webkit-scrollbar {
 }
 
 .section_3 .wrapper {
-	width: 1200px;
+	width: 1300px;
 	max-width: 100%;
 	margin: 0 auto;
 }
@@ -386,7 +386,7 @@ body::-webkit-scrollbar {
 }
 
 .section_4 .wrapper {
-	width: 1200px;
+	width: 1300px;
 	max-width: 100%;
 	margin: 0 auto;
 }
@@ -457,7 +457,7 @@ body::-webkit-scrollbar {
 
 .section_5 .wrapper {
 	margin: 0 auto;
-	width: 1200px;
+	width: 1300px;
 	max-width: 100%;
 }
 
@@ -547,7 +547,7 @@ body::-webkit-scrollbar {
 	padding: 80px 20px;
 }
 .section_6 .partner{
-	width: 1200px;
+	width: 1300px;
 	max-width: 100%;
 	margin: 0 auto;
 }

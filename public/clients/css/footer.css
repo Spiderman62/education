@@ -1,0 +1,123 @@
+footer {
+	padding: 50px 120px;
+	display: grid;
+	grid-template-columns: 2fr repeat(3, 1fr);
+	column-gap: 30px;
+}
+
+footer .first-item .wrapper_top {
+	display: flex;
+	align-items: center;
+	column-gap: 10px;
+}
+
+footer .first-item .wrapper_top>p {
+	font-size: 3.0rem;
+	font-weight: 600;
+}
+
+footer .first-item .wrapper_top .wrapper_image {
+	height: 58px;
+	width: 58px;
+}
+
+footer .first-item .wrapper_top .wrapper_image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+footer .first-item .p_1 {
+	font-size: 1.8rem;
+	margin: 15px 0;
+	color: gray;
+}
+
+footer .first-item .p_2 {
+	font-size: 1.8rem;
+}
+
+footer .first-item .wrapper_image_VNPay {
+	height: 50px;
+	width: 50px;
+	margin-top: 15px;
+}
+
+footer .first-item .wrapper_image_VNPay img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+footer .item .title {
+	font-size: 2.4rem;
+	font-weight: 600;
+	margin-bottom: 30px;
+}
+
+footer .item a {
+	text-decoration: none;
+	display: block;
+	color: gray;
+	margin-bottom: 17px;
+	font-size: 1.7rem;
+	transition: .3s ease-in-out;
+
+	&:hover {
+		color: #5D80FF;
+	}
+}
+
+footer .wrapper {
+	display: flex;
+	column-gap: 15px;
+}
+
+footer .wrapper .icon {
+	font-size: 3.0rem;
+	display: flex;
+	align-self: flex-start;
+	transform: translate(0, 1px);
+}
+
+footer .item .wrapper_social {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+footer .item .wrapper_social a .icon i {
+	font-size: 3.5rem;
+}
+
+.blue {
+	color: #5D80FF;
+}
+
+.green {
+	color: rgb(34, 197, 94);
+}
+
+.red {
+	color: rgb(244, 67, 54);
+}
+
+.black {
+	color: black;
+}
+
+@media (max-width:1024px) {
+	footer {
+		grid-template-columns: repeat(2,1fr);
+		row-gap: 40px;
+	}
+}
+
+@media (max-width:768px) {
+	footer {
+		grid-template-columns: repeat(1,1fr);
+		row-gap: 20px;
+		padding: 40px 20px;
+	}
+}
+
+@media (max-width:600px) {}
