@@ -224,7 +224,7 @@
 			</div>
 			<div class="item">
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/oanh_01.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_08.jpg" ?> alt="">
 				</div>
 				<div class="content">
 					<p>Là sinh viên của BTEC, em thấy EduQuiz là thứ không thể thiếu của em và các bạn vào mỗi mùa ôn thi.</p>
@@ -235,7 +235,7 @@
 					<p>Em đã tự tạo được rất hiều tài liệu ôn thi ở đây, cũng có khá nhiều bạn vào thi đề của em. Em rất vui khi có thể giúp đỡ các bạn một phần để việc ôn thi bớt căng thẳng hơn.</p>
 				</div>
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/oanh_02.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_09.jpg" ?> alt="">
 				</div>
 			</div>
 			<div class="item">
@@ -244,6 +244,109 @@
 				</div>
 				<div class="content">
 					<p>Rất hài lòng với chất lượng của các bài kiểm tra trên trang web này. Trang giúp mình ôn tập kiến thức một cách toàn diện và trau dồi tư duy có chiều sâu.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section_5">
+	<div class="wrapper">
+		<div class="wrapper_more">
+			<div class="title">Tin tức</div>
+			<a href="" class="view_detail">Xem chi tiết</a>
+		</div>
+		<div class="blogs">
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_04.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<div class="title">Top 8 phần mềm quản lý thi trắc nghiệm dành cho giáo viên</div>
+					<div class="description">Cùng với tính năng trộn bộ câu hỏi thành nhiều mã đề khác nhau sẽ giúp giáo viên tổ chức cuộc thi công bằng và quản lý kết quả học tập hiệu quả.</div>
+					<a href="" class="show">Xem thêm</a>
+				</div>
+			</div>
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_05.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<div class="title">Tổng hợp các trường y top đầu Việt Nam hiện nay</div>
+					<div class="description">Đại học Y Hà Nội có một số khoa và viện nghiên cứu hàng đầu như khoa y học cơ bản, khoa y học hành vi và tâm lý, viện huyết học và truyền máu,…</div>
+					<a href="" class="show">Xem thêm</a>
+				</div>
+			</div>
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_06.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<div class="title">Học đại học 3 năm: Mô hình học tập tiết kiệm thời gian và chi phí</div>
+					<div class="description"> Đây là một hình thức đào tạo ngắn hạn so với thời gian đào tạo tiêu chuẩn mà nhiều trường thường áp dụng.</div>
+					<a href="" class="show">Xem thêm</a>
+				</div>
+			</div>
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_07.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<div class="title">Nên học đại học từ xa hay tại chức? Ưu và nhược điểm của từng hình thức</div>
+					<div class="description">Hình thức đào tạo này không chỉ giúp sinh viên tiết kiệm được chi phí mà còn có thể thoải mái sắp xếp lịch học sao cho phù hợp nhất với bản thân.</div>
+					<a href="" class="show">Xem thêm</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section_6">
+	<div class="partner">
+		<div class="title">Đối tác</div>
+		<div class="wrapper">
+			<div class="item">
+				<div class="icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="57" height="57" viewBox="0 0 56 57" fill="none">
+						<rect y="0.957031" width="56" height="56" rx="28" fill="#F0F2FF" />
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M27.5343 19.0721C27.8258 18.9187 28.1742 18.9187 28.4657 19.0721L37.9657 24.0721C38.2943 24.245 38.5 24.5858 38.5 24.957V32.957C38.5 33.5093 38.0523 33.957 37.5 33.957C36.9477 33.957 36.5 33.5093 36.5 32.957V26.6134L35.5 27.1397V34.189C35.5 35.4162 34.6264 36.4127 33.5186 36.7037C32.4604 36.9821 30.8555 37.4967 29.3029 38.3483L29.3025 38.3485C28.4923 38.7925 27.5073 38.7927 26.6971 38.3483L27.178 37.4715L26.6971 38.3483C25.1445 37.4967 23.5396 36.9821 22.4814 36.7037C21.3732 36.4126 20.5 35.4148 20.5 34.189V27.1397L18.0343 25.8419C17.7057 25.669 17.5 25.3283 17.5 24.957C17.5 24.5858 17.7057 24.245 18.0343 24.0721L27.5343 19.0721ZM22.5 28.1923V34.189C22.5 34.4272 22.6818 34.6885 22.9896 34.7694L22.9899 34.7694C24.1367 35.0711 25.9117 35.6364 27.6589 36.5948C27.8697 36.7104 28.1297 36.7106 28.3415 36.5946C30.0886 35.6363 31.8633 35.0711 33.0101 34.7694L33.0104 34.7694C33.3186 34.6884 33.5 34.4278 33.5 34.189V28.1923L28.4657 30.8419C28.1742 30.9954 27.8258 30.9954 27.5343 30.8419L22.5 28.1923ZM35.3529 24.957L28 28.827L20.6471 24.957L28 21.0871L35.3529 24.957Z" fill="#5278FF" />
+					</svg>
+				</div>
+				<div class="title">Các trường đại học lớn</div>
+				<div class="description">Hơn 100 trường đại học lớn trên toàn quốc</div>
+				<div class="wrapper_icons">
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/neu.png" ?> alt="">
+					</div>
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/hust.png" ?> alt="">
+					</div>
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/vanlang.png" ?> alt="">
+					</div>
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/nghanghcm.png" ?> alt="">
+					</div>
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/bmtu.png" ?> alt="">
+					</div>
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/y.png" ?> alt="">
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="56" height="57" viewBox="0 0 56 57" fill="none">
+						<rect y="0.957031" width="56" height="56" rx="28" fill="#FEF9E6" />
+						<path d="M33.5588 37.9572C33.3989 37.9579 33.2411 37.9202 33.0988 37.8472L27.9988 35.1772L22.8988 37.8472C22.7332 37.9343 22.5465 37.9732 22.3599 37.9594C22.1733 37.9457 21.9943 37.8799 21.8432 37.7694C21.6922 37.659 21.5751 37.5084 21.5054 37.3348C21.4357 37.1612 21.4161 36.9715 21.4488 36.7872L22.4488 31.1572L18.3288 27.1572C18.2002 27.029 18.1091 26.8681 18.065 26.6919C18.021 26.5158 18.0257 26.3309 18.0788 26.1572C18.1367 25.9795 18.2434 25.8216 18.3865 25.7014C18.5297 25.5812 18.7037 25.5035 18.8888 25.4772L24.5888 24.6472L27.0988 19.5172C27.1807 19.3482 27.3085 19.2056 27.4677 19.1058C27.6269 19.006 27.8109 18.9531 27.9988 18.9531C28.1866 18.9531 28.3707 19.006 28.5299 19.1058C28.689 19.2056 28.8169 19.3482 28.8988 19.5172L31.4388 24.6372L37.1388 25.4672C37.3239 25.4935 37.4979 25.5712 37.641 25.6914C37.7842 25.8116 37.8908 25.9695 37.9488 26.1472C38.0018 26.3209 38.0066 26.5058 37.9626 26.6819C37.9185 26.8581 37.8273 27.019 37.6988 27.1472L33.5788 31.1472L34.5788 36.7772C34.6145 36.9647 34.5958 37.1585 34.5249 37.3357C34.454 37.5129 34.3339 37.6661 34.1788 37.7772C33.9977 37.9041 33.7797 37.9674 33.5588 37.9572Z" fill="#FEC83C" />
+					</svg>
+				</div>
+				<div class="title">Các trung tâm đào tạo uy tín</div>
+				<div class="description">Trung tâm ngoại ngữ, Công nghệ thông tin, Trung tâm sát hạch bằng lái xe, Trung tâm</div>
+				<div class="wrapper_icons">
+					<div class="wrapper_icon">
+						<img src=<?php echo __ROOT__ . "public/clients/images/logo_cit.webp" ?> alt="">
+					</div>
+					
 				</div>
 			</div>
 		</div>
