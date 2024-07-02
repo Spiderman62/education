@@ -202,3 +202,50 @@
 		</div>
 	</div>
 </div>
+<div class="section_4">
+	<div class="wrapper">
+		<div class="title">Phản hồi của học viên, giáo viên</div>
+		<div class="wrapper-feedback">
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_01.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<p>EduQuiz khá tiện ích, tôi có thể tạo đề nhanh cho lớp học của mình. Đây cũng là tài liệu tôi có thể truyền đạt lại cho khoá sau mà không cần phải làm lại.</p>
+				</div>
+			</div>
+			<div class="item">
+				<div class="content">
+					<p>May mắn biết đến EduQuiz ngay từ hồi năm nhất, lúc này có nhiều môn đại cương thi trắc nghiệm, mà học thuộc với em là điều không thể, em đã mày mò tự tạo đề và thi trên đây. Em rất hài lòng với điểm số đạt được. EduQuiz rất hữu ích với em.</p>
+				</div>
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_03.jpg" ?> alt="">
+				</div>
+			</div>
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/oanh_01.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<p>Là sinh viên của BTEC, em thấy EduQuiz là thứ không thể thiếu của em và các bạn vào mỗi mùa ôn thi.</p>
+				</div>
+			</div>
+			<div class="item">
+				<div class="content">
+					<p>Em đã tự tạo được rất hiều tài liệu ôn thi ở đây, cũng có khá nhiều bạn vào thi đề của em. Em rất vui khi có thể giúp đỡ các bạn một phần để việc ôn thi bớt căng thẳng hơn.</p>
+				</div>
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/oanh_02.jpg" ?> alt="">
+				</div>
+			</div>
+			<div class="item">
+				<div class="wrapper_image">
+					<img src=<?php echo __ROOT__ . "public/clients/images/oanh_03.jpg" ?> alt="">
+				</div>
+				<div class="content">
+					<p>Rất hài lòng với chất lượng của các bài kiểm tra trên trang web này. Trang giúp mình ôn tập kiến thức một cách toàn diện và trau dồi tư duy có chiều sâu.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
