@@ -40,14 +40,19 @@ $(function () {
 				})
 			}
 		});
-		
-		setTimeout(()=>{
+
+		setTimeout(() => {
 			$('.popup_authorization .popup ul li').removeClass('selected');
 			$('.popup_authorization .popup .wrapper_icon i').removeClass('unlock');
 			$('.popup_authorization .popup .wrapper_icon').removeClass('unlock');
 			$('.popup_authorization .popup .confirm span').removeClass('active');
 			$('.popup_authorization .popup .confirm span').text('');
-		},700);
+			gsap.set('.popup_authorization .popup .confirm span',{
+				width:0,
+				opacity:0,
+				backgroundColor:"rgb(174, 191, 255)",
+			})
+		}, 700);
 	})
 	$('.popup_authorization .popup').on('click', function (event) {
 		event.stopPropagation();
@@ -55,7 +60,7 @@ $(function () {
 	const authorization = {
 		checkSeleted: false,
 		checkOnce: true,
-		controller:"decentralization/",
+		controller: "decentralization/",
 		main() {
 			const _this = this;
 			$('.popup_authorization .popup ul li').on('click', function () {
@@ -64,13 +69,17 @@ $(function () {
 				$('.popup_authorization .popup ul li').eq(index).addClass('selected');
 				$('.popup_authorization .popup .wrapper_icon i').addClass('unlock');
 				$('.popup_authorization .popup .wrapper_icon').addClass('unlock');
-				$('.popup_authorization .popup .confirm span').addClass('active');
+				gsap.to('.popup_authorization .popup .confirm span', {
+					opacity: 1,
+					backgroundColor: "#4079CA",
+					width: "102%",
+				})
 				$('.popup_authorization .popup .confirm span').text('Xác nhận!');
 				let action = $('.popup_authorization .popup ul li').eq(index).attr('data-action');
 				let path = ROOT + _this.controller + action;
-				$('.decentralization').attr('href',path);
+				$('.decentralization').attr('href', path);
 			});
-			$('.popup_authorization .popup .confirm span').on('click',function(){
+			$('.popup_authorization .popup .confirm span').on('click', function () {
 				document.querySelector('.decentralization').click();
 			});
 		}

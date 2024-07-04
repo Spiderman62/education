@@ -217,26 +217,13 @@ header>ul li.sign_in {
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-
+	opacity: 0;
+	background-color: rgb(174, 191, 255);
 }
 
-.popup_authorization .popup .confirm span.active {
-	animation: sideRight .6s ease-in-out forwards;
-}
 
-@keyframes sideRight {
-	from {
-		width: 0%;
-		background-color: rgb(174, 191, 255);
-		opacity: 0;
-	}
 
-	to {
-		width: 102%;
-		background-color: #4079CA;
-		opacity: 1;
-	}
-}
+
 
 /* Handle responsive tablet 768px */
 @media (max-width:768px) {
