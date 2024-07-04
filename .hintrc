@@ -8,7 +8,8 @@
       {
         "ignore": [
           "scale",
-          "text-underline-offset"
+          "text-underline-offset",
+          "backdrop-filter"
         ]
       }
     ]

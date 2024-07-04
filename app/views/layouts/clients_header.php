@@ -13,7 +13,7 @@
 		<li><a <?php echo $current_page === "contact" ? "class='primary_nav'" : "" ?> href="">Liên hệ</a></li>
 
 		<!--  -->
-		<li class="sign_in"><a href="">Đăng nhập</a></li>
+		<li class="sign_in">Đăng nhập</li>
 		<!--  -->
 	</ul>
 	<div class="nav-mobile">
@@ -39,4 +39,22 @@
 		<li><a <?php echo $current_page === "contact" ? "class='primary_nav'" : "" ?> href="">Liên hệ</a></li>
 		<li><a href="">Đăng nhập</a></li>
 	</ul>
+</div>
+<div class="popup_authorization">
+	<div class="popup">
+		<div class="wrapper_icon">
+			<i class="fa-solid fa-lock"></i>
+			<i class="fa-solid fa-unlock"></i>
+		</div>
+		<div class="title">Bạn thuộc vai trò nào?</div>
+		<ul>
+			<li data-action="lecturer">Giảng viên</li>
+			<li data-action="student">Sinh viên</li>
+		</ul>
+		<div class="confirm">
+			<span></span>
+			Vui lòng chọn!
+		</div>
+		<a class="decentralization" hidden href=""></a>
+	</div>
 </div>

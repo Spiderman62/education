@@ -1,4 +1,3 @@
-const ROOT = document.location.href;
 const lenis = new Lenis()
 lenis.on('scroll', (e) => {
 });
