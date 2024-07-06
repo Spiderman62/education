@@ -32,7 +32,7 @@
 	</div>
 	<div class="line"></div>
 	<ul>
-		<li><a <?php echo $current_page === "home" ? "class='primary_nav'" : "" ?> href="">Trang chủ</a></li>
+		<li><a <?php echo $current_page === "home" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "home" ?>>Trang chủ</a></li>
 		<li><a <?php echo $current_page === "quiz" ? "class='primary_nav'" : "" ?> href="">Đề thi</a></li>
 		<li><a <?php echo $current_page === "news" ? "class='primary_nav'" : "" ?> href="">Tin tức</a></li>
 		<li><a <?php echo $current_page === "guide" ? "class='primary_nav'" : "" ?> href="">Hướng dẫn</a></li>
