@@ -10,7 +10,7 @@ class Decentralization extends Controller
 	{
 		$this->data['title'] = "Lecturer";
 		$this->data['css'] = "decentralization/clients/css/clients";
-		$this->data['script'] = "decentralization/clients/javascript/clients";
+		$this->data['js'] = "decentralization/clients/javascript/clients";
 		$this->data['page'] = "pages/decentralization/clients";
 		$this->data['gsap'] = "gsap/umd/gsap";
 		$this->data['icon'] = true;

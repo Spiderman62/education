@@ -23,9 +23,9 @@
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $gsap . ".js?v=" . time(); ?>></script>
 	<?php } ?>
-	<?php if ($script) {
+	<?php if ($js) {
 	?>
-		<script src=<?php echo __ROOT__ . "public/" . $script . ".js?v=" . time(); ?>></script>
+		<script src=<?php echo __ROOT__ . "public/" . $js . ".js?v=" . time(); ?>></script>
 	<?php } ?>
 
 </body>
