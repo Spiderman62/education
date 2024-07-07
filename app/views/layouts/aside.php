@@ -1,6 +1,6 @@
 <aside>
 	<header>
-		s
+		
 	</header>
 	<div class="menu">
 		<div class="menu-tab">
