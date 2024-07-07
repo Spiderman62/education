@@ -4,7 +4,10 @@
 			<img src=<?php echo __ROOT__ . "public/clients/images/logo.webp"; ?> alt="">
 		</div>
 		<div class="title">EduQuiz</div>
-		<div class="toggle"><i class='bx bx-menu'></i></div>
+		<div class="toggle">
+			<i class='bx bx-menu open'></i>
+			<i class='bx bx-x close'></i>
+		</div>
 	</header>
 	<div class="menu">
 		<div class="menu-tab">
@@ -18,24 +21,25 @@
 				<li data-type="home">
 					<div class="icon">
 						<i class='bx bx-home-alt'></i>
+						
 					</div>
 					<span>Trang chủ</span>
 				</li>
 				<li data-type="category">
 					<div class="icon">
-					<i class='bx bx-category'></i>
+						<i class='bx bx-category'></i>
 					</div>
 					<span>Danh mục</span>
 				</li>
 				<li data-type="ranking">
 					<div class="icon">
-					<i class='bx bx-bar-chart-alt'></i>
+						<i class='bx bx-bar-chart-alt'></i>
 					</div>
 					<span>Xếp hạng</span>
 				</li>
 				<li data-type="news">
 					<div class="icon">
-					<i class='bx bx-news'></i>
+						<i class='bx bx-news'></i>
 					</div>
 					<span>Tin tức</span>
 				</li>
@@ -47,28 +51,36 @@
 				</li>
 				<li data-type="guide">
 					<div class="icon">
-					<i class='bx bx-info-circle' ></i>
+						<i class='bx bx-info-circle'></i>
 					</div>
 					<span>Hướng dẫn</span>
 				</li>
 			</ul>
 		</div>
 		<div class="information">
+			<div class="mode-switch">
+				<div class="moon-sun">
+					<i class='bx bx-sun sun'></i>
+					<i class='bx bx-moon moon'></i>
+				</div>
+				<div class="type">Dark mode</div>
+				<div class="wrapper_mode-switch">
+					<div class="switch"></div>
+				</div>
+			</div>
 			<div class="profile">
 				<div class="user_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_04.jpg"?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_04.jpg" ?> alt="">
 				</div>
 				<div class="infor">
 					<span class="name">Hồ Thị Yến</span>
 					<span class="major">Software Engineering</span>
 				</div>
 				<div class="logout">
-				<i class='bx bx-log-out'></i>
+					<i class='bx bx-log-out'></i>
 				</div>
 			</div>
-			<div class="mode-switch">
 
-			</div>
 		</div>
 	</div>
 </aside>

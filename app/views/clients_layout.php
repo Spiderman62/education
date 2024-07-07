@@ -9,6 +9,10 @@
 	?>
 		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $css . ".css?v=" . time(); ?>>
 	<?php } ?>
+	<?php if (!empty($aside_css)) {
+	?>
+		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $aside_css . ".css?v=" . time(); ?>>
+	<?php } ?>
 	<?php if (!empty($header_css)) {
 	?>
 		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $header_css . ".css?v=" . time(); ?>>
@@ -51,6 +55,11 @@
 	}
 	?>
 	<?php
+	if (!empty($aside_page)) {
+		$this->view($aside_page);
+	}
+	?>
+	<?php
 	if (!empty($page)) {
 		$this->view($page);
 	}
@@ -74,6 +83,10 @@
 	<?php if (!empty($js)) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $js . ".js?v=" . time(); ?>></script>
+	<?php } ?>
+	<?php if (!empty($aside_js)) {
+	?>
+		<script src=<?php echo __ROOT__ . "public/" . $aside_js . ".js?v=" . time(); ?>></script>
 	<?php } ?>
 	<?php if (!empty($header_js)) {
 	?>
