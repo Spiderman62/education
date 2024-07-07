@@ -1,4 +1,2 @@
-.hintrc;
-.htaccess;
-.json;
-.md;
+*.hintrc
+*.htaccess
