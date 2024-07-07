@@ -1,4 +1,4 @@
-.hintrc
-.htaccess
-jsconfig.json
-README.md
+.hintrc;
+.htaccess;
+.json;
+.md;
