@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo isset($title) ? $title : "AZT"?></title>
+	<title><?php echo !empty($title) ? $title : "AZT"?></title>
 	<?php if (!empty($css)) {
 	?>
 		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $css . ".css?v=" . time(); ?>>
@@ -18,15 +18,22 @@
 	<?php } ?>
 </head>
 <body>
-	<?php $this->view(!empty($page));?>
+	<?php
+	if(!empty($page)){
+		$this->view($page);
+	}
+	?>
 	<?php if (!empty($gsap)) {
 	?>
-		<script src=<?php echo __ROOT__ . "public/" . $gsap . ".js?v=" . time(); ?>></script>
+		<script src=<?php echo __ROOT__ . "public/gsap/umd/gsap.js?v=" . time(); ?>></script>
 	<?php } ?>
 	<?php if (!empty($js)) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/" . $js . ".js?v=" . time(); ?>></script>
 	<?php } ?>
-
+	<?php if (!empty($js_role)) {
+	?>
+		<script src=<?php echo __ROOT__ . "public/" . $js_role . ".js?v=" . time(); ?>></script>
+	<?php } ?>
 </body>
 </html>
