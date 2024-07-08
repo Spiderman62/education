@@ -12,6 +12,7 @@ class Decentralization extends Controller
 		$this->data['gsap'] = true;
 		$this->data['content']['role'] = "lecturer";
 		$this->data['icon'] = true;
+		
 		$this->data['jQuery'] = true;
 		$this->view('decentralization_layout', $this->data);
 	}

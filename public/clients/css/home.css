@@ -287,6 +287,7 @@ body::-webkit-scrollbar {
 .section_2 {
 	padding: 20px 0 100px 0;
 	background-color: white;
+	overflow: hidden;
 }
 
 .section_2 .title-section-2 {
@@ -333,6 +334,7 @@ body::-webkit-scrollbar {
 .section_3 {
 	background-color: white;
 	padding: 0 20px;
+	overflow: hidden;
 }
 
 .section_3>.title {
@@ -383,6 +385,7 @@ body::-webkit-scrollbar {
 	background-color: white;
 	min-height: 100vh;
 	padding: 0 20px 40px;
+	overflow: hidden;
 }
 
 .section_4 .wrapper {
@@ -807,10 +810,13 @@ body::-webkit-scrollbar {
 	.section_0 {
 		padding: unset
 	}
-
+	.section_0 .introduce{
+		min-height: 65vh;
+	}
 	.section_0 .introduce .wrapper_img {
 		width: 100px;
 		height: 100px;
+		display: none;
 	}
 
 	.section_0 .introduce .wrapper_img img {
@@ -839,7 +845,7 @@ body::-webkit-scrollbar {
 
 	.section_0 .introduce .middle .analytics {
 		margin-top: 20px;
-
+		margin-bottom: 100px;
 	}
 
 	.section_0 .introduce .middle .analytics .item span {

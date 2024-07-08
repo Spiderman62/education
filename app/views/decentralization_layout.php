@@ -20,7 +20,7 @@
 <body>
 	<?php
 	if(!empty($page)){
-		$this->view($page);
+		$this->view($page,$content);
 	}
 	?>
 	<?php if (!empty($gsap)) {

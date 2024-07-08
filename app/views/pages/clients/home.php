@@ -2,7 +2,7 @@
 	<div class="introduce">
 		<div class="left">
 			<div class="wrapper_img left">
-				<img src=<?php echo __ROOT__ . "public/clients/images/oanh.jpg" ?> alt="">
+				<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_01.jpg" ?> alt="">
 			</div>
 		</div>
 		<div class="middle">

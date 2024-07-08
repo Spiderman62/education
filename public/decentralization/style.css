@@ -83,18 +83,44 @@ form.sign-up-form {
 }
 
 .input-box {
+	position: relative;
 	max-width: 380px;
 	width: 100%;
 	height: 55px;
 	background-color: #f0f0f0;
-	margin: 10px 0;
+	margin: 15px 0;
 	border-radius: 55px;
 	display: grid;
 	grid-template-columns: 15% 85%;
 	padding: 0 .4rem;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
-
+.input-box .message{
+	opacity: 0;
+	visibility: hidden;
+	transition: all .2s ease-in-out;
+}
+.input-box input[type='file']{
+	display: none;
+}
+.input-box input[type='file'] + label{
+	font-size: 1.8rem;
+	line-height: 55px;
+	color: #acacac;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+.input-box.error .message{
+	visibility: visible;
+	position: absolute;
+	left: 25px;
+	top: calc(100% + 4px);
+	font-size: 1.7rem;
+	color: rgb(224,102,102);
+	-webkit-user-select:none;
+	user-select: none;
+	opacity: 1;
+}
 .input-box i {
 	text-align: center;
 	line-height: 55px;
@@ -111,6 +137,7 @@ form.sign-up-form {
 	line-height: 1;
 	font-weight: 600;
 	letter-spacing: .5px;
+	border-radius: 55px;
 }
 
 .input-box input::placeholder {
