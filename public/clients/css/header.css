@@ -367,3 +367,6 @@ header>ul li.sign_in {
 }
 
 /* /////////////////////////////// */
+header + div{
+	margin-top: 100px;
+}
