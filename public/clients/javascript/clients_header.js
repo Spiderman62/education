@@ -1,4 +1,3 @@
-const ROOT = document.location.href;
 $(function () {
 	$('header .nav-mobile').on('click', function () {
 		gsap.to('.nav_mobile-fixed', {

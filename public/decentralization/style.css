@@ -95,6 +95,34 @@ form.sign-up-form {
 	padding: 0 .4rem;
 	/* overflow: hidden; */
 }
+.input-box .sub-menu{
+	position: absolute;
+	top: calc(100% + 8px);
+	width: 90%;
+	box-shadow: 0 0 12px 1px rgb(225, 225, 225);
+	border-radius: 6px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	background-color: white;
+	height: 130px;
+	overflow: hidden;
+}
+.input-box .sub-menu ul{
+	height: 100%;
+	overflow-y: auto;
+	list-style: none;
+}
+.input-box .sub-menu li{
+	font-size: 1.8rem;
+	padding: 12px 16px;
+	transition: .2s ease-in-out;
+	cursor: pointer;
+	&:hover{
+		padding-left: 20px;
+		background-color: #f4f4f4;
+	}
+}
 .input-box .message{
 	opacity: 0;
 	visibility: hidden;
@@ -109,6 +137,8 @@ form.sign-up-form {
 	color: #acacac;
 	cursor: pointer;
 	transition: all .3s ease-in-out;
+	height: 100%;
+	overflow: hidden;
 }
 .input-box.error .message{
 	visibility: visible;

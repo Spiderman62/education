@@ -1,3 +1,6 @@
+const path = window.location.pathname.split('/').filter(item => item !== "")[0];
+const ROOT = `${window.location.protocol}/${path}/`;
+// Về cơ bản nên thay vì mỗi file tạo root riêng thì nên cấu hình lại để nạp root path
 $(function () {
 	const signUp = {
 		form: '.sign-up-form',
@@ -27,7 +30,8 @@ $(function () {
 			for (let i = 0; i < validators.length; i++) {
 				switch (inputElement.attr('type')) {
 					case 'file':
-
+						const label = $(inputElement).parent('.input-box').find('label');
+						isError = validators[i](inputElement.val().trim(), label);
 						break;
 					default:
 						isError = validators[i](inputElement.val().trim());
@@ -42,8 +46,26 @@ $(function () {
 				inputElement.parent('.input-box').removeClass('error');
 				messageElement.text('');
 			}
+			return !isError;
 		},
-		main() {
+		handleSubmitForm() {
+			const _this = this;
+			$(_this.form).on('submit', function (e) {
+				let isSubmit = true;
+				$.each(_this.selectors, function (indexInArray, valueOfElement) {
+					const isValid = _this.handleCondition(valueOfElement);
+					if (!isValid) {
+						isSubmit = false;
+					}
+				});
+				if (isSubmit) {
+					$(_this.form).trigger('submit');
+				} else {
+					e.preventDefault();
+				}
+			})
+		},
+		handleCatchEvent() {
 			const _this = this;
 			$.each(this.selectors, function (index, element) {
 				if (Array.isArray(_this.simulator[element.selector])) {
@@ -60,13 +82,76 @@ $(function () {
 					inputElement.parent('.input-box').removeClass('error');
 				});
 			});
+		},
+		debounce(data) {
+			const _this = this;
+			$(_this.form + " " + ".input-box .sub-menu").fadeOut();
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('click', function () {
+				$(_this.form + " " + ".input-box .sub-menu").fadeIn(300);
+			})
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('blur', function () {
+				$(_this.form + " " + ".input-box .sub-menu").fadeOut(300);
+			})
+			$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
+				const value = $(this).text();
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
+			});
+			/////////////////////////////////////////////////////////////////////////////
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('input', function () {
+				handleShowResult($(this).val());
+			})
+			function handleShowResult(searchValue) {
+				let html = "";
+				const searchResults = data.filter(item => item.major.toLowerCase().includes(searchValue.toLowerCase()));
+				if (searchResults.length > 0) {
+					for (let i = 0; i < searchResults.length; i++) {
+						html += `<li data-ID="${searchResults[i].ID}">${searchResults[i].major}</li>`
+					}
+					$(_this.form + " " + ".input-box .sub-menu ul").html(html);
+
+				} else {
+					$(_this.form + " " + ".input-box .sub-menu ul").html("<li>Không tìm thấy!</li>");
+
+				}
+				$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
+					const value = $(this).text();
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
+				});
+			}
+		},
+		getListMajors() {
+			const _this = this;
+			$.post(ROOT + "ajax/getStudyField", "",
+				function (data, textStatus, jqXHR) {
+					_this.renderListMajors(data);
+				},
+				"json"
+			);
+
+		},
+		renderListMajors(data) {
+			const _this = this;
+			let html = "";
+			for (let i = 0; i < data.length; i++) {
+				html += `<li data-ID="${data[i].ID}">${data[i].major}</li>`
+			}
+			$(_this.form + " " + ".input-box .sub-menu ul").html(html);
+			_this.debounce(data);
+		},
+		main() {
+			this.getListMajors();
+			this.handleCatchEvent();
+			this.handleSubmitForm();
 		}
 	}
 	signUp.main();
 	function checkBlank(selector) {
 		return {
 			selector: selector,
-			validator(value) {
+			validator(value, label) {
+				if (label) {
+					value.length === 0 ? label.text('Upload file') : label.text(value);
+				}
 				return value.length === 0 ? 'Không được để trống!' : undefined;
 			}
 		}
@@ -75,7 +160,7 @@ $(function () {
 		return {
 			selector: selector,
 			validator(value) {
-				return value.length < min ? `Bắt buộc phải trên ${min}!` : undefined;
+				return value.length < min ? `Bắt buộc phải trên ${min} ký tự!` : undefined;
 			}
 		}
 	}

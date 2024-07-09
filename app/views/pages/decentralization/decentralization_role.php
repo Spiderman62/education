@@ -3,11 +3,11 @@
 		<div class="signIn-signUp">
 			<!-- Student's form -->
 			<?php if ($role === 'student') { ?>
-				<form action="" class="sign-in-form">
+				<form action=<?php echo __ROOT__ . "ajax/studentSignUp";?> method="post" class="sign-in-form">
 					<h2 class="title">Sign in</h2>
 					<div class="input-box">
-					<i class="fa-solid fa-address-card"></i>
-						<input type="text" placeholder="Username">
+						<i class="fa-solid fa-address-card"></i>
+						<input type="text" placeholder="Account">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
@@ -17,37 +17,42 @@
 					</div>
 					<input type="submit" value="login" class="btn solid">
 				</form>
-				<form action="" class="sign-up-form">
+				<form action=<?php echo __ROOT__ . "ajax/studentSignUp";?> class="sign-up-form" method="post" enctype="multipart/form-data">
 					<h2 class="title">Sign up</h2>
 					<div class="input-box">
-					<i class="fa-solid fa-address-card"></i>
-						<input type="text" id="account" placeholder="Account">
+						<i class="fa-solid fa-address-card"></i>
+						<input type="text" id="account" name="account" placeholder="Account">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
 						<i class="fas fa-user"></i>
-						<input type="text" id="username" placeholder="Username">
+						<input type="text" id="username" name="username" placeholder="Username">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
 						<i class="fas fa-envelope"></i>
-						<input type="text" id="email" placeholder="Email">
+						<input type="text" id="email" name="email" placeholder="Email">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
 						<i class="fa-solid fa-briefcase"></i>
-						<input type="text" id="education" placeholder="Education">
+						<input type="text" id="education" name="education" placeholder="Education">
 						<span class="message"></span>
+						<div class="sub-menu">
+							<ul>
+								
+							</ul>
+						</div>
 					</div>
 					<div class="input-box">
-					<i class="fa-solid fa-upload"></i>
-						<input type="file" id="file">
+						<i class="fa-solid fa-upload"></i>
+						<input type="file" name="file" id="file">
 						<label for="file">Upload file</label>
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
 						<i class="fas fa-lock"></i>
-						<input type="password" id="password" placeholder="Password">
+						<input type="password" id="password" name="password" placeholder="Password">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
