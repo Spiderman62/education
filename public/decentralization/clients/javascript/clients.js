@@ -1,6 +1,3 @@
-const path = window.location.pathname.split('/').filter(item => item !== "")[0];
-const ROOT = `${window.location.protocol}/${path}/`;
-// Về cơ bản nên thay vì mỗi file tạo root riêng thì nên cấu hình lại để nạp root path
 $(function () {
 	const signUp = {
 		form: '.sign-up-form',
@@ -13,8 +10,8 @@ $(function () {
 			checkLength('#username', 8),
 			checkBlank('#email'),
 			checkEmail('#email'),
-			checkBlank('#education'),
-			checkBlank('#file'),
+			checkBlank('#major'),
+			// checkBlank('#file'),
 			checkBlank('#password'),
 			checkLength('#password', 5),
 			checkWhiteSpace('#password'),
@@ -51,6 +48,7 @@ $(function () {
 		handleSubmitForm() {
 			const _this = this;
 			$(_this.form).on('submit', function (e) {
+				e.preventDefault();
 				let isSubmit = true;
 				$.each(_this.selectors, function (indexInArray, valueOfElement) {
 					const isValid = _this.handleCondition(valueOfElement);
@@ -59,7 +57,29 @@ $(function () {
 					}
 				});
 				if (isSubmit) {
-					$(_this.form).trigger('submit');
+					let formData = $(_this.form).serializeArray();
+					$.post(ROOT+"ajax/studentSignUp", formData,
+						function (data, textStatus, jqXHR) {
+							console.log(data);
+							if(data.account){
+								$(_this.form + " " + "#account").parent('.input-box').addClass('error');
+								$(_this.form + " " + "#account").parent('.input-box').find('.message').text('Tài khoản đã tồn tại!');
+							}
+							if(data.email){
+								$(_this.form + " " + "#email").parent('.input-box').addClass('error');
+								$(_this.form + " " + "#email").parent('.input-box').find('.message').text('Email đã tồn tại!');
+							}
+							if(data.active){
+								swal("Đăng ký thành công", "Chuyển trang...", "success",{
+									timer:2000
+								});
+								setTimeout(()=>{
+									$('#sign-in-btn').trigger('click');
+								},2300)
+							}
+						},
+						"json"
+					);
 				} else {
 					e.preventDefault();
 				}
@@ -102,7 +122,7 @@ $(function () {
 			})
 			function handleShowResult(searchValue) {
 				let html = "";
-				const searchResults = data.filter(item => item.major.toLowerCase().includes(searchValue.toLowerCase()));
+				const searchResults = data.filter(item => item.major.toLowerCase().trim().includes(searchValue.toLowerCase().trim()));
 				if (searchResults.length > 0) {
 					for (let i = 0; i < searchResults.length; i++) {
 						html += `<li data-ID="${searchResults[i].ID}">${searchResults[i].major}</li>`
@@ -127,7 +147,6 @@ $(function () {
 				},
 				"json"
 			);
-
 		},
 		renderListMajors(data) {
 			const _this = this;

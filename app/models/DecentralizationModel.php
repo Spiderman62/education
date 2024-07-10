@@ -10,8 +10,32 @@
 			return json_encode($array);
 		}
 		public function studentSignUp($data) {
-			// $this->connection
-
+			header("Content-Type: application/json");
+			$dataResponse = [];
+			$account = $data['account'];
+			$email = $data['email'];
+			$username = $data['username'];
+			$major = $data['major'];
+			$password = $data['password'];
+			$isFoundAccount = $this->connection->query("SELECT account FROM user WHERE account = '$account'");
+			$isFoundEmail = $this->connection->query("SELECT account FROM user WHERE email = '$email'");
+			if(mysqli_num_rows($isFoundAccount) > 0){
+				$dataResponse['account'] = true;
+			}
+			if(mysqli_num_rows($isFoundEmail) > 0){
+				$dataResponse['email'] = true;
+			}
+			if(!empty($dataResponse)){
+				return json_encode($dataResponse);
+			}
+			$this->connection->query("INSERT INTO user(account,email,username,password)
+			VALUE('$account','$email','$username','$password');
+			");
+			$this->connection->query("INSERT INTO student(userID,major)
+			VALUE(last_insert_id(),'$major');
+			");
+			$dataResponse['active'] = true;
+			return json_encode($dataResponse);
 		}
 	}
 ?>

@@ -36,7 +36,7 @@
 					</div>
 					<div class="input-box">
 						<i class="fa-solid fa-briefcase"></i>
-						<input type="text" id="education" name="education" placeholder="Education">
+						<input type="text" id="major" name="major" placeholder="Major...">
 						<span class="message"></span>
 						<div class="sub-menu">
 							<ul>
@@ -44,12 +44,12 @@
 							</ul>
 						</div>
 					</div>
-					<div class="input-box">
+					<!-- <div class="input-box">
 						<i class="fa-solid fa-upload"></i>
 						<input type="file" name="file" id="file">
 						<label for="file">Upload file</label>
 						<span class="message"></span>
-					</div>
+					</div> -->
 					<div class="input-box">
 						<i class="fas fa-lock"></i>
 						<input type="password" id="password" name="password" placeholder="Password">

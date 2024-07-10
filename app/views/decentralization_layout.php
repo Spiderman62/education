@@ -16,6 +16,11 @@
 	?>
 		<script src=<?php echo __ROOT__ . "public/jQuery.js?v=" . time(); ?>></script>
 	<?php } ?>
+	<?php
+		if(!empty($sweetAlert)){
+	?>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<?php }?>
 </head>
 <body>
 	<?php
@@ -23,6 +28,11 @@
 		$this->view($page,$content);
 	}
 	?>
+	<?php
+		if(!empty($root)){
+	?>
+	<script src=<?php echo __ROOT__ . "public/root.js?v=" . time(); ?>></script>
+	<?php }?>
 	<?php if (!empty($gsap)) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/gsap/umd/gsap.js?v=" . time(); ?>></script>

@@ -20,6 +20,7 @@ class Home extends Controller{
 		$this->data['icon'] = true;
 		$this->data['lenis'] = true;
 		$this->data['jQuery'] = "jQuery";
+		$this->data['root'] = true;
 		$this->view('clients_layout',$this->data);
 	}
 }

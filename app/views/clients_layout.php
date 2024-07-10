@@ -59,6 +59,11 @@
 		$this->view($footer);
 	}
 	?>
+	<?php
+	if (!empty($root)) {
+	?>
+		<script src=<?php echo __ROOT__ . "public/root.js?v=" . time(); ?>></script>
+	<?php } ?>
 	<?php if (!empty($lenis)) { ?>
 		<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
 	<?php } ?>
