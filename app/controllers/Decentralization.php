@@ -1,7 +1,10 @@
 <?php
 class Decentralization extends Controller
 {
-	private $data;
+	private $DecentralizationModel , $data;
+	public function __construct(){
+		$this->DecentralizationModel = $this->model('DecentralizationModel');
+	}
 	public function lecturer()
 	{
 		$this->data['title'] = "Lecturer";
@@ -31,5 +34,14 @@ class Decentralization extends Controller
 		$this->data['root'] = true;
 		$this->data['sweetAlert'] = true;
 		$this->view('decentralization_layout', $this->data);
+	}
+	public function activeAccountStudent($email = []) {
+		$this->DecentralizationModel->activeAccountStudent($email);
+		$this->data['page'] = 'pages/decentralization/turnBack';
+		$this->data['css'] = 'decentralization/clients/css/turnBack';
+		$this->data['content']['check'] = true;
+		$this->data['sweetAlert'] = true;
+		$this->data['js'] = 'decentralization/clients/javascript/turnBack';
+		$this->view('decentralization_layout',$this->data);
 	}
 }

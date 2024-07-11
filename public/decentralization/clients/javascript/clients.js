@@ -70,12 +70,26 @@ $(function () {
 								$(_this.form + " " + "#email").parent('.input-box').find('.message').text('Email đã tồn tại!');
 							}
 							if(data.active){
-								swal("Đăng ký thành công", "Chuyển trang...", "success",{
-									timer:2000
+								swal({
+									title:'Đăng ký thành công!',
+									text:'Chuyển trang...',
+									icon:'success',
+									timer:1800,
+									button:false
 								});
 								setTimeout(()=>{
 									$('#sign-in-btn').trigger('click');
-								},2300)
+								},2000);
+								setTimeout(()=>{
+									swal({
+										title:'EduQuiz thông báo!!!',
+										text:'Chúng tôi đã gửi tới email của bạn để kích hoạt tài khoản, Vui lòng kiểm tra!!!',
+										button:{
+											text:'Đã hiểu'
+										},
+										icon:'info',
+									})
+								},3800);
 							}
 						},
 						"json"

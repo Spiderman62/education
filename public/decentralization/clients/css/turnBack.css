@@ -1,0 +1,67 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 62.5%;
+	font-family: "Inter", sans-serif;
+}
+main{
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.magneto {
+	position: relative;
+	width: 170px;
+	height: 170px;
+	background-color: rgb(69, 92, 233);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 3.0rem;
+	margin: 0 auto;
+}
+a{
+	text-decoration: none;
+	font-size: 3.0rem;
+}
+.magneto .wave {
+	position: absolute;
+	border: 2px solid white;
+	width: 60%;
+	height: 60%;
+	border-radius: 50%;
+	animation: waveBeyond14 2s linear infinite;
+	opacity: 0;
+}
+
+.magneto .wave:nth-child(2) {
+	animation-delay: 1s;
+}
+
+.magneto .wave:nth-child(3) {
+	animation-delay: 2s;
+}
+
+.magneto .wave:nth-child(4) {
+	animation-delay: 3s;
+}
+
+@keyframes waveBeyond14 {
+	from {
+		width: 60%;
+		height: 60%;
+		opacity: 0;
+	}
+
+	to {
+		width: 100%;
+		height: 100%;
+		border: 1px solid rgb(69, 92, 233);
+		opacity: 1;
+
+	}
+}
