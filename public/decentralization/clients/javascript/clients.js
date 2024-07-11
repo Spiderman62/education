@@ -58,38 +58,39 @@ $(function () {
 				});
 				if (isSubmit) {
 					let formData = $(_this.form).serializeArray();
-					$.post(ROOT+"ajax/studentSignUp", formData,
+					$('.pending').addClass('active');
+					$.post(ROOT + "ajax/studentSignUp", formData,
 						function (data, textStatus, jqXHR) {
-							console.log(data);
-							if(data.account){
+							$('.pending').removeClass('active');
+							if (data.account) {
 								$(_this.form + " " + "#account").parent('.input-box').addClass('error');
 								$(_this.form + " " + "#account").parent('.input-box').find('.message').text('Tài khoản đã tồn tại!');
 							}
-							if(data.email){
+							if (data.email) {
 								$(_this.form + " " + "#email").parent('.input-box').addClass('error');
 								$(_this.form + " " + "#email").parent('.input-box').find('.message').text('Email đã tồn tại!');
 							}
-							if(data.active){
+							if (data.active) {
 								swal({
-									title:'Đăng ký thành công!',
-									text:'Chuyển trang...',
-									icon:'success',
-									timer:1800,
-									button:false
+									title: 'Đăng ký thành công!',
+									text: 'Chuyển trang...',
+									icon: 'success',
+									timer: 1800,
+									button: false
 								});
-								setTimeout(()=>{
+								setTimeout(() => {
 									$('#sign-in-btn').trigger('click');
-								},2000);
-								setTimeout(()=>{
+								}, 2000);
+								setTimeout(() => {
 									swal({
-										title:'EduQuiz thông báo!!!',
-										text:'Chúng tôi đã gửi tới email của bạn để kích hoạt tài khoản, Vui lòng kiểm tra!!!',
-										button:{
-											text:'Đã hiểu'
+										title: 'EduQuiz thông báo!!!',
+										text: 'Chúng tôi đã gửi tới email của bạn để kích hoạt tài khoản, Vui lòng kiểm tra!!!',
+										button: {
+											text: 'Đã hiểu'
 										},
-										icon:'info',
+										icon: 'info',
 									})
-								},3800);
+								}, 3800);
 							}
 						},
 						"json"
@@ -231,4 +232,4 @@ $(function () {
 			}
 		}
 	}
-})
+});

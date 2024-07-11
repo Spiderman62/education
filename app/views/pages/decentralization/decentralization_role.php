@@ -3,7 +3,7 @@
 		<div class="signIn-signUp">
 			<!-- Student's form -->
 			<?php if ($role === 'student') { ?>
-				<form action=<?php echo __ROOT__ . "ajax/studentSignUp";?> method="post" class="sign-in-form">
+				<form action=<?php echo __ROOT__ . "ajax/studentSignUp"; ?> method="post" class="sign-in-form">
 					<h2 class="title">Sign in</h2>
 					<div class="input-box">
 						<i class="fa-solid fa-address-card"></i>
@@ -17,7 +17,7 @@
 					</div>
 					<input type="submit" value="login" class="btn solid">
 				</form>
-				<form action=<?php echo __ROOT__ . "ajax/studentSignUp";?> class="sign-up-form" method="post" enctype="multipart/form-data">
+				<form action=<?php echo __ROOT__ . "ajax/studentSignUp"; ?> class="sign-up-form" method="post" enctype="multipart/form-data">
 					<h2 class="title">Sign up</h2>
 					<div class="input-box">
 						<i class="fa-solid fa-address-card"></i>
@@ -40,7 +40,7 @@
 						<span class="message"></span>
 						<div class="sub-menu">
 							<ul>
-								
+
 							</ul>
 						</div>
 					</div>
@@ -109,6 +109,18 @@
 				<button class="btn transparent" id="sign-in-btn">Sign in</button>
 			</div>
 			<img src=<?php echo __ROOT__ . "public/decentralization/svg/software_engineer.svg" ?> class="image" alt="">
+		</div>
+	</div>
+</div>
+<div class="pending">
+	<div class="wrapper">
+		<div class="box-wrap">
+			<div class="box one"></div>
+			<div class="box two"></div>
+			<div class="box three"></div>
+			<div class="box four"></div>
+			<div class="box five"></div>
+			<div class="box six"></div>
 		</div>
 	</div>
 </div>
