@@ -31,6 +31,7 @@ class Controller
 		$mail->SMTPSecure = 'ssl';
 		$mail->Port = 465;
 		$mail->addAddress($email);
+		$mail->CharSet = 'UTF-8';
 		$mail->isHTML(true);
 		$mail->Subject = $title;
 		$mail->Body = $html;
