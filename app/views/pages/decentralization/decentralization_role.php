@@ -7,12 +7,12 @@
 					<h2 class="title">Sign in</h2>
 					<div class="input-box">
 						<i class="fa-solid fa-address-card"></i>
-						<input type="text" placeholder="Account">
+						<input type="text" id="account" name="account" placeholder="Account">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
 						<i class="fas fa-lock"></i>
-						<input type="password" placeholder="Password">
+						<input type="password" id="password" name="password" placeholder="Password">
 						<span class="message"></span>
 					</div>
 					<input type="submit" value="login" class="btn solid">

@@ -68,19 +68,24 @@
 					<div class="switch"></div>
 				</div>
 			</div>
+			<?php
+				if(!empty($_SESSION['info'])){
+
+				
+			?>
 			<div class="profile">
 				<div class="user_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_04.jpg" ?> alt="">
+					<img src=<?php echo !empty($_SESSION['info']['image'])? $_SESSION['info']['image']: __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
 				</div>
 				<div class="infor">
-					<span class="name">Hồ Thị Yến</span>
-					<span class="major">Software Engineering</span>
+					<span class="name"><?php echo $_SESSION['info']['username'];?></span>
+					<span class="major"><?php echo $_SESSION['info']['major']?></span>
 				</div>
 				<div class="logout">
 					<i class='bx bx-log-out'></i>
 				</div>
 			</div>
-
+					<?php }?>
 		</div>
 	</div>
 </aside>

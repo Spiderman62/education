@@ -56,6 +56,10 @@ $(function () {
 	$('.popup_authorization .popup').on('click', function (event) {
 		event.stopPropagation();
 	})
+	$('header .session').on('click',function(){
+		$('header .session .icon .wrapper-info-user-popup').fadeToggle(300);
+	});
+	
 	const authorization = {
 		checkSeleted: false,
 		checkOnce: true,

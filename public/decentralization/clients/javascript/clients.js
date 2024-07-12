@@ -179,6 +179,132 @@ $(function () {
 		}
 	}
 	signUp.main();
+	const signIn = {
+		form: '.sign-in-form',
+		simulator: {},
+		selectors: [
+			checkBlank('#account'),
+			checkLength('#account', 5),
+			checkWhiteSpace('#account'),
+			checkBlank('#password'),
+			checkLength('#password', 5),
+			checkWhiteSpace('#password'),
+		],
+		handleCondition(obj) {
+			const validators = this.simulator[obj.selector];
+			const inputElement = $(this.form + " " + obj.selector);
+			let isError;
+			for (let i = 0; i < validators.length; i++) {
+				switch (inputElement.attr('type')) {
+					case 'file':
+						const label = $(inputElement).parent('.input-box').find('label');
+						isError = validators[i](inputElement.val().trim(), label);
+						break;
+					default:
+						isError = validators[i](inputElement.val().trim());
+				}
+				if (isError) break;
+			}
+			let messageElement = inputElement.parent('.input-box').find('.message');
+			if (isError) {
+				inputElement.parent('.input-box').addClass('error');
+				messageElement.text(isError);
+			} else {
+				inputElement.parent('.input-box').removeClass('error');
+				messageElement.text('');
+			}
+			return !isError;
+		},
+		handleSubmitForm() {
+			const _this = this;
+			$(_this.form).on('submit', function (e) {
+				e.preventDefault();
+				let isSubmit = true;
+				$.each(_this.selectors, function (indexInArray, valueOfElement) {
+					const isValid = _this.handleCondition(valueOfElement);
+					if (!isValid) {
+						isSubmit = false;
+					}
+				});
+				if (isSubmit) {
+					let formData = $(_this.form).serializeArray();
+					$.post(ROOT + "ajax/studentSignIn", formData,
+						function (data, textStatus, jqXHR) {
+							console.log(data);
+							if (data.isAccount) {
+								$(_this.form + " " + "#account").parent('.input-box').addClass('error');
+								$(_this.form + " " + "#account").parent('.input-box').find('.message').text('Tài khoản không chính xác!');
+								
+							}
+							if(data.isPassword){
+								$(_this.form + " " + "#password").parent('.input-box').addClass('error');
+								$(_this.form + " " + "#password").parent('.input-box').find('.message').text('Mật khẩu không chính xác!');
+								
+							}
+							if(data.isStatus){
+								swal({
+									title:'Truy cập bị từ chối!',
+									text:'Vui lòng kiểm tra email để kích hoạt tài khoản của bạn!',
+									icon:'warning',
+
+								})
+								
+							}
+							if(data.active){
+								if(data.info.hasOwnProperty('major')){
+										swal({
+											title:'Đăng nhập thành công!',
+											icon:'success',
+											text:'Chào mừng',
+											button:false
+										});
+										setTimeout(()=>{
+											window.location.href = `${ROOT}home`;
+										},1500)
+								}else{
+									swal({
+										title:'Đăng nhập thành công!',
+										text:'Chào mừng quản trị',
+										icon:'success',
+										button:false
+									});
+									setTimeout(()=>{
+										window.location.href = `${ROOT}home`;
+									},1500)
+								}
+							}
+						},
+						"json"
+					);
+				} else {
+					e.preventDefault();
+				}
+			})
+		},
+		handleCatchEvent() {
+			const _this = this;
+			$.each(this.selectors, function (index, element) {
+				if (Array.isArray(_this.simulator[element.selector])) {
+					_this.simulator[element.selector].push(element.validator);
+				} else {
+					_this.simulator[element.selector] = [element.validator];
+				}
+				$(_this.form + " " + element.selector).on('blur', function () {
+					_this.handleCondition(element);
+				});
+				let inputElement = $(_this.form + " " + element.selector);
+				$(_this.form + " " + element.selector).on('input', function () {
+					inputElement.parent('.input-box').find('.message').text("");
+					inputElement.parent('.input-box').removeClass('error');
+				});
+			});
+		},
+		main() {
+			this.handleCatchEvent();
+			this.handleSubmitForm();
+		}
+	}
+	signIn.main();
 	function checkBlank(selector) {
 		return {
 			selector: selector,

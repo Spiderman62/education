@@ -11,7 +11,8 @@ class DecentralizationModel extends DB
 		header('Content-Type: application/json');
 		return json_encode($array);
 	}
-	public function studentSignUp($data){
+	public function studentSignUp($data)
+	{
 		header("Content-Type: application/json");
 		$dataResponse = [];
 		$account = $data['account'];
@@ -41,9 +42,55 @@ class DecentralizationModel extends DB
 		echo json_encode($dataResponse);
 		return true;
 	}
-	public function activeAccountStudent($email){
+	public function activeAccountStudent($email)
+	{
 		$this->connection->query("UPDATE student SET student.status = 1
 		WHERE student.userID = (SELECT user.ID FROM user
     	WHERE user.email = '$email');");
+	}
+	public function studentSignIn($data)
+	{
+		header('Content-Type: application/json');
+		$dataResponse = [];
+		$account = $data['account'];
+		$password = $data['password'];
+		$isAccount = $this->connection->query("SELECT * FROM user where account = '$account'");
+		if (empty(mysqli_num_rows($isAccount))) {
+			$dataResponse['isAccount'] = true;
+		}
+		$isPassword = $this->connection->query(" SELECT * FROM user where password = '$password'");
+		if (empty(mysqli_num_rows($isPassword))) {
+			$dataResponse['isPassword'] = true;
+		}
+		if (!empty($dataResponse)) {
+			echo json_encode($dataResponse);
+			return;
+		}
+		$isAdmin = $this->connection->query("SELECT * FROM user inner join admin on admin.userID = user.ID 
+		where user.account = '$account' AND user.password = '$password'");
+		if (!empty(mysqli_num_rows($isAdmin))) {
+			$result =  mysqli_fetch_assoc($isAdmin);
+			$dataResponse['info'] = $result;
+			$dataResponse['active'] = true;
+			$_SESSION['info'] = $result;
+			echo json_encode($dataResponse);
+			return;
+		}
+		$isStatus = $this->connection->query("SELECT * FROM user inner join student on student.userID = user.ID 
+		where user.account = '$account' AND user.password = '$password' AND student.status = 1;");
+		if (empty(mysqli_num_rows($isStatus))) {
+			$dataResponse['isStatus'] = true;
+			echo json_encode($dataResponse);
+			return;
+		}
+		if (!empty(mysqli_num_rows($isStatus))) {
+			$result =  mysqli_fetch_assoc($isStatus);
+			$dataResponse['info'] = $result;
+			$dataResponse['active'] = true;
+			$_SESSION['info'] = $result;
+			echo json_encode($dataResponse);
+			return;
+		}
+		
 	}
 }

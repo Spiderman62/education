@@ -27,6 +27,11 @@
 				$this->sendEmail($title,$html,$this->data['email']);
 			}
 		}
-		
+		public function studentSignIn() {
+			$this->data['account'] = $_POST['account'];
+			$this->data['password'] = $_POST['password'];
+			$this->DecentralizationModel->studentSignIn($this->data);
+			
+		}
 	}
 ?>
