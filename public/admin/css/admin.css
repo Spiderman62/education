@@ -2,8 +2,10 @@
 	--body-color: #E4E9F7;
 	--sidebar-color: #FFF;
 	--primary-color: #695CFE;
+	--attention-color: #695CFE;
 	--primary-color-light: #F6F5FF;
 	--toggle-color: #DDD;
+	--mark-color:#FFF;
 	--text-color: #707070;
 	--black-color: black;
 	--cancel-color: #F63939;
@@ -30,6 +32,9 @@ body.dark {
 	--primary-color-light: #3A3B3C;
 	--toggle-color: #FFF;
 	--text-color: #CCC;
+	--mark-color:#FFF;
+	--attention-color: #958bff;
+
 }
 body {
 	height: 100vh;
@@ -147,6 +152,12 @@ aside li {
 	border-radius: 6px;
 	overflow: hidden;
 	cursor: pointer;
+}
+aside ul li.mark, 
+aside ul li.mark span, 
+aside ul li.mark .icon{
+	background-color: var(--primary-color);
+	color: var(--mark-color);
 }
 
 aside ul li:hover .icon,
@@ -368,9 +379,81 @@ section{
 	transition: var(--tran-05);
 	height: 100%;
 	overflow: auto;
+	padding: 20px;
 }
 
-aside.close ~ section{
+aside.close + section{
 	width: calc(100% - 88px);
 	left: 88px;
+}
+section .tabs{
+	max-width: 100%;
+	margin: 0 auto;
+	transition: var(--tran-03);
+}
+section .tabs header{
+	height: 80px;
+	background-color: var(--sidebar-color);
+	border-radius: 8px;
+	transition: var(--tran-05);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	column-gap: 40px;
+}
+section .tabs header h1{
+	font-size: 1.7rem;
+	font-weight: 600;
+	color: var(--black-color);
+	transition: var(--tran-03);
+	-webkit-user-select:none;
+	user-select: none;
+}
+section .tabs header h1 span{
+	font-size: 1.7rem;
+	color: var(--attention-color);
+	transition: var(--tran-03);
+}
+section .stand-line{
+	height: 55%;
+	width: 2.5px;
+	background-color: var(--black-color);
+	transition: var(--tran-03);
+}
+section .wrapper-user{
+	background-color: var(--sidebar-color);
+	transition: var(--tran-05);
+	margin-top: 25px;
+	padding: 20px;
+	border-radius: 8px;
+}
+section .wrapper-user .switch{
+	display: flex;
+	align-items: center;
+	height: 40px;
+	margin-bottom: 20px;
+	column-gap: 12px;
+	position: relative;
+}
+section .wrapper-user .switch .line{
+	position: absolute;
+	height: 3px;
+	background-color: var(--attention-color);
+	top: 100%;
+	border-radius: 12px;
+	transition: var(--tran-03);
+}
+section .wrapper-user .switch .role{
+	font-size: 1.8rem;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	color: var(--black-color);
+	transition: var(--tran-03);
+}
+section .wrapper-user .switch .role i{
+	font-size: 1.8rem;
+	margin-right: 4px;
 }
