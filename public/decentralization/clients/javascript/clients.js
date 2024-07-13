@@ -247,8 +247,7 @@ $(function () {
 									text:'Vui lòng kiểm tra email để kích hoạt tài khoản của bạn!',
 									icon:'warning',
 
-								})
-								
+								})	
 							}
 							if(data.active){
 								if(data.info.hasOwnProperty('major')){
@@ -269,7 +268,7 @@ $(function () {
 										button:false
 									});
 									setTimeout(()=>{
-										window.location.href = `${ROOT}home`;
+										window.location.href = `${ROOT}admin`;
 									},1500)
 								}
 							}

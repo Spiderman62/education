@@ -370,7 +370,8 @@ section{
 	overflow: auto;
 }
 
-aside.close ~ section{
+aside.close + section{
 	width: calc(100% - 88px);
 	left: 88px;
 }
+/* /////////////////////////////////////////////// */

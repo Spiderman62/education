@@ -267,7 +267,7 @@ $(function () {
 										button:false
 									});
 									setTimeout(()=>{
-										window.location.href = `${ROOT}home`;
+										window.location.href = `${ROOT}admin`;
 									},1500)
 								}
 							}

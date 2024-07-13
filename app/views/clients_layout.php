@@ -5,14 +5,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo !empty($title) ? $title : "Education"; ?></title>
-	<?php if (!empty($css)) {
-	?>
-		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $css . ".css?v=" . time(); ?>>
-	<?php } ?>
 	<?php if (!empty($aside_css)) {
 	?>
 		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $aside_css . ".css?v=" . time(); ?>>
 	<?php } ?>
+	<?php if (!empty($css)) {
+	?>
+		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $css . ".css?v=" . time(); ?>>
+	<?php } ?>
+	
 	<?php if (!empty($header_css)) {
 	?>
 		<link rel="stylesheet" href=<?php echo __ROOT__ . "public/" . $header_css . ".css?v=" . time(); ?>>
