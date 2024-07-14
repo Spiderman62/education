@@ -69,7 +69,7 @@
 				</div>
 			</div>
 			<?php
-				if(!empty($_SESSION['info'])){
+				if(!empty($_SESSION['info']['major']) || !empty($_SESSION['info']['education'])){
 
 				
 			?>

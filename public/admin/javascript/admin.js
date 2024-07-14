@@ -47,8 +47,8 @@ $(function () {
 				const index = $(this).closest('.wrapper-user').find('.role').index(this);
 				const position = $(this).position().left;
 				$('section .tabs .wrapper-user .switch .line').css('left', `${position}px`);
-				$('section .tabs main .switch-active').fadeOut();
-				$('section .tabs main .switch-active').eq(index).fadeIn();
+				$('section .tabs main .switch-active').fadeOut(0);
+				$('section .tabs main .switch-active').eq(index).fadeIn(500);
 			});
 		},
 		main() {
@@ -56,4 +56,19 @@ $(function () {
 		}
 	};
 	switchRole.main();
+	const optionMenu = {
+		catchEvents(){
+			$('.select-btn').on('click',function(){
+				$('.options').fadeToggle(300);
+			});
+			$('.options .option').on('click',function(){
+				const value = $(this).find('span').text();
+				$('.select-btn').find('.sBtn-text').text(value);
+			});
+		},
+		main(){
+			this.catchEvents();
+		}
+	}
+	optionMenu.main();
 });

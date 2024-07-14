@@ -9,7 +9,8 @@
         "ignore": [
           "scale",
           "text-underline-offset",
-          "backdrop-filter"
+          "backdrop-filter",
+          "accent-color"
         ]
       }
     ]
