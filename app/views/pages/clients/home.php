@@ -2,7 +2,7 @@
 	<div class="introduce">
 		<div class="left">
 			<div class="wrapper_img left">
-				<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_01.jpg" ?> alt="">
+				<img src=<?php echo __ROOT__ . "public/clients/images/banner_user_4.webp" ?> alt="">
 			</div>
 		</div>
 		<div class="middle">
@@ -37,7 +37,7 @@
 		</div>
 		<div class="right">
 			<div class="wrapper_img right">
-				<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_02.jpg" ?> alt="">
+				<img src=<?php echo __ROOT__ . "public/clients/images/banner_user2.webp" ?> alt="">
 			</div>
 		</div>
 	</div>

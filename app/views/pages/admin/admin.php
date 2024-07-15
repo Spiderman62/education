@@ -20,14 +20,13 @@
 			<ul>
 				<li data-type="home">
 					<div class="icon">
-						<i class='bx bx-home-alt'></i>
-
+						<i class='bx bx-bar-chart-alt'></i>
 					</div>
 					<span>Thống kê</span>
 				</li>
 				<li data-type="user">
 					<div class="icon">
-						<i class="fa-solid fa-users"></i>
+						<i class='bx bxs-user-detail'></i>
 					</div>
 					<span>Người dùng</span>
 				</li>
@@ -74,10 +73,10 @@
 		</header>
 	</div>
 	<div class="tabs">
-		<header>
-			<h1>DANH SÁCH NGƯỜI DÙNG ( <span>19</span> )</h1>
+		<header class="user">
+			<h1 class="list">DANH SÁCH NGƯỜI DÙNG ( <span>19</span> )</h1>
 			<div class="stand-line"></div>
-			<h1>HIỂN THỊ ( <span>19</span> )</h1>
+			<h1 class="show">HIỂN THỊ ( <span>19</span> )</h1>
 			<div class="stand-line"></div>
 			<h1>THÙNG RÁC ( <span>0</span> )</h1>
 		</header>
@@ -111,256 +110,67 @@
 			</div>
 			<main>
 				<div class="switch-active">
-					<div class="title">
-						<div class="select-all">
-							<input type="checkbox">
+					<div class="wrapper-content student">
+						<div class="title">
+							<div class="select-all">
+								<input type="checkbox">
+							</div>
+							<p>Tài khoản</p>
+							<p>Tên sinh viên</p>
+							<p>Email</p>
+							<p>Số điện thoại</p>
+							<p>Nghành học</p>
+							<p>Mật khẩu</p>
 						</div>
-						<p>Tài khoản</p>
-						<p>Tên sinh viên</p>
-						<p>Email</p>
-						<p>Số điện thoại</p>
-						<p>Nghành học</p>
-						<p>Mật khẩu</p>
+						<div class="content">
+						</div>
 					</div>
-					<div class="content">
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">EnderIO</div>
-							</div>
-							<p>Nguyễn Lâm Hoàng</p>
-							<p>aztenderio7146@gmail.com</p>
-							<p>0708063423</p>
-							<p>Công nghệ thông tin</p>
-							<p>714600</p>
-						</div>
-						
-					</div>
+					<ul class="panigation student">
+						<button class="btn1">
+							<i class='bx bx-arrow-back'></i>
+							Prev</button>
+						<ul>
+
+						</ul>
+						<button class="btn2">
+							Next
+							<i class='bx bx-arrow-back'></i>
+						</button>
+
+					</ul>
+
 				</div>
 				<div class="switch-active">
-				<div class="title">
-						<div class="select-all">
-							<input type="checkbox">
+					<div class="wrapper-content lecturer">
+						<div class="title">
+							<div class="select-all">
+								<input type="checkbox">
+							</div>
+							<p>Tài khoản</p>
+							<p>Tên giảng viên</p>
+							<p>Email</p>
+							<p>Số điện thoại</p>
+							<p>Trình độ học vấn</p>
+							<p>Mật khẩu</p>
 						</div>
-						<p>Tài khoản</p>
-						<p>Tên giảng viên</p>
-						<p>Email</p>
-						<p>Số điện thoại</p>
-						<p>Trình độ học vấn</p>
-						<p>Mật khẩu</p>
-					</div>
-					<div class="content">
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
+						<div class="content">
+
 						</div>
-						<div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						</div><div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						</div><div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						</div><div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						</div><div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						</div><div class="item">
-							<div class="select-all">
-								<input type="checkbox">
-							</div>
-							<div class="wrapper-image-account">
-								<div class="image">
-									<img src=<?php echo __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
-								</div>
-								<div class="account">Tinhpham</div>
-							</div>
-							<p>Phạm Hồng Tính</p>
-							<p>tinhphamhong@gmail.com</p>
-							<p>0489393478</p>
-							<p>Thạc sĩ</p>
-							<p>thayTinhDZ</p>
-						
 						
 					</div>
-				</div>
+					<ul class="panigation lecturer">
+						<button class="btn1">
+							<i class='bx bx-arrow-back'></i>
+							Prev</button>
+						<ul>
+
+						</ul>
+						<button class="btn2">
+							Next
+							<i class='bx bx-arrow-back'></i>
+						</button>
+
+					</ul>
 			</main>
 		</div>
 	</div>
@@ -370,3 +180,50 @@
 		</header>
 	</div>
 </section>
+<div class="main popup-edit">
+	<div class="wrapper">
+		<header>
+			<h1>Chỉnh sửa hồ sơ</h1>
+			<div class="switch">
+				<p>Thông tin người dùng</p>
+				<p>Khác</p>
+			</div>
+			<div class="line"></div>
+		</header>
+		<div class="content">
+			<form action="">
+				<div class="update-form">
+				<div class="input-box">
+					<label for="account">Tài khoản</label>
+					<input type="text" name="account" id="account">
+				</div>
+				<div class="input-box">
+					<label for="username">Họ và tên</label>
+					<input type="text" name="username" id="username">
+				</div>
+				<div class="input-box">
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email">
+				</div>
+				<div class="input-box">
+					<label for="password">Mật khẩu</label>
+					<input type="password" name="password" id="password">
+				</div>
+				<div class="input-box">
+					<label for="major">Nghành học</label>
+					<input type="text" name="major" id="major">
+				</div>
+				<div class="input-box select">
+					<label for="status">Trạng thái</label>
+					<select name="status" id="status">
+						<option value="0">Khoá</option>
+						<option value="1">Mở khoá</option>
+					</select>
+				</div>
+				</div>
+				
+				<input type="submit" value="Cập nhập thông tin">
+			</form>
+		</div>
+	</div>
+</div>
