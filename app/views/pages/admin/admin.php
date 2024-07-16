@@ -191,35 +191,9 @@
 			<div class="line"></div>
 		</header>
 		<div class="content">
-			<form action="">
+			<form class="check-validate" action="">
 				<div class="update-form">
-				<div class="input-box">
-					<label for="account">Tài khoản</label>
-					<input type="text" name="account" id="account">
-				</div>
-				<div class="input-box">
-					<label for="username">Họ và tên</label>
-					<input type="text" name="username" id="username">
-				</div>
-				<div class="input-box">
-					<label for="email">Email</label>
-					<input type="email" name="email" id="email">
-				</div>
-				<div class="input-box">
-					<label for="password">Mật khẩu</label>
-					<input type="password" name="password" id="password">
-				</div>
-				<div class="input-box">
-					<label for="major">Nghành học</label>
-					<input type="text" name="major" id="major">
-				</div>
-				<div class="input-box select">
-					<label for="status">Trạng thái</label>
-					<select name="status" id="status">
-						<option value="0">Khoá</option>
-						<option value="1">Mở khoá</option>
-					</select>
-				</div>
+				
 				</div>
 				
 				<input type="submit" value="Cập nhập thông tin">

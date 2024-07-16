@@ -1,5 +1,4 @@
 <?php
-
 class AdminModel extends DB
 {
 	public function getInforUser()
@@ -33,8 +32,37 @@ class AdminModel extends DB
 		}
 		$array['totalStudentPages'] = $getTotalStudentPages;
 		$array['totalLecturerPages'] = $getTotalLecturerPages;
-		$array['countAll'] = (INT)$countAll['total'];
+		$array['countAll'] = (int)$countAll['total'];
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
+	public function updateStudent($data)
+	{
+		$userID = $data['userID'];
+		$account = $data['account'];
+		$username = $data['username'];
+		$email = $data['email'];
+		$major = $data['major'];
+		$phone = $data['phone'];
+		$password = $data['password'];
+		$status = (int)$data['status'];
+		$this->connection->query("UPDATE student SET student.major = '$major',
+		 student.phone = CASE WHEN '$phone' = '' THEN NULL ELSE '$phone' END,
+		  student.status = $status WHERE student.userID = $userID;");
+
+		$this->connection->query("UPDATE user set user.account = '$account',
+		user.email = '$email',
+		user.password = '$password',
+		user.username = '$username' where user.ID = '$userID';");
+		header('Content-type: application/json');
+		echo json_encode(true);
+	}
+	public function deleteStudent() {
+		$ID = (INT)$_POST['user_ID'];
+		$this->connection->query("DELETE FROM student WHERE userID = '$ID';");
+		$this->connection->query("DELETE FROM user WHERE ID = '$ID';");
+		header('Content-Type: application/json');
+		echo json_encode(true);
+	}
 }
+?>
