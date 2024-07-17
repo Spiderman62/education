@@ -19,8 +19,14 @@
 			$this->data['sweetAlert'] = true;
 			$this->view('admin_layout',$this->data);
 		}
-		public function getInforUser() {
-			$this->AdminModel->getInforUser();
+		public function getInforStudent() {
+			$this->AdminModel->getInforStudent();
+		}
+		public function getInforLecturer() {
+			$this->AdminModel->getInforLecturer();
+		}
+		public function countAllUsers(){
+			$this->AdminModel->countAllUsers();
 		}
 		public function updateStudent(){
 			$array = [];
@@ -34,8 +40,105 @@
 			$array['status'] = $_POST['status'];
 			$this->AdminModel->updateStudent($array);
 		}
+		public function updateLecturer(){
+			$array = [];
+			$array['userID'] = $_POST['user_ID'];
+			$array['account'] = $_POST['account'];
+			$array['username'] = $_POST['username'];
+			$array['email'] = $_POST['email'];
+			$array['education'] = $_POST['education'];
+			$array['phone'] = $_POST['phone'];
+			$array['password'] = $_POST['password'];
+			$array['status'] = $_POST['status'];
+			$this->AdminModel->updateLecturer($array);
+		}
 		public function deleteStudent() {
 			$this->AdminModel->deleteStudent();
+		}
+		public function deleteLecturer() {
+			$this->AdminModel->deleteLecturer();
+		}
+		public function activeAccountLecturer(){
+			$title = "Congratulation";
+			$html = '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài khoản giảng viên đã được kích hoạt</title>
+  <style>
+    /* CSS reset */
+    body, h1, p { margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; }
+
+    /* Container styles */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f4f4f4;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Header styles */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #0077b6;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    /* Content styles */
+    .content p {
+      color: #333;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .content a {
+      color: #0077b6;
+      text-decoration: none;
+    }
+
+    .content a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer styles */
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Chúc mừng!</h1>
+    </div>
+    <div class="content">
+      <p>Tài khoản giảng viên của bạn đã được kích hoạt thành công.</p>
+      <p>Bạn có thể đăng nhập vào hệ thống và bắt đầu sử dụng các tính năng dành cho giảng viên.</p>
+      <p>Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi theo địa chỉ email <a href="hoangnlpd09770@fpt.edu.vn</a>.</p>
+    </div>
+    <div class="footer">
+      <p>Xin cảm ơn và chúc bạn có một ngày tốt lành!</p>
+    </div>
+  </div>
+</body>
+</html>';
+$email = $_POST['email'];
+$user_ID = $_POST['user_ID'];
+$this->AdminModel->activeAccountLecturer($user_ID);
+			$this->sendEmail($title,$html,$email);
 		}
 	}
 ?>

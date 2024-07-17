@@ -121,6 +121,7 @@
 							<p>Số điện thoại</p>
 							<p>Nghành học</p>
 							<p>Mật khẩu</p>
+							<p>Status</p>
 						</div>
 						<div class="content">
 						</div>
@@ -152,6 +153,8 @@
 							<p>Số điện thoại</p>
 							<p>Trình độ học vấn</p>
 							<p>Mật khẩu</p>
+							<p>Activity</p>
+							<p>Status</p>
 						</div>
 						<div class="content">
 
@@ -180,7 +183,7 @@
 		</header>
 	</div>
 </section>
-<div class="main popup-edit">
+<div class="main popup-edit student">
 	<div class="wrapper">
 		<header>
 			<h1>Chỉnh sửa hồ sơ</h1>
@@ -193,11 +196,120 @@
 		<div class="content">
 			<form class="check-validate" action="">
 				<div class="update-form">
-				
+				<input hidden type="text" name="user_ID" id="user_ID" value="">
+				<div class="input-box">
+					<label for="account">Tài khoản</label>
+					<input type="text" name="account" id="account" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="username">Họ và tên</label>
+					<input type="text" name="username" id="username" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="password">Mật khẩu</label>
+					<input type="password" name="password" id="password" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box major select">
+					<label for="major">Nghành học</label>
+					<select name="major" id="major">
+					
+					</select>
+				</div>
+				<div class="input-box">
+					<label for="phone">Số điện thoại</label>
+					<input type="text" name="phone" id="phone" value="">
+						<span class="message"></span>
+					</div>
+				<div class="input-box status select">
+					<label for="status">Trạng thái</label>
+					<select name="status" id="status">
+						<option value="0">Tài khoản đã bị vô hiệu hoá</option>
+						<option value="1">Tài khoản đang hoạt động</option>
+					</select>
+				</div>
 				</div>
 				
 				<input type="submit" value="Cập nhập thông tin">
 			</form>
+		</div>
+	</div>
+</div>
+<div class="main popup-edit lecturer">
+	<div class="wrapper">
+		<header>
+			<h1>Chỉnh sửa hồ sơ</h1>
+			<div class="switch">
+				<p>Thông tin người dùng</p>
+				<p>Khác</p>
+			</div>
+			<div class="line"></div>
+		</header>
+		<div class="content">
+			<form class="check-validate" action="">
+				<div class="update-form">
+				<input hidden type="text" name="user_ID" id="user_ID" value="">
+				<div class="input-box">
+					<label for="account">Tài khoản</label>
+					<input type="text" name="account" id="account" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="username">Họ và tên</label>
+					<input type="text" name="username" id="username" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="password">Mật khẩu</label>
+					<input type="password" name="password" id="password" value="">
+						<span class="message"></span>
+				</div>
+				<div class="input-box education select">
+					<label for="education">Trình độ học vấn</label>
+					<select name="education" id="education">
+					
+					</select>
+				</div>
+				<div class="input-box">
+					<label for="phone">Số điện thoại</label>
+					<input type="text" name="phone" id="phone" value="">
+						<span class="message"></span>
+					</div>
+				<div class="input-box status select">
+					<label for="status">Trạng thái</label>
+					<select name="status" id="status">
+						<option value="0">Tài khoản đã bị vô hiệu hoá</option>
+						<option value="1">Tài khoản đang hoạt động</option>
+					</select>
+				</div>
+				</div>
+				
+				<input type="submit" value="Cập nhập thông tin">
+			</form>
+		</div>
+	</div>
+</div>
+<div class="pending">
+	<div class="wrapper">
+		<div class="box-wrap">
+			<div class="box one"></div>
+			<div class="box two"></div>
+			<div class="box three"></div>
+			<div class="box four"></div>
+			<div class="box five"></div>
+			<div class="box six"></div>
 		</div>
 	</div>
 </div>

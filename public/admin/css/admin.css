@@ -570,14 +570,27 @@ section .tabs main .wrapper-content{
 
 }
 
-section .tabs main .title{
+
+section .tabs main .wrapper-content .title{
 	display: grid;
-	grid-template-columns: auto 1.5fr 1.3fr 1.7fr 1fr 1.5fr 1fr repeat(2,.5fr);
+	grid-template-columns: auto 1.3fr 1.3fr 1.7fr 1fr 1.5fr .7fr repeat(3,.5fr);
 	place-items: center start;
 	column-gap: 10px;
 	margin-bottom: 20px;
 }
-
+section .tabs main .switch-active .wrapper-content.lecturer .title{
+	display: grid;
+	grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr .7fr repeat(4,.45fr);
+	place-items: center start;
+	column-gap: 5px;
+	margin-bottom: 20px;
+}
+section .tabs main .switch-active .wrapper-content.lecturer .content .item{
+	display: grid;
+	grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr .7fr repeat(4,.45fr);
+	place-items: center start;
+	column-gap: 5px;
+}
 section .tabs main .title input[type='checkbox']{
 	transform: scale(1.4) translateY(1px);
 	margin-right: 10px;
@@ -599,9 +612,10 @@ section .tabs main .switch-active .content{
 	display: grid;
 	row-gap: 20px;
 }
-section .tabs main .switch-active .content .item{
+
+section .tabs main .switch-active .wrapper-content .content .item{
 	display: grid;
-	grid-template-columns: auto 1.5fr 1.3fr 1.7fr 1fr 1.5fr 1fr repeat(2,.5fr);
+	grid-template-columns: auto 1.3fr 1.3fr 1.7fr 1fr 1.5fr .7fr repeat(3,.5fr);
 	place-items: center start;
 	column-gap: 10px;
 }
@@ -613,6 +627,13 @@ section .tabs main .switch-active .content .item p.icon{
 section .tabs main .switch-active .content .item p.icon i{
 	font-size: 2.5rem;
 	cursor: pointer;
+	transition: var(--tran-03);
+}
+section .tabs main .switch-active .content .item p.icon i.status-unlock{
+	color: var(--attention-color);
+}
+section .tabs main .switch-active .content .item p.icon i.status-lock{
+	color:gray;
 }
 section .tabs main .switch-active .content .item p.icon i.edit{
 	color: rgb(37, 215, 70);
@@ -674,22 +695,30 @@ section .tabs main .switch-active .content .item .wrapper-image-account{
 	display: flex;
 	align-items: center;
 	column-gap: 8px;
+	overflow: hidden;
 	width: 100%;
 }
 section .tabs main .switch-active .content .item .wrapper-image-account .account{
 	font-size: 1.7rem;
 	color: var(--black-color);
 	transition: var(--tran-05);
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 section .tabs main .switch-active .content .item .wrapper-image-account .image{
-	width: 40px;
+	width: 60px;
 	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	border-radius: 4px;
 }
 section .tabs main .switch-active .content .item .wrapper-image-account .image img{
 	width: 100%;
-	height: 100%;
 	object-fit: cover;
-	border-radius: 4px;
 }
 section .tabs main .switch-active .content .item .select-all input[type='checkbox']{
 	transform: scale(1.4) translateY(1px);
@@ -810,4 +839,350 @@ section .tabs main .switch-active .content .item p{
 	color: var(--black-color);
 	padding: 0 15px 0 5px;
 	background-color: transparent;
+}
+.pending {
+	position: fixed;
+	inset: 0;
+	background-color: white;
+	z-index: 9999;
+	transition: all .3s ease-in-out;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	visibility: hidden;
+}
+.pending.active{
+	opacity: 1;
+	visibility: visible;
+}
+.pending .wrapper {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px;
+	width: 200px;
+	height: 200px;
+	background-color: transparent;
+	border: none;
+}
+
+.pending .wrapper .box-wrap {
+	width: 70%;
+	height: 70%;
+	margin: calc((100% - 70%) / 2) calc((100% - 70%) / 2);
+	position: relative;
+	transform: rotate(-45deg);
+}
+
+.pending .wrapper .box-wrap .box {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(135, 0, 0, 0.6);
+	background: linear-gradient(to right,
+			#141562,
+			#486fbc,
+			#eab5a1,
+			#8dd6ff,
+			#4973c9,
+			#d07ca7,
+			#f4915e,
+			#f5919e,
+			#b46f89,
+			#141562,
+			#486fbc);
+	background-position: 0% 50%;
+	background-size: 1000% 1000%;
+	visibility: hidden;
+}
+
+.pending .wrapper .box-wrap .box.one {
+	animation: moveGradient 15s infinite, oneMove 3.5s infinite;
+}
+
+.pending .wrapper .box-wrap .box.two {
+	animation: moveGradient 15s infinite, twoMove 3.5s 0.15s infinite;
+}
+
+.pending .wrapper .box-wrap .box.three {
+	animation: moveGradient 15s infinite, threeMove 3.5s 0.3s infinite;
+}
+
+.pending .wrapper .box-wrap .box.four {
+	animation: moveGradient 15s infinite, fourMove 3.5s 0.575s infinite;
+}
+
+.pending .wrapper .box-wrap .box.five {
+	animation: moveGradient 15s infinite, fiveMove 3.5s 0.725s infinite;
+}
+
+.pending .wrapper .box-wrap .box.six {
+	animation: moveGradient 15s infinite, sixMove 3.5s 0.875s infinite;
+}
+
+@keyframes moveGradient {
+	to {
+		background-position: 100% 50%;
+	}
+}
+
+@keyframes oneMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+}
+
+@keyframes twoMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+}
+
+@keyframes threeMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(0% 70% 70% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(35% 70% 35% 0 round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+}
+
+@keyframes fourMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+}
+
+@keyframes fiveMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+}
+
+@keyframes sixMove {
+	0% {
+		visibility: visible;
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	14.2857% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	28.5714% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	42.8571% {
+		clip-path: inset(70% 0 0 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	57.1428% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	71.4285% {
+		clip-path: inset(35% 0% 35% 70% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	85.7142% {
+		clip-path: inset(35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
+
+	100% {
+		clip-path: inset(70% 35% 0% 35% round 5%);
+		animation-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+	}
 }

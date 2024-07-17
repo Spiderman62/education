@@ -72,21 +72,32 @@ $(function () {
 	}
 	optionMenu.main();
 	const callAPIUser = {
-		getUsers() {
-			const _this = this;
-			$.post(ROOT + `admin/getInforUser`, "",
+		showCountUsers() {
+			$.post(ROOT+ `admin/countAllUsers`, "",
 				function (data, textStatus, jqXHR) {
-					console.log(data);
 					$('section .tabs header.user .list span').text(data.countAll);
 					$('section .tabs header.user .show span').text(data.countAll);
-					_this.student(data.student);
-					_this.renderListStudentTotalPages(data.totalStudentPages);
-					_this.lecturer(data.lecturer, data.totalLecturerPages);
 				},
 				"json"
 			);
 		},
-		lecturer(data, totalPages) {
+		getInforLecturer() {
+			const _this = this;
+			$.post(ROOT + `admin/getInforLecturer`, "",
+				function (data, textStatus, jqXHR) {
+					_this.lecturer(data.lecturer,data.lecturer_fields);
+					_this.renderListTotalPages({
+						html:'main .switch-active .panigation.lecturer ul',
+						list:'main .switch-active .panigation.lecturer ul li',
+						totalPages:data.totalLecturerPages,
+						path:`admin/getInforLecturer`,
+						type:'lecturer'
+					});
+				},
+				"json"
+			);
+		},
+		lecturer(data,lecturer_fields) {
 			let htmlLecturer = "";
 			let htmlTotalPages = "";
 			for (let i = 0; i < data.length; i++) {
@@ -101,21 +112,251 @@ $(function () {
 						<div class="account">${data[i].account}</div>
 					</div>
 					<p>${data[i].username}</p>
-					<p>${data[i].email}</p>
+					<p class="email">${data[i].email}</p>
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
 					<p>${data[i].education}</p>
 					<p>${data[i].password}</p>
+					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bx-send send'></i>" : "<i class='bx bxs-show'></i>"}</p>
+					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" :"<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
 					<p class="icon"><i class='bx bx-trash trash'></i></p>
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.lecturer .content').html(htmlLecturer);
-			for (let i = 0; i < totalPages; i++) {
-				htmlTotalPages += `<li data-ID='${i}' >${i + 1}</li>`
-			}
-			$('main .switch-active .panigation.lecturer ul').html(htmlTotalPages);
+			this.editLecturer(data,lecturer_fields);
+			this.deleteLecturer(data);
+			this.sendMesageActiveAccount();
 		},
-		student(data) {
+		editLecturer(data,lecturer_fields) {
+			const _this = this;
+			lecturer_fields = $.map(lecturer_fields, function (elementOrValue, indexOrKey) {
+				return `<option>${elementOrValue.education}</option>`
+			});
+			$('.main.popup-edit.lecturer .content form .update-form .input-box.education select').html(lecturer_fields);
+			$('main .switch-active .wrapper-content.lecturer .content .icon i.edit').on('click', function () {
+				gsap.to('.main.popup-edit.lecturer', {
+					scale: 1,
+					duration: .5,
+					ease: "back.in",
+					onComplete: function () {
+						gsap.to('.main.popup-edit.lecturer .wrapper', {
+							duration: .2,
+							scale: 1
+						})
+					}
+				});
+				const lecturer_ID = parseInt($(this).parents('.item').attr('data-ID'));
+				const unique = data.filter(item => parseInt(item.user_ID) === lecturer_ID)[0];
+				const inputs = $('.main.popup-edit.lecturer .content form .update-form').find('input');
+				const majorsOption = $('.main.popup-edit.lecturer .content form .update-form .input-box.education select option');
+				const status = $('.main.popup-edit.lecturer .content form .update-form .input-box.status select option');
+				
+				$.each(inputs, function (indexInArray, valueOfElement) {
+					valueOfElement.value = unique[valueOfElement.name] || "";
+				});
+				$.each(majorsOption, function (indexInArray, valueOfElement) { 
+					 if(unique.education === $(valueOfElement).text()){
+						$(valueOfElement).attr('selected','true');
+					 }
+				});
+				$.each(status, function (indexInArray, valueOfElement) { 
+					 if(unique.status === $(valueOfElement).val()){
+						$(valueOfElement).attr('selected','true');
+					 }
+				});
+
+				_this.sendRequestEditlecturer();
+			});
+			$('.main.popup-edit.lecturer').on('click', function () {
+				gsap.to('.main.popup-edit .wrapper', {
+					scale: 0,
+					duration: .5,
+					ease: "back.in",
+					onComplete: function () {
+						gsap.set('.main.popup-edit', {
+							scale: 0
+						})
+					}
+				});
+
+			})
+			$('.main.popup-edit.lecturer .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			})
+		},
+		deleteLecturer(data) {
+			const _this = this;
+			$('main .switch-active .wrapper-content.lecturer .content .icon i.trash').on('click', function () {
+				const lecturer_ID = parseInt($(this).parents('.item').attr('data-ID'));
+				const unique = data.filter(item => parseInt(item.user_ID) === lecturer_ID)[0];
+				swal({
+					icon: 'error',
+					title: `Bạn có chắc chắn muốn xoá ${unique.account} !`,
+					text: 'Một khi bạn đã xoá thì dữ liệu không thể khôi phục!',
+					buttons: {
+						cancel: true,
+						confirm: true
+					}
+				}).then(value => {
+					if (value) {
+						swal('Dữ liệu đã xoá thành công', {
+							icon: 'success',
+							button: false,
+							timer: 1000
+						});
+						$.post(ROOT + "admin/deleteLecturer", { user_ID: unique.user_ID },
+							function (data, textStatus, jqXHR) {
+								console.log(data);
+								if (data) {
+									_this.getInforLecturer();
+								}
+							},
+							"json"
+						);
+					}
+				});
+			});
+		},
+		sendRequestEditlecturer() {
+			const parentThis = this;
+			const student = {
+				form: '.main.popup-edit.lecturer .content .check-validate',
+				simulator: {},
+				selectors: [
+					checkBlank('#account'),
+					checkLength('#account', 5),
+					checkWhiteSpace('#account'),
+					checkBlank('#username'),
+					checkLength('#username', 8),
+					checkBlank('#email'),
+					checkEmail('#email'),
+					checkBlank('#password'),
+					checkLength('#password', 5),
+					checkWhiteSpace('#password'),
+				],
+				handleCondition(obj) {
+					const validators = this.simulator[obj.selector];
+					const inputElement = $(this.form + " " + obj.selector);
+					let isError;
+					for (let i = 0; i < validators.length; i++) {
+						switch (inputElement.attr('type')) {
+							case 'file':
+								const label = $(inputElement).parent('.input-box').find('label');
+								isError = validators[i](inputElement.val().trim(), label);
+								break;
+							default:
+								isError = validators[i](inputElement.val().trim());
+						}
+						if (isError) break;
+					}
+					let messageElement = inputElement.parent('.input-box').find('.message');
+					if (isError) {
+						inputElement.parent('.input-box').addClass('error');
+						messageElement.text(isError);
+					} else {
+						inputElement.parent('.input-box').removeClass('error');
+						messageElement.text('');
+					}
+					return !isError;
+				},
+				handleSubmitForm() {
+					const _this = this;
+					$(_this.form).on('submit', function (e) {
+						e.preventDefault();
+						let isSubmit = true;
+						$.each(_this.selectors, function (indexInArray, valueOfElement) {
+							const isValid = _this.handleCondition(valueOfElement);
+							if (!isValid) {
+								isSubmit = false;
+							}
+						});
+						if (isSubmit) {
+							let formData = $(_this.form).serializeArray();
+							$.post(ROOT + `admin/updateLecturer`, formData,
+								function (data, textStatus, jqXHR) {
+									if (data) {
+										$('.main.popup-edit.lecturer').trigger('click');
+										parentThis.getInforLecturer();
+										swal('Chỉnh sửa thành công',{
+											timer: 1000,
+											button: false,
+											icon: 'success',
+										})
+									}
+								},
+								"json"
+							);
+						} else {
+							e.preventDefault();
+						}
+					})
+				},
+				handleCatchEvent() {
+					const _this = this;
+					$.each(this.selectors, function (index, element) {
+						if (Array.isArray(_this.simulator[element.selector])) {
+							_this.simulator[element.selector].push(element.validator);
+						} else {
+							_this.simulator[element.selector] = [element.validator];
+						}
+						$(_this.form + " " + element.selector).on('blur', function () {
+							_this.handleCondition(element);
+						});
+						let inputElement = $(_this.form + " " + element.selector);
+						$(_this.form + " " + element.selector).on('input', function () {
+							inputElement.parent('.input-box').find('.message').text("");
+							inputElement.parent('.input-box').removeClass('error');
+						});
+					});
+				},
+				main() {
+					this.handleCatchEvent();
+					this.handleSubmitForm();
+				}
+			}
+			student.main();
+		},
+		sendMesageActiveAccount(){
+			const _this = this;
+			$('main .switch-active .wrapper-content.lecturer .content .item .icon i.send').on('click',function(){
+				const parent = $(this).parents('.item');
+				const email = parent.find('.email').text();
+				const user_ID = parent.attr('data-ID');
+				$('.pending').addClass('active');
+				$.post(ROOT+ "admin/activeAccountLecturer", {email:email,user_ID:user_ID},
+					function (data, textStatus, jqXHR) {
+						if(data){
+							$('.pending').removeClass('active');
+							_this.getInforLecturer();
+							swal('Kích hoạt tài khoản giảng viên thành công',{
+								icon:'success',
+								timer:2000,
+								button:false
+							})
+						}
+					},
+					"json"
+				);
+			});
+		},
+		getInforStudent() {
+			const _this = this;
+			$.post(ROOT + `admin/getInforStudent`, "",
+				function (data, textStatus, jqXHR) {
+					_this.student(data.student,data.studyFields);
+					_this.renderListTotalPages({
+						html:'main .switch-active .panigation.student ul',
+						list:'main .switch-active .panigation.student ul li',
+						totalPages:data.totalStudentPages,
+						path:`admin/getInforStudent`,
+						type:'student'
+					}
+				);
+				},
+				"json"
+			);
+		},
+		student(data,studyFields) {
 			let htmlStudents = "";
 			for (let i = 0; i < data.length; i++) {
 				htmlStudents += `<div data-ID='${data[i].user_ID}' class="item">
@@ -133,23 +374,28 @@ $(function () {
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
 					<p>${data[i].major}</p>
 					<p>${data[i].password}</p>
+					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" :"<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
 					<p class="icon"><i class='bx bx-trash trash'></i></p>
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.student .content').html(htmlStudents);
-			this.editStudent(data);
+			this.editStudent(data,studyFields);
 			this.deleteStudent(data);
 		},
-		editStudent(data) {
+		editStudent(data,studyFields) {
 			const _this = this;
+			studyFields = $.map(studyFields, function (elementOrValue, indexOrKey) {
+				return `<option>${elementOrValue.major}</option>`
+			});
+			$('.main.popup-edit.student .content form .update-form .input-box.major select').html(studyFields);
 			$('main .switch-active .wrapper-content.student .content .icon i.edit').on('click', function () {
-				gsap.to('.main.popup-edit', {
+				gsap.to('.main.popup-edit.student', {
 					scale: 1,
 					duration: .5,
 					ease: "back.in",
 					onComplete: function () {
-						gsap.to('.main.popup-edit .wrapper', {
+						gsap.to('.main.popup-edit.student .wrapper', {
 							duration: .2,
 							scale: 1
 						})
@@ -157,50 +403,27 @@ $(function () {
 				});
 				const student_ID = parseInt($(this).parents('.item').attr('data-ID'));
 				const unique = data.filter(item => parseInt(item.user_ID) === student_ID)[0];
-				let html = `
-				<input hidden type="text" name="user_ID" id="user_ID" value="${unique.user_ID}">
-				<div class="input-box">
-					<label for="account">Tài khoản</label>
-					<input type="text" name="account" id="account" value="${unique.account}">
-						<span class="message"></span>
-				</div>
-				<div class="input-box">
-					<label for="username">Họ và tên</label>
-					<input type="text" name="username" id="username" value="${unique.username}">
-						<span class="message"></span>
-				</div>
-				<div class="input-box">
-					<label for="email">Email</label>
-					<input type="email" name="email" id="email" value="${unique.email}">
-						<span class="message"></span>
-				</div>
-				<div class="input-box">
-					<label for="password">Mật khẩu</label>
-					<input type="password" name="password" id="password" value="${unique.password}">
-						<span class="message"></span>
-				</div>
-				<div class="input-box">
-					<label for="major">Nghành học</label>
-					<input type="text" name="major" id="major" value="${unique.major}">
-						<span class="message"></span>
-				</div>
-				<div class="input-box">
-					<label for="major">Số điện thoại</label>
-					<input type="text" name="phone" id="phone" value="${unique.phone === null ? "" : unique.phone}">
-						<span class="message"></span>
-					</div>
-				<div class="input-box select">
-					<label for="status">Trạng thái</label>
-					<select name="status" id="status">
-					${parseInt(unique.status) === 0 ? `<option value="0">Chưa kích hoạt</option>` : `<option value="1">Đang kích hoạt</option>`}
-					${parseInt(unique.status) !== 0 ? `<option value="0">Chưa kích hoạt</option>` : `<option value="1">Đang kích hoạt</option>`}
-					</select>
-				</div>`;
-				$('.main.popup-edit .content form .update-form').html(html);
+				const inputs = $('.main.popup-edit.student .content form .update-form').find('input');
+				const majorsOption = $('.main.popup-edit.student .content form .update-form .input-box.major select option');
+				const status = $('.main.popup-edit.student .content form .update-form .input-box.status select option');
+				
+				$.each(inputs, function (indexInArray, valueOfElement) {
+					valueOfElement.value = unique[valueOfElement.name] || "";
+				});
+				$.each(majorsOption, function (indexInArray, valueOfElement) { 
+					 if(unique.major === $(valueOfElement).text()){
+						$(valueOfElement).attr('selected','true');
+					 }
+				});
+				$.each(status, function (indexInArray, valueOfElement) { 
+					 if(unique.status === $(valueOfElement).val()){
+						$(valueOfElement).attr('selected','true');
+					 }
+				});
 
 				_this.sendRequestEditStudent();
 			});
-			$('.main.popup-edit').on('click', function () {
+			$('.main.popup-edit.student').on('click', function () {
 				gsap.to('.main.popup-edit .wrapper', {
 					scale: 0,
 					duration: .5,
@@ -213,40 +436,40 @@ $(function () {
 				});
 
 			})
-			$('.main.popup-edit .wrapper').on('click', function (e) {
+			$('.main.popup-edit.student .wrapper').on('click', function (e) {
 				e.stopPropagation();
 			})
 		},
-		deleteStudent(data){
+		deleteStudent(data) {
 			const _this = this;
-			$('main .switch-active .wrapper-content.student .content .icon i.trash').on('click',function(){
+			$('main .switch-active .wrapper-content.student .content .icon i.trash').on('click', function () {
 				const student_ID = parseInt($(this).parents('.item').attr('data-ID'));
 				const unique = data.filter(item => parseInt(item.user_ID) === student_ID)[0];
 				console.log(unique)
 				swal({
-					icon:'error',
-					title:`Bạn có chắc chắn muốn xoá ${unique.account} !`,
-					text:'Một khi bạn đã xoá thì dữ liệu không thể khôi phục!',
-					buttons:{
-						cancel:true,
-						confirm:true
+					icon: 'error',
+					title: `Bạn có chắc chắn muốn xoá ${unique.account} !`,
+					text: 'Một khi bạn đã xoá thì dữ liệu không thể khôi phục!',
+					buttons: {
+						cancel: true,
+						confirm: true
 					}
-				}).then(value=>{
-					if(value){
-						swal('Dữ liệu đã xoá thành công',{
-							icon:'success',
-							button:false,
-							timer:1000
+				}).then(value => {
+					if (value) {
+						swal('Dữ liệu đã xoá thành công', {
+							icon: 'success',
+							button: false,
+							timer: 1000
 						});
-						$.post(ROOT + "admin/deleteStudent",{user_ID:unique.user_ID},
+						$.post(ROOT + "admin/deleteStudent", { user_ID: unique.user_ID },
 							function (data, textStatus, jqXHR) {
 								console.log(data);
-								if(data){
-									_this.getUsers();
+								if (data) {
+									_this.getInforStudent();
 								}
 							},
 							"json"
-						);	
+						);
 					}
 				});
 			});
@@ -254,7 +477,7 @@ $(function () {
 		sendRequestEditStudent() {
 			const parentThis = this;
 			const student = {
-				form: '.main.popup-edit .content .check-validate',
+				form: '.main.popup-edit.student .content .check-validate',
 				simulator: {},
 				selectors: [
 					checkBlank('#account'),
@@ -264,7 +487,6 @@ $(function () {
 					checkLength('#username', 8),
 					checkBlank('#email'),
 					checkEmail('#email'),
-					checkBlank('#major'),
 					checkBlank('#password'),
 					checkLength('#password', 5),
 					checkWhiteSpace('#password'),
@@ -309,15 +531,13 @@ $(function () {
 							let formData = $(_this.form).serializeArray();
 							$.post(ROOT + `admin/updateStudent`, formData,
 								function (data, textStatus, jqXHR) {
-									if(data){
-										$('.main.popup-edit').trigger('click');
-										parentThis.getUsers();
-										swal({
-											icon:'success',
-											title:'Chỉnh sửa thành công',
-											text:'=====================',
-											timer:1000,
-											button:false
+									if (data) {
+										$('.main.popup-edit.student').trigger('click');
+										parentThis.getInforStudent();
+										swal('Chỉnh sửa thành công',{
+											timer: 1000,
+											button: false,
+											icon: 'success',
 										})
 									}
 								},
@@ -353,34 +573,37 @@ $(function () {
 			}
 			student.main();
 		},
-		renderListStudentTotalPages(totalPages) {
+		renderListTotalPages({...rest}) {
+			const {html,list,path,totalPages,type} = rest;
 			let htmlTotalPages = "";
 			for (let i = 0; i < totalPages; i++) {
 				htmlTotalPages += `<li data-ID='${i}' >${i + 1}</li>`
 			}
-			$('main .switch-active .panigation.student ul').html(htmlTotalPages);
-			this.handlePagination();
+			$(html).html(htmlTotalPages);
+			this.handlePagination({list,path,type});
 
 		},
-		handlePagination() {
+		handlePagination({...rest}) {
+			const {list,path,type} = rest;
 			const _this = this;
-			$('main .switch-active .panigation.student ul li').eq(0).addClass('active');
-			$('main .switch-active .panigation.student ul li').on('click', function () {
+			$(list).eq(0).addClass('active');
+			$(list).on('click', function () {
 				const index = $(this).index();
 				const currentPage = parseInt($(this).attr('data-ID'));
-				$('main .switch-active .panigation.student ul li').removeClass('active');
-				$('main .switch-active .panigation.student ul li').eq(index).addClass('active');
-				$.post(ROOT + `admin/getInforUser`, { currentPage: currentPage },
+				$(list).removeClass('active');
+				$(list).eq(index).addClass('active');
+				$.post(ROOT + path, { currentPage: currentPage },
 					function (data, textStatus, jqXHR) {
-						_this.student(data.student);
+						_this[type](data[type]);
 					},
 					"json"
 				);
 			});
-
 		},
 		main() {
-			this.getUsers();
+			this.showCountUsers();
+			this.getInforStudent();
+			this.getInforLecturer();
 		}
 	}
 	callAPIUser.main();
