@@ -1,4 +1,79 @@
 $(function () {
+	function validate({form,selectors,callback}){
+		const validator = {
+			form: form,
+			simulator: {},
+			selectors:selectors ,
+			handleCondition(obj) {
+				const validators = this.simulator[obj.selector];
+				const inputElement = $(this.form + " " + obj.selector);
+				let isError;
+				for (let i = 0; i < validators.length; i++) {
+					switch (inputElement.attr('type')) {
+						case 'file':
+							const label = $(inputElement).parent('.input-box').find('label');
+							isError = validators[i](inputElement.val().trim(), label);
+							break;
+						default:
+							isError = validators[i](inputElement.val().trim());
+					}
+					if (isError) break;
+				}
+				let messageElement = inputElement.parent('.input-box').find('.message');
+				if (isError) {
+					inputElement.parent('.input-box').addClass('error');
+					messageElement.text(isError);
+				} else {
+					inputElement.parent('.input-box').removeClass('error');
+					messageElement.text('');
+				}
+				return !isError;
+			},
+			handleSubmitForm() {
+				const _this = this;
+				$(_this.form).on('submit', function (e) {
+					e.preventDefault();
+					let isSubmit = true;
+					$.each(_this.selectors, function (indexInArray, valueOfElement) {
+						const isValid = _this.handleCondition(valueOfElement);
+						if (!isValid) {
+							isSubmit = false;
+						}
+					});
+					if (isSubmit) {
+						let formData = $(_this.form).serializeArray();
+						callback(formData);
+						
+					} else {
+						e.preventDefault();
+					}
+				})
+			},
+			handleCatchEvent() {
+				const _this = this;
+				$.each(this.selectors, function (index, element) {
+					if (Array.isArray(_this.simulator[element.selector])) {
+						_this.simulator[element.selector].push(element.validator);
+					} else {
+						_this.simulator[element.selector] = [element.validator];
+					}
+					$(_this.form + " " + element.selector).on('blur', function () {
+						_this.handleCondition(element);
+					});
+					let inputElement = $(_this.form + " " + element.selector);
+					$(_this.form + " " + element.selector).on('input', function () {
+						inputElement.parent('.input-box').find('.message').text("");
+						inputElement.parent('.input-box').removeClass('error');
+					});
+				});
+			},
+			main() {
+				this.handleCatchEvent();
+				this.handleSubmitForm();
+			}
+		}
+		validator.main();
+	}
 	const aside = {
 		main() {
 			$('aside .information .mode-switch .wrapper_mode-switch').on('click', function () {
@@ -20,9 +95,9 @@ $(function () {
 	aside.main();
 	const tabs = {
 		handleTabs() {
-			$('.admin .tabs').hide();
-			$('.admin .tabs').eq(1).show();
-			$('aside .menu .menu-tab ul li').eq(1).addClass('mark');
+			$('.admin .tabs').fadeOut(1);
+			$('.admin .tabs').eq(2).fadeIn();
+			$('aside .menu .menu-tab ul li').eq(2).addClass('mark');
 			$('aside .menu .menu-tab ul li').on('click', function () {
 				const index = $(this).index();
 				$('.admin .tabs').fadeOut(0);
@@ -36,17 +111,38 @@ $(function () {
 		}
 	}
 	tabs.main();
+	const tabCourses = {
+		main() {
+			const roleElementWidth = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `0px`);
+			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${roleElementWidth}px`);
+			$('.admin .tabs .courses .container .item-courses').fadeOut(1);
+			$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn();
+			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').on('click', function () {
+				const index = $(this).closest('.filter-courses').find('.role').index(this);
+				const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(index).width();
+				const position = $(this).position().left;
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+				$('.admin .tabs .courses .container .item-courses').fadeOut(0);
+				$('.admin .tabs .courses .container .item-courses').eq(index).fadeIn();
+			});
+		}
+	}
+	tabCourses.main();
 	const switchRole = {
 		handleSwitchRole() {
 			const roleElementWidth = $('section .tabs .wrapper-user .switch .role').eq(0).width();
 			$('section .tabs .wrapper-user .switch .line').css('left', `0px`);
 			$('section .tabs .wrapper-user .switch .line').css('width', `${roleElementWidth}px`);
-			$('section .tabs main .switch-active').hide();
-			$('section .tabs main .switch-active').eq(0).show();
+			$('section .tabs main .switch-active').fadeOut();
+			$('section .tabs main .switch-active').eq(0).fadeIn();
 			$('section .tabs .wrapper-user .switch .role').on('click', function () {
 				const index = $(this).closest('.wrapper-user').find('.role').index(this);
 				const position = $(this).position().left;
+				const roleElementWidth = $('section .tabs .wrapper-user .switch .role').eq(index).width();
 				$('section .tabs .wrapper-user .switch .line').css('left', `${position}px`);
+				$('section .tabs .wrapper-user .switch .line').css('width', `${roleElementWidth}px`);
 				$('section .tabs main .switch-active').fadeOut(0);
 				$('section .tabs main .switch-active').eq(index).fadeIn(500);
 			});
@@ -73,7 +169,7 @@ $(function () {
 	optionMenu.main();
 	const callAPIUser = {
 		showCountUsers() {
-			$.post(ROOT+ `admin/countAllUsers`, "",
+			$.post(ROOT + `admin/countAllUsers`, "",
 				function (data, textStatus, jqXHR) {
 					$('section .tabs header.user .list span').text(data.countAll);
 					$('section .tabs header.user .show span').text(data.countAll);
@@ -85,19 +181,19 @@ $(function () {
 			const _this = this;
 			$.post(ROOT + `admin/getInforLecturer`, "",
 				function (data, textStatus, jqXHR) {
-					_this.lecturer(data.lecturer,data.lecturer_fields);
+					_this.lecturer(data.lecturer, data.lecturer_fields);
 					_this.renderListTotalPages({
-						html:'main .switch-active .panigation.lecturer ul',
-						list:'main .switch-active .panigation.lecturer ul li',
-						totalPages:data.totalLecturerPages,
-						path:`admin/getInforLecturer`,
-						type:'lecturer'
+						html: 'main .switch-active .panigation.lecturer ul',
+						list: 'main .switch-active .panigation.lecturer ul li',
+						totalPages: data.totalLecturerPages,
+						path: `admin/getInforLecturer`,
+						type: 'lecturer'
 					});
 				},
 				"json"
 			);
 		},
-		lecturer(data,lecturer_fields) {
+		lecturer(data, lecturer_fields) {
 			let htmlLecturer = "";
 			let htmlTotalPages = "";
 			for (let i = 0; i < data.length; i++) {
@@ -117,17 +213,17 @@ $(function () {
 					<p>${data[i].education}</p>
 					<p>${data[i].password}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bx-send send'></i>" : "<i class='bx bxs-show'></i>"}</p>
-					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" :"<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
+					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
 					<p class="icon"><i class='bx bx-trash trash'></i></p>
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.lecturer .content').html(htmlLecturer);
-			this.editLecturer(data,lecturer_fields);
+			this.editLecturer(data, lecturer_fields);
 			this.deleteLecturer(data);
 			this.sendMesageActiveAccount();
 		},
-		editLecturer(data,lecturer_fields) {
+		editLecturer(data, lecturer_fields) {
 			const _this = this;
 			lecturer_fields = $.map(lecturer_fields, function (elementOrValue, indexOrKey) {
 				return `<option>${elementOrValue.education}</option>`
@@ -150,19 +246,19 @@ $(function () {
 				const inputs = $('.main.popup-edit.lecturer .content form .update-form').find('input');
 				const majorsOption = $('.main.popup-edit.lecturer .content form .update-form .input-box.education select option');
 				const status = $('.main.popup-edit.lecturer .content form .update-form .input-box.status select option');
-				
+
 				$.each(inputs, function (indexInArray, valueOfElement) {
 					valueOfElement.value = unique[valueOfElement.name] || "";
 				});
-				$.each(majorsOption, function (indexInArray, valueOfElement) { 
-					 if(unique.education === $(valueOfElement).text()){
-						$(valueOfElement).attr('selected','true');
-					 }
+				$.each(majorsOption, function (indexInArray, valueOfElement) {
+					if (unique.education === $(valueOfElement).text()) {
+						$(valueOfElement).attr('selected', 'true');
+					}
 				});
-				$.each(status, function (indexInArray, valueOfElement) { 
-					 if(unique.status === $(valueOfElement).val()){
-						$(valueOfElement).attr('selected','true');
-					 }
+				$.each(status, function (indexInArray, valueOfElement) {
+					if (unique.status === $(valueOfElement).val()) {
+						$(valueOfElement).attr('selected', 'true');
+					}
 				});
 
 				_this.sendRequestEditlecturer();
@@ -277,7 +373,7 @@ $(function () {
 									if (data) {
 										$('.main.popup-edit.lecturer').trigger('click');
 										parentThis.getInforLecturer();
-										swal('Chỉnh sửa thành công',{
+										swal('Chỉnh sửa thành công', {
 											timer: 1000,
 											button: false,
 											icon: 'success',
@@ -316,22 +412,22 @@ $(function () {
 			}
 			student.main();
 		},
-		sendMesageActiveAccount(){
+		sendMesageActiveAccount() {
 			const _this = this;
-			$('main .switch-active .wrapper-content.lecturer .content .item .icon i.send').on('click',function(){
+			$('main .switch-active .wrapper-content.lecturer .content .item .icon i.send').on('click', function () {
 				const parent = $(this).parents('.item');
 				const email = parent.find('.email').text();
 				const user_ID = parent.attr('data-ID');
 				$('.pending').addClass('active');
-				$.post(ROOT+ "admin/activeAccountLecturer", {email:email,user_ID:user_ID},
+				$.post(ROOT + "admin/activeAccountLecturer", { email: email, user_ID: user_ID },
 					function (data, textStatus, jqXHR) {
-						if(data){
+						if (data) {
 							$('.pending').removeClass('active');
 							_this.getInforLecturer();
-							swal('Kích hoạt tài khoản giảng viên thành công',{
-								icon:'success',
-								timer:2000,
-								button:false
+							swal('Kích hoạt tài khoản giảng viên thành công', {
+								icon: 'success',
+								timer: 2000,
+								button: false
 							})
 						}
 					},
@@ -343,20 +439,20 @@ $(function () {
 			const _this = this;
 			$.post(ROOT + `admin/getInforStudent`, "",
 				function (data, textStatus, jqXHR) {
-					_this.student(data.student,data.studyFields);
+					_this.student(data.student, data.studyFields);
 					_this.renderListTotalPages({
-						html:'main .switch-active .panigation.student ul',
-						list:'main .switch-active .panigation.student ul li',
-						totalPages:data.totalStudentPages,
-						path:`admin/getInforStudent`,
-						type:'student'
+						html: 'main .switch-active .panigation.student ul',
+						list: 'main .switch-active .panigation.student ul li',
+						totalPages: data.totalStudentPages,
+						path: `admin/getInforStudent`,
+						type: 'student'
 					}
-				);
+					);
 				},
 				"json"
 			);
 		},
-		student(data,studyFields) {
+		student(data, studyFields) {
 			let htmlStudents = "";
 			for (let i = 0; i < data.length; i++) {
 				htmlStudents += `<div data-ID='${data[i].user_ID}' class="item">
@@ -374,16 +470,16 @@ $(function () {
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
 					<p>${data[i].major}</p>
 					<p>${data[i].password}</p>
-					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" :"<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
+					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
 					<p class="icon"><i class='bx bx-trash trash'></i></p>
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.student .content').html(htmlStudents);
-			this.editStudent(data,studyFields);
+			this.editStudent(data, studyFields);
 			this.deleteStudent(data);
 		},
-		editStudent(data,studyFields) {
+		editStudent(data, studyFields) {
 			const _this = this;
 			studyFields = $.map(studyFields, function (elementOrValue, indexOrKey) {
 				return `<option>${elementOrValue.major}</option>`
@@ -406,19 +502,19 @@ $(function () {
 				const inputs = $('.main.popup-edit.student .content form .update-form').find('input');
 				const majorsOption = $('.main.popup-edit.student .content form .update-form .input-box.major select option');
 				const status = $('.main.popup-edit.student .content form .update-form .input-box.status select option');
-				
+
 				$.each(inputs, function (indexInArray, valueOfElement) {
 					valueOfElement.value = unique[valueOfElement.name] || "";
 				});
-				$.each(majorsOption, function (indexInArray, valueOfElement) { 
-					 if(unique.major === $(valueOfElement).text()){
-						$(valueOfElement).attr('selected','true');
-					 }
+				$.each(majorsOption, function (indexInArray, valueOfElement) {
+					if (unique.major === $(valueOfElement).text()) {
+						$(valueOfElement).attr('selected', 'true');
+					}
 				});
-				$.each(status, function (indexInArray, valueOfElement) { 
-					 if(unique.status === $(valueOfElement).val()){
-						$(valueOfElement).attr('selected','true');
-					 }
+				$.each(status, function (indexInArray, valueOfElement) {
+					if (unique.status === $(valueOfElement).val()) {
+						$(valueOfElement).attr('selected', 'true');
+					}
 				});
 
 				_this.sendRequestEditStudent();
@@ -534,7 +630,7 @@ $(function () {
 									if (data) {
 										$('.main.popup-edit.student').trigger('click');
 										parentThis.getInforStudent();
-										swal('Chỉnh sửa thành công',{
+										swal('Chỉnh sửa thành công', {
 											timer: 1000,
 											button: false,
 											icon: 'success',
@@ -573,18 +669,18 @@ $(function () {
 			}
 			student.main();
 		},
-		renderListTotalPages({...rest}) {
-			const {html,list,path,totalPages,type} = rest;
+		renderListTotalPages({ ...rest }) {
+			const { html, list, path, totalPages, type } = rest;
 			let htmlTotalPages = "";
 			for (let i = 0; i < totalPages; i++) {
 				htmlTotalPages += `<li data-ID='${i}' >${i + 1}</li>`
 			}
 			$(html).html(htmlTotalPages);
-			this.handlePagination({list,path,type});
+			this.handlePagination({ list, path, type });
 
 		},
-		handlePagination({...rest}) {
-			const {list,path,type} = rest;
+		handlePagination({ ...rest }) {
+			const { list, path, type } = rest;
 			const _this = this;
 			$(list).eq(0).addClass('active');
 			$(list).on('click', function () {
@@ -605,9 +701,102 @@ $(function () {
 			this.getInforStudent();
 			this.getInforLecturer();
 		}
+
 	}
 	callAPIUser.main();
+	const callAPICourses = {
+		catchEvent() {
+			const _this = this;
+			$('.admin .tabs .courses .container .item-courses.course .add-course .right').on('click', function () {
+				gsap.to('.popup-add-courses', {
+					scale: 1,
+					duration: .2,
+					opacity: 1,
+					ease: "power2.inOut",
+					onComplete() {
+						gsap.to('.popup-add-courses .wrapper', {
+							scale: 1,
+							duration: .5,
+							opacity: 1,
+							ease: "power2.inOut",
+						})
+					}
+				});
+				validate({
+					form:'.formAddCourses',
+					selectors:[checkBlank('#course')],
+					callback(forms){
+						$.post(ROOT+"admin/addCourse", forms,
+							function (data, textStatus, jqXHR) {
+								if(data){
+									swal('Thêm khoá học thành công',{icon:'success',button:false,timer:1000});
+									$('.popup-add-courses').trigger('click');
+									_this.getCourses();
+								}else{
+									swal({
+										icon:'error',
+										title:'Thêm khoá học thất bại!',
+										text:'Không được phép trùng tên khoá học!',
+										button:false,
+										timer:2000
+									});
 
+								}
+							},
+							"json"
+						);
+
+					}
+				});
+			});
+			$('.popup-add-courses').on('click', function () {
+				gsap.to('.popup-add-courses .wrapper', {
+					scale: 0,
+					duration: .5,
+					opacity: 0,
+					ease: "back.in",
+					onComplete() {
+						gsap.to('.popup-add-courses', {
+							scale: 0,
+							duration: .2,
+							opacity: 0,
+							ease: "back.in",
+						})
+					}
+				})
+			});
+			$('.popup-add-courses .wrapper').on('click',function(e){
+				e.stopPropagation();
+			})
+		},
+		getCourses() {
+			const _this = this;
+			$.post(ROOT + "admin/getCourses", {},
+				function (data, textStatus, jqXHR) {
+					_this.renderCourse(data.courses);
+				},
+				"json"
+			);
+		},
+		renderCourse(data){
+			let html = "";
+			for(let i = 0;i<data.length;i++){
+				html += `<div class="item">
+							<input type="checkbox" name="" id="">
+							<p>${data[i].ID}</p>
+							<p>${data[i].name}</p>
+							<p class="icon"><i class='bx bx-edit edit'></i></p>
+							<p class="icon"><i class='bx bx-trash trash'></i></p>
+						</div>`
+			};
+			$('.admin .tabs .courses .container .item-courses.course .content').html(html);
+		},
+		main() {
+			this.catchEvent();
+			this.getCourses();
+		}
+	}
+	callAPICourses.main();
 });
 
 function checkBlank(selector) {

@@ -25,7 +25,8 @@ class AdminModel extends DB
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
-	public function getInforLecturer(){
+	public function getInforLecturer()
+	{
 		$array = [];
 		$itemPerPages = 7;
 		$currentPage = !empty($_POST['currentPage']) ? $_POST['currentPage'] : 0;
@@ -48,7 +49,8 @@ class AdminModel extends DB
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
-	public function countAllUsers(){
+	public function countAllUsers()
+	{
 		$countAll = mysqli_fetch_assoc($this->connection->query("select count(*) as total from user where user.ID not in(select user.ID from user inner join admin on admin.userID = user.ID);"));
 		$array['countAll'] = (int)$countAll['total'];
 		header('Content-Type: application/json');
@@ -96,24 +98,47 @@ class AdminModel extends DB
 		header('Content-type: application/json');
 		echo json_encode(true);
 	}
-	public function deleteStudent() {
-		$ID = (INT)$_POST['user_ID'];
+	public function deleteStudent()
+	{
+		$ID = (int)$_POST['user_ID'];
 		$this->connection->query("DELETE FROM student WHERE userID = '$ID';");
 		$this->connection->query("DELETE FROM user WHERE ID = '$ID';");
 		header('Content-Type: application/json');
 		echo json_encode(true);
 	}
-	public function deleteLecturer() {
-		$ID = (INT)$_POST['user_ID'];
+	public function deleteLecturer()
+	{
+		$ID = (int)$_POST['user_ID'];
 		$this->connection->query("DELETE FROM lecturer WHERE userID = '$ID';");
 		$this->connection->query("DELETE FROM user WHERE ID = '$ID';");
 		header('Content-Type: application/json');
 		echo json_encode(true);
 	}
-	public function activeAccountLecturer($user_ID) {
+	public function activeAccountLecturer($user_ID)
+	{
 		$this->connection->query("UPDATE lecturer SET status = 1 WHERE userID = '$user_ID'");
 		header('Content-Type: application/json');
 		echo json_encode(true);
 	}
+	public function getCourses()
+	{
+		$array = [];
+		$data = $this->connection->query("SELECT * FROM courses");
+		while ($row = mysqli_fetch_assoc($data)) {
+			$array['courses'][] = $row;
+		}
+		header('Content-Type: application/json');
+		echo json_encode($array);
+	}
+	public function addCourse($course)
+	{
+		header('Content-Type: application/json');
+		$isDuplicate = $this->connection->query("SELECT * FROM courses WHERE name = '$course'");
+		if (mysqli_num_rows($isDuplicate)) {
+			echo json_encode(false);
+			return;
+		}
+		$this->connection->query("INSERT INTO courses(name)value('$course')");
+		echo json_encode(true);
+	}
 }
-?>

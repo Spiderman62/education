@@ -60,7 +60,11 @@
 				</div>
 				<div class="content">
 					<div class="username"><?php echo $_SESSION['info']['username']; ?></div>
-					<div class="major"><?php echo $_SESSION['info']['major']; ?></div>
+					<?php if (!empty($_SESSION['info']['major'])) { ?>
+						<div class="major"><?php echo $_SESSION['info']['major']; ?></div>
+					<?php } else { ?>
+						<div class="major"><?php echo $_SESSION['info']['education']; ?></div>
+					<?php } ?>
 				</div>
 				<div class="icon">
 					<i class="fa-solid fa-chevron-down"></i>
@@ -77,7 +81,7 @@
 								Thông tin tài khoản
 							</p>
 						</a>
-						<a href=<?php echo __ROOT__ . "SignOut"?>>
+						<a href=<?php echo __ROOT__ . "SignOut" ?>>
 							<p>
 								<i class="fa-solid fa-arrow-right-from-bracket red"></i>
 								Đăng xuất
