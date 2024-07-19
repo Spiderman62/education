@@ -137,10 +137,8 @@ class AdminModel extends DB
 		if (mysqli_num_rows($isDuplicate) > 0) {
 			echo json_encode(false);
 			return;
-		}else{
+		}
 			$this->connection->query("INSERT INTO courses(name)value('$course')");
 			echo json_encode(true);
-			return;
-		}
 	}
 }

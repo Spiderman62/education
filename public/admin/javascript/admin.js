@@ -42,9 +42,7 @@ $(function () {
 					});
 					if (isSubmit) {
 						let formData = $(_this.form).serializeArray();
-						console.log(isSubmit);
-						callback(formData);
-						return;
+						callback(formData);						
 						
 					} else {
 						e.preventDefault();
@@ -703,7 +701,6 @@ $(function () {
 			this.getInforStudent();
 			this.getInforLecturer();
 		}
-
 	}
 	callAPIUser.main();
 	const callAPICourses = {
@@ -729,15 +726,12 @@ $(function () {
 				form:'.formAddCourses',
 				selectors:[checkBlank('#course')],
 				callback(forms){
-					
 					$.post(ROOT+"admin/addCourse", forms,
 						function (data, textStatus, jqXHR) {
-							
 							if(data){
 								swal('Thêm khoá học thành công',{icon:'success',button:false,timer:1000});
 								$('.popup-add-courses').trigger('click');
 								_this.getCourses();
-								return;
 							}else{
 								swal({
 									icon:'error',
@@ -746,8 +740,6 @@ $(function () {
 									button:false,
 									timer:2000
 								});
-								return;
-
 							}
 						},
 						"json"
