@@ -1280,9 +1280,13 @@ section .tabs main .switch-active .content .item p{
 .admin .tabs .courses .container .item-courses.course .title p{
 	font-size: 1.7rem;
 	font-weight: 600;
+	color: var(--black-color);
+	transition: var(--tran-05);
 }
 .admin .tabs .courses .container .item-courses.course .content .item p{
 	font-size: 1.7rem;
+	color: var(--black-color);
+	transition: var(--tran-05);
 }
 .popup-add-courses{
 	backdrop-filter: blur(5px);

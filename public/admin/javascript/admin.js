@@ -42,7 +42,9 @@ $(function () {
 					});
 					if (isSubmit) {
 						let formData = $(_this.form).serializeArray();
+						console.log(isSubmit);
 						callback(formData);
+						return;
 						
 					} else {
 						e.preventDefault();
@@ -722,32 +724,36 @@ $(function () {
 						})
 					}
 				});
-				validate({
-					form:'.formAddCourses',
-					selectors:[checkBlank('#course')],
-					callback(forms){
-						$.post(ROOT+"admin/addCourse", forms,
-							function (data, textStatus, jqXHR) {
-								if(data){
-									swal('Thêm khoá học thành công',{icon:'success',button:false,timer:1000});
-									$('.popup-add-courses').trigger('click');
-									_this.getCourses();
-								}else{
-									swal({
-										icon:'error',
-										title:'Thêm khoá học thất bại!',
-										text:'Không được phép trùng tên khoá học!',
-										button:false,
-										timer:2000
-									});
+			});
+			validate({
+				form:'.formAddCourses',
+				selectors:[checkBlank('#course')],
+				callback(forms){
+					
+					$.post(ROOT+"admin/addCourse", forms,
+						function (data, textStatus, jqXHR) {
+							
+							if(data){
+								swal('Thêm khoá học thành công',{icon:'success',button:false,timer:1000});
+								$('.popup-add-courses').trigger('click');
+								_this.getCourses();
+								return;
+							}else{
+								swal({
+									icon:'error',
+									title:'Thêm khoá học thất bại!',
+									text:'Không được phép trùng tên khoá học!',
+									button:false,
+									timer:2000
+								});
+								return;
 
-								}
-							},
-							"json"
-						);
+							}
+						},
+						"json"
+					);
 
-					}
-				});
+				}
 			});
 			$('.popup-add-courses').on('click', function () {
 				gsap.to('.popup-add-courses .wrapper', {
@@ -778,7 +784,7 @@ $(function () {
 				"json"
 			);
 		},
-		renderCourse(data){
+		renderCourse(data = []){
 			let html = "";
 			for(let i = 0;i<data.length;i++){
 				html += `<div class="item">

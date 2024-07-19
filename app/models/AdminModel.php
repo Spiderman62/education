@@ -134,11 +134,13 @@ class AdminModel extends DB
 	{
 		header('Content-Type: application/json');
 		$isDuplicate = $this->connection->query("SELECT * FROM courses WHERE name = '$course'");
-		if (mysqli_num_rows($isDuplicate)) {
+		if (mysqli_num_rows($isDuplicate) > 0) {
 			echo json_encode(false);
 			return;
+		}else{
+			$this->connection->query("INSERT INTO courses(name)value('$course')");
+			echo json_encode(true);
+			return;
 		}
-		$this->connection->query("INSERT INTO courses(name)value('$course')");
-		echo json_encode(true);
 	}
 }
