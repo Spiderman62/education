@@ -1437,34 +1437,24 @@ section .tabs main .switch-active .content .item p{
 	color: var(--black-color);
 	transition: var(--tran-05);
 }
-.admin .tabs.subject .container .quiz .list-question .list{
-	list-style-type: none;
-	display: grid;
-	grid-template-columns: repeat(auto-fit,minmax(50px,1fr));
-	column-gap: 8px;
-	row-gap: 6px;
-}
+/* .admin .tabs.subject .container .quiz .list-question .list{
+} */
 .admin .tabs.subject .container .quiz .list-question .list .item{
-	padding: 10px;
-	background-color: var(--primary-color);
+	padding: 10px 20px;
+	border:1px solid var(--black-color);
 	transition: var(--tran-05);
-	
 	border-radius: 4px;
-	transition: var(--tran-05);
-}
-.admin .tabs.subject .container .quiz .list-question .list .item a{
-	color: var(--mark-color);
-	transition: var(--tran-05);
+	color: var(--black-color);
 	text-decoration: none;
 	font-size: 1.4rem;
-	display: block;
-	height: 100%;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	display: inline-block;
+	margin: 5px 3px;
 }
-
+.admin .tabs.subject .container .quiz .list-question .list .item.active{
+	background-color: var(--attention-color);
+	color: var(--mark-color);
+	border: 1px solid var(--attention-color);
+}
 .admin .tabs.subject header .wrapper-add .add{
 	padding: 12px;
 	background-color: var(--primary-color);

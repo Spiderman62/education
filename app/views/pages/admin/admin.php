@@ -252,57 +252,13 @@
 			<div class="quiz">
 				<div class="quizzes">
 					<div class="wrapper-data-fill">
-						<form class="item" id="item-0">
-							<div class="current">
-								<p>Câu hỏi: 1</p>
-								<div class="wrapper-icon">
-									<div class="edit"><i class='bx bx-edit edit'></i></i></div>
-									<div class="trash"><i class='bx bx-trash trash'></i></div>
-								</div>
-							</div>
-							<div class="question">
-								<div class="input-box">
-									<label for="">Nội dung câu hỏi: </label>
-									<span class="question-text">What's your nationality?</span>
-									<p class="message"></p>
-								</div>
-							</div>
-							<div class="answers">
-								<div class="input-box">
-									<label for="">A. </label>
-									<span class="question-text">What's your nationality?</span>
-									<p class="message"></p>
-								</div>
-								<div class="input-box">
-									<label for="">B. </label>
-									<span class="question-text">What's your nationality?</span>
-									<p class="message"></p>
-								</div>
-								<div class="input-box">
-									<label for="">C. </label>
-									<span class="question-text">What's your nationality?</span>
-
-									<p class="message"></p>
-								</div>
-								<div class="input-box">
-									<label for="">D. </label>
-									<span class="question-text">What's your nationality?</span>
-
-									<p class="message"></p>
-								</div>
-								<div class="correct-answer">
-									<label for="">Câu trả lời đúng là: </label>
-									<span class="question-text">What's your nationality?</span>
-									<p class="message"></p>
-								</div>
-							</div>
-							</form>
+						
 					</div>
 				</div>
 				<div class="list-question">
 					<h1>Danh sách câu hỏi</h1>
 					<ul class="list">
-						<li class="item"><a href="#item-1">1</a></li>
+					
 					</ul>
 				</div>
 			</div>
@@ -480,7 +436,7 @@
 					<input type="" id="answers" name="answers" placeholder="VD: water,fire,wind,earth">
 					<span class="message"></span>
 				</div>
-				
+
 			</div>
 			<h1>Đáp áp đúng</h1>
 			<div class="input-box">

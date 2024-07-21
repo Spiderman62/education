@@ -892,12 +892,12 @@ $(function () {
 	}
 	callAPICourses.main();
 	const subject_quizz = {
-		dataSimulator:[],
+		dataSimulator: [],
 		events() {
 			const _this = this;
 			$('.admin .tabs.subject .container .quiz').fadeOut();
 			$('.admin .tabs.subject > header h1#create-subject').on('click', function () {
-				if($('.admin .tabs.subject > header h1#create-subject').hasClass('add-question')){
+				if ($('.admin .tabs.subject > header h1#create-subject').hasClass('add-question')) {
 					$('.popup-add-quizz').addClass('active');
 				}
 				$('.admin .tabs.subject > header h1#create-subject').addClass('add-question');
@@ -905,32 +905,90 @@ $(function () {
 				$('.admin .tabs.subject .container .quiz').slideDown(600);
 				$('.admin .tabs.subject .wrapper-add').fadeIn(500);
 			});
-			$('.popup-add-quizz').on('click',function(){
-				$('.popup-add-quizz').removeClass('active');	
+			$('.popup-add-quizz').on('click', function () {
+				$('.popup-add-quizz').removeClass('active');
 			})
-			$('.popup-add-quizz .wrapper').on('click',function(e){
+			$('.popup-add-quizz .wrapper').on('click', function (e) {
 				e.stopPropagation();
 			})
 		},
 		addQuizz() {
 			const _this = this;
-			validate({form:'.form-add-quizz',selectors:[
-				checkBlank('#question'),
-				checkLength('#question',5),
-				checkBlank('#answers'),
-				checkLength('#answers',3),	
-				checkBlank('#result'),
-				checkLength('#result',3),
-			],callback(forms){
-				console.log(forms);
-				const test = {};
-				$.each(forms, function (indexInArray, valueOfElement) { 
-					test[valueOfElement.name] = valueOfElement.value;
-				});
-				
-				_this.dataSimulator.push({test});
-				console.log(_this.dataSimulator);
-			}});
+			validate({
+				form: '.form-add-quizz', selectors: [
+					checkBlank('#question'),
+					checkLength('#question', 5),
+					checkBlank('#answers'),
+					checkLength('#answers', 3),
+					checkBlank('#result'),
+					checkLength('#result', 3),
+				], callback(forms) {
+					const test = {};
+					$.each(forms, function (indexInArray, valueOfElement) {
+						test[valueOfElement.name] = valueOfElement.value;
+					});
+					const arrayAnswers = test.answers.split(',');
+					if (arrayAnswers.includes(test.result)) {
+						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(test.question));
+						if (isDuplicate) {
+							swal('Tuyệt đối không được trùng câu hỏi!', { icon: 'error', button: false, timer: 2000 });
+						} else {
+							_this.dataSimulator.push(test);
+							_this.renderQuizz();
+						}
+					} else {
+						swal('Bắt buộc phải khớp 1 trong 4 câu hỏi trên!', { icon: 'error', button: false, timer: 2000 });
+					}
+				}
+			});
+		},
+		renderQuizz() {
+			const titles = ['A', 'B', 'C', 'D'];
+			let html = "";
+			let answersHTML = "";
+			let questionLists = "";
+			for (let i = 0; i < this.dataSimulator.length; i++) {
+				let answers = this.dataSimulator[i].answers.split(',');
+				for (let j = 0; j < answers.length; j++) {
+					answersHTML += `<div class="input-box">
+									<label for="">${titles[j]}. </label>
+									<span class="question-text">${answers[j]}</span>
+									<p class="message"></p>
+								</div>`
+				}
+				html += `<form class="item" id="item-${i}">
+							<div class="current">
+								<p>Câu hỏi số: ${i + 1}</p>
+								<div class="wrapper-icon">
+									<div class="edit"><i class='bx bx-edit edit'></i></i></div>
+									<div class="trash"><i class='bx bx-trash trash'></i></div>
+								</div>
+							</div>
+							<div class="question">
+								<div class="input-box">
+									<label for="">Nội dung câu hỏi: </label>
+									<span class="question-text">${this.dataSimulator[i].question}</span>
+									<p class="message"></p>
+								</div>
+							</div>
+							<div class="answers">
+								${answersHTML}
+								<div class="correct-answer">
+									<label for="">Câu trả lời đúng là: </label>
+									<span class="question-text">${this.dataSimulator[i].result}</span>
+									<p class="message"></p>
+								</div>
+							</div>
+						</form>`;
+				answersHTML = "";
+				questionLists += `<a class="item" href="#item-${i}">${i + 1}</a>`;
+			}
+			$('.admin .tabs.subject .container .quiz .list-question .list').html(questionLists).hide().fadeIn(500);
+			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill').html(html).hide().slideDown(800);
+			$('.admin .tabs.subject .container .quiz .list-question .list .item').on('click',function(){
+				$('.admin .tabs.subject .container .quiz .list-question .list .item').removeClass('active');
+				$(this).addClass('active');
+			})
 		},
 		main() {
 			this.events();
