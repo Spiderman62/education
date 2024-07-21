@@ -36,6 +36,12 @@
 					</div>
 					<span>Danh mục khoá học</span>
 				</li>
+				<li data-type="category">
+					<div class="icon">
+						<i class="bx bxs-edit-alt"></i>
+					</div>
+					<span>Môn học | quizz</span>
+				</li>
 			</ul>
 		</div>
 		<div class="information">
@@ -222,7 +228,7 @@
 						<p>Tên khoá học</p>
 					</div>
 					<div class="content">
-						
+
 					</div>
 				</div>
 				<div class="item-courses">
@@ -230,6 +236,74 @@
 				</div>
 				<div class="item-courses">
 					3
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tabs subject">
+		<header>
+			<h1>QUẢN LÝ MÔN HỌC</h1>
+			<h1 id="create-subject">
+				<i class='bx bx-plus-circle'></i>
+				<span>TẠO ĐỀ THI NHANH</span>
+			</h1>
+		</header>
+		<div class="container">
+			<div class="quiz">
+				<div class="quizzes">
+					<div class="wrapper-data-fill">
+						<form class="item" id="item-0">
+							<div class="current">
+								<p>Câu hỏi: 1</p>
+								<div class="wrapper-icon">
+									<div class="edit"><i class='bx bx-edit edit'></i></i></div>
+									<div class="trash"><i class='bx bx-trash trash'></i></div>
+								</div>
+							</div>
+							<div class="question">
+								<div class="input-box">
+									<label for="">Nội dung câu hỏi: </label>
+									<span class="question-text">What's your nationality?</span>
+									<p class="message"></p>
+								</div>
+							</div>
+							<div class="answers">
+								<div class="input-box">
+									<label for="">A. </label>
+									<span class="question-text">What's your nationality?</span>
+									<p class="message"></p>
+								</div>
+								<div class="input-box">
+									<label for="">B. </label>
+									<span class="question-text">What's your nationality?</span>
+									<p class="message"></p>
+								</div>
+								<div class="input-box">
+									<label for="">C. </label>
+									<span class="question-text">What's your nationality?</span>
+
+									<p class="message"></p>
+								</div>
+								<div class="input-box">
+									<label for="">D. </label>
+									<span class="question-text">What's your nationality?</span>
+
+									<p class="message"></p>
+								</div>
+								<div class="correct-answer">
+									<label for="">Câu trả lời đúng là: </label>
+									<span class="question-text">What's your nationality?</span>
+									<p class="message"></p>
+								</div>
+							</div>
+							</form>
+					</div>
+				</div>
+				<div class="list-question">
+					<h1>Danh sách câu hỏi</h1>
+					<ul class="list">
+						<li class="item"><a href="#item-1">1</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -375,6 +449,47 @@
 				<span class="message"></span>
 			</div>
 			<input type="submit" value="Thêm khoá học">
+		</form>
+	</div>
+</div>
+<div class="popup-edit-courses">
+	<div class="wrapper">
+		<h1>Hãy cẩn thận</h1>
+		<p>Khi bạn thay đổi dữ liệu gốc thì tức dữ liệu cấp con sẽ theo đổi theo</p>
+		<form class="formEditCourses" action="">
+			<div class="input-box">
+				<input id="edit" name="edit" type="text" placeholder="English, math, biology,...">
+				<input hidden name="ID" type="text">
+				<span class="message"></span>
+			</div>
+			<input type="submit" value="Sửa khoá học">
+		</form>
+	</div>
+</div>
+<div class="popup-add-quizz">
+	<div class="wrapper">
+		<form class="form-add-quizz">
+			<h1>Câu hỏi</h1>
+			<div class="input-box">
+				<input type="text" name="question" id="question">
+				<span class="message"></span>
+			</div>
+			<h1 class="answers">Nội dung câu trả lời ngăn cách bởi dấu,</h1>
+			<div class="wrapper-2-col">
+				<div class="input-box">
+					<input type="" id="answers" name="answers" placeholder="VD: water,fire,wind,earth">
+					<span class="message"></span>
+				</div>
+				
+			</div>
+			<h1>Đáp áp đúng</h1>
+			<div class="input-box">
+				<input type="text" name="result" id="result">
+				<span class="message"></span>
+			</div>
+			<div class="submit">
+				<input type="submit" value="Thêm">
+			</div>
 		</form>
 	</div>
 </div>

@@ -141,4 +141,14 @@ class AdminModel extends DB
 			$this->connection->query("INSERT INTO courses(name)value('$course')");
 			echo json_encode(true);
 	}
+	public function editCourse($ID,$edit) {
+		header('Content-Type: application/json');
+		$this->connection->query("UPDATE courses SET name = '$edit' WHERE ID = $ID");
+		echo json_encode(true);
+	}
+	public function deleteCourse($ID) {
+		header('Content-Type: application/json');
+		$this->connection->query("DELETE FROM courses WHERE ID = $ID");
+		echo json_encode(true);
+	}
 }

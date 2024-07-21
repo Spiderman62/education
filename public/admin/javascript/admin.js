@@ -1,9 +1,9 @@
 $(function () {
-	function validate({form,selectors,callback}){
+	function validate({ form, selectors, callback }) {
 		const validator = {
 			form: form,
 			simulator: {},
-			selectors:selectors ,
+			selectors: selectors,
 			handleCondition(obj) {
 				const validators = this.simulator[obj.selector];
 				const inputElement = $(this.form + " " + obj.selector);
@@ -42,8 +42,8 @@ $(function () {
 					});
 					if (isSubmit) {
 						let formData = $(_this.form).serializeArray();
-						callback(formData);						
-						
+						callback(formData);
+
 					} else {
 						e.preventDefault();
 					}
@@ -96,8 +96,8 @@ $(function () {
 	const tabs = {
 		handleTabs() {
 			$('.admin .tabs').fadeOut(1);
-			$('.admin .tabs').eq(2).fadeIn();
-			$('aside .menu .menu-tab ul li').eq(2).addClass('mark');
+			$('.admin .tabs').eq(3).fadeIn();
+			$('aside .menu .menu-tab ul li').eq(3).addClass('mark');
 			$('aside .menu .menu-tab ul li').on('click', function () {
 				const index = $(this).index();
 				$('.admin .tabs').fadeOut(0);
@@ -723,22 +723,22 @@ $(function () {
 				});
 			});
 			validate({
-				form:'.formAddCourses',
-				selectors:[checkBlank('#course')],
-				callback(forms){
-					$.post(ROOT+"admin/addCourse", forms,
+				form: '.formAddCourses',
+				selectors: [checkBlank('#course')],
+				callback(forms) {
+					$.post(ROOT + "admin/addCourse", forms,
 						function (data, textStatus, jqXHR) {
-							if(data){
-								swal('Thêm khoá học thành công',{icon:'success',button:false,timer:1000});
+							if (data) {
+								swal('Thêm khoá học thành công', { icon: 'success', button: false, timer: 1000 });
 								$('.popup-add-courses').trigger('click');
 								_this.getCourses();
-							}else{
+							} else {
 								swal({
-									icon:'error',
-									title:'Thêm khoá học thất bại!',
-									text:'Không được phép trùng tên khoá học!',
-									button:false,
-									timer:2000
+									icon: 'error',
+									title: 'Thêm khoá học thất bại!',
+									text: 'Không được phép trùng tên khoá học!',
+									button: false,
+									timer: 2000
 								});
 							}
 						},
@@ -763,7 +763,7 @@ $(function () {
 					}
 				})
 			});
-			$('.popup-add-courses .wrapper').on('click',function(e){
+			$('.popup-add-courses .wrapper').on('click', function (e) {
 				e.stopPropagation();
 			})
 		},
@@ -776,18 +776,114 @@ $(function () {
 				"json"
 			);
 		},
-		renderCourse(data = []){
+		renderCourse(data = []) {
 			let html = "";
-			for(let i = 0;i<data.length;i++){
-				html += `<div class="item">
+			for (let i = 0; i < data.length; i++) {
+				html += `<div data-ID="${data[i].ID}" class="item">
 							<input type="checkbox" name="" id="">
 							<p>${data[i].ID}</p>
-							<p>${data[i].name}</p>
+							<p class="name">${data[i].name}</p>
 							<p class="icon"><i class='bx bx-edit edit'></i></p>
 							<p class="icon"><i class='bx bx-trash trash'></i></p>
 						</div>`
 			};
 			$('.admin .tabs .courses .container .item-courses.course .content').html(html);
+			this.editCourse();
+			this.deleteCourse();
+		},
+		editCourse() {
+			const _this = this;
+			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.edit').on('click', function () {
+				const ID = parseInt($(this).parents('.item').attr('data-ID'));
+				const name = $(this).parents('.item').find('.name').text();
+				gsap.to('.popup-edit-courses', {
+					scale: 1,
+					duration: .2,
+					opacity: 1,
+					ease: "power2.inOut",
+					onComplete() {
+						gsap.to('.popup-edit-courses .wrapper', {
+							scale: 1,
+							duration: .5,
+							opacity: 1,
+							ease: "power2.inOut",
+						})
+					}
+				});
+				$('.popup-edit-courses').find('input[name="edit"]').val(name);
+				$('.popup-edit-courses').find('input[name="ID"]').val(ID);
+			});
+			validate({
+				form: '.formEditCourses',
+				selectors: [checkBlank('#edit')],
+				callback(forms) {
+					$.post(ROOT + "admin/editCourse", forms,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								swal('Sửa thành công', {
+									button: false,
+									timer: 1000,
+									icon: 'success'
+								});
+								$('.popup-edit-courses').trigger('click');
+								_this.getCourses();
+							}
+						},
+						"json"
+					);
+				}
+			})
+			$('.popup-edit-courses').on('click', function () {
+				gsap.to('.popup-edit-courses .wrapper', {
+					scale: 0,
+					duration: .5,
+					opacity: 0,
+					ease: "back.in",
+					onComplete() {
+						gsap.to('.popup-edit-courses', {
+							scale: 0,
+							duration: .2,
+							opacity: 0,
+							ease: "back.in",
+						})
+					}
+				})
+			})
+			$('.popup-edit-courses .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			})
+		},
+		deleteCourse() {
+			const _this = this;
+			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.trash').on('click', function () {
+				const ID = parseInt($(this).parents('.item').attr('data-ID'));
+				const name = $(this).parents('.item').find('.name').text();
+				swal({
+					title: `Bạn có chắc chắn muốn xoá khoá học ${name}!`,
+					text: 'Nếu bạn xoá thì tất cả môn học của bạn sẽ huỷ sạch toàn bộ!',
+					buttons: {
+						cancel: true,
+						confirm: true
+					},
+					icon: 'error'
+				}).then((data) => {
+					if (data) {
+						$.post("admin/deleteCourse", { ID: ID },
+							function (data, textStatus, jqXHR) {
+								if (data) {
+									swal(`Xoá khoá học ${name} thành công`, {
+										button: false,
+										timer: 1000,
+										icon: 'success'
+									});
+									_this.getCourses();
+								}
+							},
+							"json"
+						);
+					}
+				})
+			});
 		},
 		main() {
 			this.catchEvent();
@@ -795,6 +891,53 @@ $(function () {
 		}
 	}
 	callAPICourses.main();
+	const subject_quizz = {
+		dataSimulator:[],
+		events() {
+			const _this = this;
+			$('.admin .tabs.subject .container .quiz').fadeOut();
+			$('.admin .tabs.subject > header h1#create-subject').on('click', function () {
+				if($('.admin .tabs.subject > header h1#create-subject').hasClass('add-question')){
+					$('.popup-add-quizz').addClass('active');
+				}
+				$('.admin .tabs.subject > header h1#create-subject').addClass('add-question');
+				$('.admin .tabs.subject > header h1#create-subject').find('span').text("Thêm câu hỏi");
+				$('.admin .tabs.subject .container .quiz').slideDown(600);
+				$('.admin .tabs.subject .wrapper-add').fadeIn(500);
+			});
+			$('.popup-add-quizz').on('click',function(){
+				$('.popup-add-quizz').removeClass('active');	
+			})
+			$('.popup-add-quizz .wrapper').on('click',function(e){
+				e.stopPropagation();
+			})
+		},
+		addQuizz() {
+			const _this = this;
+			validate({form:'.form-add-quizz',selectors:[
+				checkBlank('#question'),
+				checkLength('#question',5),
+				checkBlank('#answers'),
+				checkLength('#answers',3),	
+				checkBlank('#result'),
+				checkLength('#result',3),
+			],callback(forms){
+				console.log(forms);
+				const test = {};
+				$.each(forms, function (indexInArray, valueOfElement) { 
+					test[valueOfElement.name] = valueOfElement.value;
+				});
+				
+				_this.dataSimulator.push({test});
+				console.log(_this.dataSimulator);
+			}});
+		},
+		main() {
+			this.events();
+			this.addQuizz();
+		}
+	}
+	subject_quizz.main();
 });
 
 function checkBlank(selector) {

@@ -17,6 +17,7 @@
 			$this->data['root'] = true;
 			$this->data['gsap'] = true;
 			$this->data['sweetAlert'] = true;
+			$this->data['scrollTrigger'] = true;
 			$this->view('admin_layout',$this->data);
 		}
 		public function getInforStudent() {
@@ -58,8 +59,7 @@
 		public function deleteLecturer() {
 			$this->AdminModel->deleteLecturer();
 		}
-		public function activeAccountLecturer()
-		{
+		public function activeAccountLecturer(){
 			$title = "Congratulation";
 			$html = '<!DOCTYPE html>
 			<html lang="en">
@@ -147,6 +147,15 @@
 		public function addCourse() {
 			$course = $_POST['course'];
 			$this->AdminModel->addCourse($course);
+		}
+		public function editCourse(){
+			$ID = (INT)$_POST['ID'];
+			$edit = $_POST['edit'];
+			$this->AdminModel->editCourse($ID,$edit);
+		}
+		public function deleteCourse() {
+			$ID = (INT)$_POST['ID'];
+			$this->AdminModel->deleteCourse($ID);
 		}
 	}
 ?>
