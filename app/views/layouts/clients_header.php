@@ -52,18 +52,18 @@
 
 		<!--  -->
 		<?php
-		if (!empty($_SESSION['info']['major']) || !empty($_SESSION['info']['education'])) {
+		if (!empty($_SESSION['info']['major_name']) || !empty($_SESSION['info']['education_name'])) {
 		?>
 			<li class="session">
 				<div class="wrapper-icon-session">
 					<img src=<?php echo empty($_SESSION['info']['image']) ? __ROOT__ . "public/clients/images/anonymous.jpg" : __ROOT__ . "public/clients/images/" . $_SESSION['info']['image']; ?> alt="">
 				</div>
 				<div class="content">
-					<div class="username"><?php echo $_SESSION['info']['username']; ?></div>
-					<?php if (!empty($_SESSION['info']['major'])) { ?>
-						<div class="major"><?php echo $_SESSION['info']['major']; ?></div>
+					<div class="username"><?php echo $_SESSION['info']['user_name']; ?></div>
+					<?php if (!empty($_SESSION['info']['major_name'])) { ?>
+						<div class="major"><?php echo $_SESSION['info']['major_name']; ?></div>
 					<?php } else { ?>
-						<div class="major"><?php echo $_SESSION['info']['education']; ?></div>
+						<div class="major"><?php echo $_SESSION['info']['education_name']; ?></div>
 					<?php } ?>
 				</div>
 				<div class="icon">

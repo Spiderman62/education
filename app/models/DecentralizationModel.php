@@ -3,9 +3,9 @@ class DecentralizationModel extends DB
 {
 	public function getStudyField()
 	{
-		$study_fields = $this->connection->query("SELECT * FROM study_fields");
+		$majors = $this->connection->query("SELECT * FROM major");
 		$array = [];
-		while ($row = mysqli_fetch_assoc($study_fields)) {
+		while ($row = mysqli_fetch_assoc($majors)) {
 			$array[] = $row;
 		}
 		header('Content-Type: application/json');
@@ -13,9 +13,9 @@ class DecentralizationModel extends DB
 	}
 	public function getLecturerField()
 	{
-		$lecturer_fields = $this->connection->query("SELECT * FROM lecturer_fields");
+		$educations = $this->connection->query("SELECT * FROM education");
 		$array = [];
-		while ($row = mysqli_fetch_assoc($lecturer_fields)) {
+		while ($row = mysqli_fetch_assoc($educations)) {
 			$array[] = $row;
 		}
 		header('Content-Type: application/json');
@@ -30,8 +30,8 @@ class DecentralizationModel extends DB
 		$username = $data['username'];
 		$major = $data['major'];
 		$password = $data['password'];
-		$isFoundAccount = $this->connection->query("SELECT account FROM user WHERE account = '$account'");
-		$isFoundEmail = $this->connection->query("SELECT account FROM user WHERE email = '$email'");
+		$isFoundAccount = $this->connection->query("SELECT account FROM student WHERE account = '$account'");
+		$isFoundEmail = $this->connection->query("SELECT account FROM student WHERE email = '$email'");
 		if (mysqli_num_rows($isFoundAccount) > 0) {
 			$dataResponse['account'] = true;
 		}
@@ -42,11 +42,8 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$this->connection->query("INSERT INTO user(account,email,username,password)
-			VALUE('$account','$email','$username','$password');
-			");
-		$this->connection->query("INSERT INTO student(userID,major)
-			VALUE(last_insert_id(),'$major');
+		$this->connection->query("INSERT INTO student(account,email,user_name,password,major)
+			VALUE('$account','$email','$username','$password','$major');
 			");
 		$dataResponse['active'] = true;
 		echo json_encode($dataResponse);
@@ -54,9 +51,8 @@ class DecentralizationModel extends DB
 	}
 	public function activeAccountStudent($email)
 	{
-		$this->connection->query("UPDATE student SET student.status = 1
-		WHERE student.userID = (SELECT user.ID FROM user
-    	WHERE user.email = '$email');");
+		$this->connection->query("UPDATE student SET status = 1
+		WHERE email = '$email'");
 	}
 	public function studentSignIn($data)
 	{
@@ -64,20 +60,7 @@ class DecentralizationModel extends DB
 		$dataResponse = [];
 		$account = $data['account'];
 		$password = $data['password'];
-		$isAccount = $this->connection->query("SELECT * FROM user where account = '$account'");
-		if (empty(mysqli_num_rows($isAccount))) {
-			$dataResponse['isAccount'] = true;
-		}
-		$isPassword = $this->connection->query(" SELECT * FROM user where password = '$password'");
-		if (empty(mysqli_num_rows($isPassword))) {
-			$dataResponse['isPassword'] = true;
-		}
-		if (!empty($dataResponse)) {
-			echo json_encode($dataResponse);
-			return;
-		}
-		$isAdmin = $this->connection->query("SELECT * FROM user inner join admin on admin.userID = user.ID 
-		where user.account = '$account' AND user.password = '$password'");
+		$isAdmin = $this->connection->query("SELECT * FROM admin where account = '$account' AND password = '$password'");
 		if (!empty(mysqli_num_rows($isAdmin))) {
 			$result =  mysqli_fetch_assoc($isAdmin);
 			$dataResponse['info'] = $result;
@@ -86,14 +69,28 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$isStatus = $this->connection->query("SELECT * FROM user inner join student on student.userID = user.ID 
-		where user.account = '$account' AND user.password = '$password' AND student.status = 1;");
+		$isAccount = $this->connection->query("SELECT * FROM student where account = '$account'");
+		if (empty(mysqli_num_rows($isAccount))) {
+			$dataResponse['isAccount'] = true;
+		}
+		$isPassword = $this->connection->query(" SELECT * FROM student where password = '$password'");
+		if (empty(mysqli_num_rows($isPassword))) {
+			$dataResponse['isPassword'] = true;
+		}
+		if (!empty($dataResponse)) {
+			echo json_encode($dataResponse);
+			return;
+		}
+		
+		$isStatus = $this->connection->query("SELECT student.image,student.id,student.account,student.user_name,major.major_name FROM student inner join major on major.id = student.major
+		where account = '$account' AND password = '$password' AND status = 1;");
 		if (empty(mysqli_num_rows($isStatus))) {
 			$dataResponse['isStatus'] = true;
 			echo json_encode($dataResponse);
 			return;
 		}
 		if (!empty(mysqli_num_rows($isStatus))) {
+
 			$result =  mysqli_fetch_assoc($isStatus);
 			$dataResponse['info'] = $result;
 			$dataResponse['active'] = true;
@@ -112,8 +109,8 @@ class DecentralizationModel extends DB
 		$username = $data['username'];
 		$education = $data['education'];
 		$password = $data['password'];
-		$isFoundAccount = $this->connection->query("SELECT account FROM user WHERE account = '$account'");
-		$isFoundEmail = $this->connection->query("SELECT account FROM user WHERE email = '$email'");
+		$isFoundAccount = $this->connection->query("SELECT account FROM lecturer WHERE account = '$account'");
+		$isFoundEmail = $this->connection->query("SELECT account FROM lecturer WHERE email = '$email'");
 		if (mysqli_num_rows($isFoundAccount) > 0) {
 			$dataResponse['account'] = true;
 		}
@@ -124,11 +121,8 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$this->connection->query("INSERT INTO user(account,email,username,password)
-			VALUE('$account','$email','$username','$password');
-			");
-		$this->connection->query("INSERT INTO lecturer(userID,education)
-			VALUE(last_insert_id(),'$education');
+		$this->connection->query("INSERT INTO lecturer(account,email,user_name,password,education)
+			VALUE('$account','$email','$username','$password','$education');
 			");
 		$dataResponse['active'] = true;
 		echo json_encode($dataResponse);
@@ -140,20 +134,7 @@ class DecentralizationModel extends DB
 		$dataResponse = [];
 		$account = $data['account'];
 		$password = $data['password'];
-		$isAccount = $this->connection->query("SELECT * FROM user where account = '$account'");
-		if (empty(mysqli_num_rows($isAccount))) {
-			$dataResponse['isAccount'] = true;
-		}
-		$isPassword = $this->connection->query(" SELECT * FROM user where password = '$password'");
-		if (empty(mysqli_num_rows($isPassword))) {
-			$dataResponse['isPassword'] = true;
-		}
-		if (!empty($dataResponse)) {
-			echo json_encode($dataResponse);
-			return;
-		}
-		$isAdmin = $this->connection->query("SELECT * FROM user inner join admin on admin.userID = user.ID 
-		where user.account = '$account' AND user.password = '$password'");
+		$isAdmin = $this->connection->query("SELECT * FROM admin where account = '$account' AND password = '$password'");
 		if (!empty(mysqli_num_rows($isAdmin))) {
 			$result =  mysqli_fetch_assoc($isAdmin);
 			$dataResponse['info'] = $result;
@@ -162,8 +143,21 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$isStatus = $this->connection->query("SELECT * FROM user inner join lecturer on lecturer.userID = user.ID 
-		where user.account = '$account' AND user.password = '$password' AND lecturer.status = 1;");
+		$isAccount = $this->connection->query("SELECT * FROM lecturer where account = '$account'");
+		if (empty(mysqli_num_rows($isAccount))) {
+			$dataResponse['isAccount'] = true;
+		}
+		$isPassword = $this->connection->query(" SELECT * FROM lecturer where password = '$password'");
+		if (empty(mysqli_num_rows($isPassword))) {
+			$dataResponse['isPassword'] = true;
+		}
+		if (!empty($dataResponse)) {
+			echo json_encode($dataResponse);
+			return;
+		}
+		
+		$isStatus = $this->connection->query("SELECT lecturer.image,lecturer.id,lecturer.account,lecturer.user_name,education.education_name from lecturer inner join education on education.id = lecturer.education
+		where account = '$account' AND password = '$password' AND status = 1;");
 		if (empty(mysqli_num_rows($isStatus))) {
 			$dataResponse['isStatus'] = true;
 			echo json_encode($dataResponse);

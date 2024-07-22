@@ -36,7 +36,8 @@
 					</div>
 					<div class="input-box">
 						<i class="fa-solid fa-briefcase"></i>
-						<input type="text" id="major" name="major" placeholder="Major...">
+						<input type="text" id="major" name="major" hidden>
+						<input type="search" id="search" name="search" placeholder="Search...">
 						<span class="message"></span>
 						<div class="sub-menu">
 							<ul>
@@ -97,7 +98,8 @@
 					</div>
 					<div class="input-box">
 						<i class="fa-solid fa-briefcase"></i>
-						<input type="text" id="education" name="education" placeholder="Education...">
+						<input type="text" id="education" name="education" hidden>
+						<input type="search" id="search" name="search" placeholder="Education...">
 						<span class="message"></span>
 						<div class="sub-menu">
 							<ul>

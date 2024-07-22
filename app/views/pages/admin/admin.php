@@ -61,7 +61,7 @@
 					<img src=<?php echo !empty($_SESSION['info']['image']) ? $_SESSION['info']['image'] : __ROOT__ . "public/clients/images/anonymous.jpg" ?> alt="">
 				</div>
 				<div class="infor">
-					<span class="name"><?php echo $_SESSION['info']['username']; ?></span>
+					<span class="name"><?php echo $_SESSION['info']['user_name']; ?></span>
 					<span class="major">Administrator</span>
 				</div>
 				<div class="logout">
@@ -278,7 +278,7 @@
 		<div class="content">
 			<form class="check-validate" action="">
 				<div class="update-form">
-					<input hidden type="text" name="user_ID" id="user_ID" value="">
+					<input hidden type="text" name="id" id="id" value="">
 					<div class="input-box">
 						<label for="account">Tài khoản</label>
 						<input type="text" name="account" id="account" value="">
@@ -286,7 +286,7 @@
 					</div>
 					<div class="input-box">
 						<label for="username">Họ và tên</label>
-						<input type="text" name="username" id="username" value="">
+						<input type="text" name="user_name" id="user_name" value="">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">
@@ -337,7 +337,7 @@
 		<div class="content">
 			<form class="check-validate" action="">
 				<div class="update-form">
-					<input hidden type="text" name="user_ID" id="user_ID" value="">
+					<input hidden type="text" name="id" id="id" value="">
 					<div class="input-box">
 						<label for="account">Tài khoản</label>
 						<input type="text" name="account" id="account" value="">
@@ -345,7 +345,7 @@
 					</div>
 					<div class="input-box">
 						<label for="username">Họ và tên</label>
-						<input type="text" name="username" id="username" value="">
+						<input type="text" name="user_name" id="user_name" value="">
 						<span class="message"></span>
 					</div>
 					<div class="input-box">

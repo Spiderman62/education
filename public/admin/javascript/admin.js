@@ -1,4 +1,14 @@
 $(function () {
+	function getSession(){
+		$.post(ROOT+'session', {},
+			function (data, textStatus, jqXHR) {
+				sessionStorage.setItem('info',JSON.stringify(data));
+			},
+			"json"
+		);
+		
+	}
+	getSession();
 	function validate({ form, selectors, callback }) {
 		const validator = {
 			form: form,
@@ -181,7 +191,7 @@ $(function () {
 			const _this = this;
 			$.post(ROOT + `admin/getInforLecturer`, "",
 				function (data, textStatus, jqXHR) {
-					_this.lecturer(data.lecturer, data.lecturer_fields);
+					_this.lecturer(data.lecturer, data.educations);
 					_this.renderListTotalPages({
 						html: 'main .switch-active .panigation.lecturer ul',
 						list: 'main .switch-active .panigation.lecturer ul li',
@@ -193,11 +203,11 @@ $(function () {
 				"json"
 			);
 		},
-		lecturer(data, lecturer_fields) {
+		lecturer(data, educations) {
 			let htmlLecturer = "";
 			let htmlTotalPages = "";
 			for (let i = 0; i < data.length; i++) {
-				htmlLecturer += `<div data-ID='${data[i].user_ID}' class="item">
+				htmlLecturer += `<div data-ID='${data[i].id}' class="item">
 					<div class="select-all">
 						<input type="checkbox">
 					</div>
@@ -207,10 +217,10 @@ $(function () {
 						</div>
 						<div class="account">${data[i].account}</div>
 					</div>
-					<p>${data[i].username}</p>
+					<p>${data[i].user_name}</p>
 					<p class="email">${data[i].email}</p>
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
-					<p>${data[i].education}</p>
+					<p>${data[i].education_name}</p>
 					<p>${data[i].password}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bx-send send'></i>" : "<i class='bx bxs-show'></i>"}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
@@ -219,16 +229,16 @@ $(function () {
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.lecturer .content').html(htmlLecturer);
-			this.editLecturer(data, lecturer_fields);
+			this.editLecturer(data, educations);
 			this.deleteLecturer(data);
 			this.sendMesageActiveAccount();
 		},
-		editLecturer(data, lecturer_fields) {
+		editLecturer(data, educations) {
 			const _this = this;
-			lecturer_fields = $.map(lecturer_fields, function (elementOrValue, indexOrKey) {
-				return `<option>${elementOrValue.education}</option>`
+			educations = $.map(educations, function (elementOrValue, indexOrKey) {
+				return `<option value="${elementOrValue.id}">${elementOrValue.education_name}</option>`
 			});
-			$('.main.popup-edit.lecturer .content form .update-form .input-box.education select').html(lecturer_fields);
+			$('.main.popup-edit.lecturer .content form .update-form .input-box.education select').html(educations);
 			$('main .switch-active .wrapper-content.lecturer .content .icon i.edit').on('click', function () {
 				gsap.to('.main.popup-edit.lecturer', {
 					scale: 1,
@@ -242,7 +252,7 @@ $(function () {
 					}
 				});
 				const lecturer_ID = parseInt($(this).parents('.item').attr('data-ID'));
-				const unique = data.filter(item => parseInt(item.user_ID) === lecturer_ID)[0];
+				const unique = data.filter(item => parseInt(item.id) === lecturer_ID)[0];
 				const inputs = $('.main.popup-edit.lecturer .content form .update-form').find('input');
 				const majorsOption = $('.main.popup-edit.lecturer .content form .update-form .input-box.education select option');
 				const status = $('.main.popup-edit.lecturer .content form .update-form .input-box.status select option');
@@ -252,12 +262,17 @@ $(function () {
 				});
 				$.each(majorsOption, function (indexInArray, valueOfElement) {
 					if (unique.education === $(valueOfElement).text()) {
-						$(valueOfElement).attr('selected', 'true');
+						$(valueOfElement).attr('selected', true);
+					}else{
+						$(valueOfElement).attr('selected', false);
+
 					}
 				});
 				$.each(status, function (indexInArray, valueOfElement) {
 					if (unique.status === $(valueOfElement).val()) {
-						$(valueOfElement).attr('selected', 'true');
+						$(valueOfElement).attr('selected', true);
+					}else{
+						$(valueOfElement).attr('selected', false);
 					}
 				});
 
@@ -284,7 +299,7 @@ $(function () {
 			const _this = this;
 			$('main .switch-active .wrapper-content.lecturer .content .icon i.trash').on('click', function () {
 				const lecturer_ID = parseInt($(this).parents('.item').attr('data-ID'));
-				const unique = data.filter(item => parseInt(item.user_ID) === lecturer_ID)[0];
+				const unique = data.filter(item => parseInt(item.id) === lecturer_ID)[0];
 				swal({
 					icon: 'error',
 					title: `Bạn có chắc chắn muốn xoá ${unique.account} !`,
@@ -300,7 +315,7 @@ $(function () {
 							button: false,
 							timer: 1000
 						});
-						$.post(ROOT + "admin/deleteLecturer", { user_ID: unique.user_ID },
+						$.post(ROOT + "admin/deleteLecturer", { id: unique.id },
 							function (data, textStatus, jqXHR) {
 								console.log(data);
 								if (data) {
@@ -322,8 +337,8 @@ $(function () {
 					checkBlank('#account'),
 					checkLength('#account', 5),
 					checkWhiteSpace('#account'),
-					checkBlank('#username'),
-					checkLength('#username', 8),
+					checkBlank('#user_name'),
+					checkLength('#user_name', 8),
 					checkBlank('#email'),
 					checkEmail('#email'),
 					checkBlank('#password'),
@@ -368,6 +383,7 @@ $(function () {
 						});
 						if (isSubmit) {
 							let formData = $(_this.form).serializeArray();
+							console.log(formData)
 							$.post(ROOT + `admin/updateLecturer`, formData,
 								function (data, textStatus, jqXHR) {
 									if (data) {
@@ -417,9 +433,9 @@ $(function () {
 			$('main .switch-active .wrapper-content.lecturer .content .item .icon i.send').on('click', function () {
 				const parent = $(this).parents('.item');
 				const email = parent.find('.email').text();
-				const user_ID = parent.attr('data-ID');
+				const id = parent.attr('data-ID');
 				$('.pending').addClass('active');
-				$.post(ROOT + "admin/activeAccountLecturer", { email: email, user_ID: user_ID },
+				$.post(ROOT + "admin/activeAccountLecturer", { email: email, id: id },
 					function (data, textStatus, jqXHR) {
 						if (data) {
 							$('.pending').removeClass('active');
@@ -439,7 +455,7 @@ $(function () {
 			const _this = this;
 			$.post(ROOT + `admin/getInforStudent`, "",
 				function (data, textStatus, jqXHR) {
-					_this.student(data.student, data.studyFields);
+					_this.student(data.student, data.majors);
 					_this.renderListTotalPages({
 						html: 'main .switch-active .panigation.student ul',
 						list: 'main .switch-active .panigation.student ul li',
@@ -452,10 +468,10 @@ $(function () {
 				"json"
 			);
 		},
-		student(data, studyFields) {
+		student(data, majors) {
 			let htmlStudents = "";
 			for (let i = 0; i < data.length; i++) {
-				htmlStudents += `<div data-ID='${data[i].user_ID}' class="item">
+				htmlStudents += `<div data-ID='${data[i].id}' class="item">
 					<div class="select-all">
 						<input type="checkbox">
 					</div>
@@ -465,10 +481,10 @@ $(function () {
 						</div>
 						<div class="account">${data[i].account}</div>
 					</div>
-					<p>${data[i].username}</p>
+					<p>${data[i].user_name}</p>
 					<p>${data[i].email}</p>
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
-					<p>${data[i].major}</p>
+					<p>${data[i].major_name}</p>
 					<p>${data[i].password}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
@@ -476,15 +492,15 @@ $(function () {
 				</div>`;
 			}
 			$('main .switch-active .wrapper-content.student .content').html(htmlStudents);
-			this.editStudent(data, studyFields);
+			this.editStudent(data, majors);
 			this.deleteStudent(data);
 		},
-		editStudent(data, studyFields) {
+		editStudent(data, majors) {
 			const _this = this;
-			studyFields = $.map(studyFields, function (elementOrValue, indexOrKey) {
-				return `<option>${elementOrValue.major}</option>`
+			majors = $.map(majors, function (elementOrValue, indexOrKey) {
+				return `<option value="${elementOrValue.id}">${elementOrValue.major_name}</option>`
 			});
-			$('.main.popup-edit.student .content form .update-form .input-box.major select').html(studyFields);
+			$('.main.popup-edit.student .content form .update-form .input-box.major select').html(majors);
 			$('main .switch-active .wrapper-content.student .content .icon i.edit').on('click', function () {
 				gsap.to('.main.popup-edit.student', {
 					scale: 1,
@@ -498,24 +514,28 @@ $(function () {
 					}
 				});
 				const student_ID = parseInt($(this).parents('.item').attr('data-ID'));
-				const unique = data.filter(item => parseInt(item.user_ID) === student_ID)[0];
+				const unique = data.filter(item => parseInt(item.id) === student_ID)[0];
 				const inputs = $('.main.popup-edit.student .content form .update-form').find('input');
 				const majorsOption = $('.main.popup-edit.student .content form .update-form .input-box.major select option');
 				const status = $('.main.popup-edit.student .content form .update-form .input-box.status select option');
-
 				$.each(inputs, function (indexInArray, valueOfElement) {
 					valueOfElement.value = unique[valueOfElement.name] || "";
 				});
 				$.each(majorsOption, function (indexInArray, valueOfElement) {
-					if (unique.major === $(valueOfElement).text()) {
-						$(valueOfElement).attr('selected', 'true');
+					if (unique.major_name === $(valueOfElement).text()) {
+						$(valueOfElement).attr('selected', true);
+					}else{
+						$(valueOfElement).attr('selected', false);
 					}
 				});
 				$.each(status, function (indexInArray, valueOfElement) {
 					if (unique.status === $(valueOfElement).val()) {
-						$(valueOfElement).attr('selected', 'true');
+						$(valueOfElement).attr('selected', true);
+					}else{
+						$(valueOfElement).attr('selected', false);
 					}
 				});
+				
 
 				_this.sendRequestEditStudent();
 			});
@@ -540,8 +560,7 @@ $(function () {
 			const _this = this;
 			$('main .switch-active .wrapper-content.student .content .icon i.trash').on('click', function () {
 				const student_ID = parseInt($(this).parents('.item').attr('data-ID'));
-				const unique = data.filter(item => parseInt(item.user_ID) === student_ID)[0];
-				console.log(unique)
+				const unique = data.filter(item => parseInt(item.id) === student_ID)[0];
 				swal({
 					icon: 'error',
 					title: `Bạn có chắc chắn muốn xoá ${unique.account} !`,
@@ -557,9 +576,8 @@ $(function () {
 							button: false,
 							timer: 1000
 						});
-						$.post(ROOT + "admin/deleteStudent", { user_ID: unique.user_ID },
+						$.post(ROOT + "admin/deleteStudent", { id: unique.id },
 							function (data, textStatus, jqXHR) {
-								console.log(data);
 								if (data) {
 									_this.getInforStudent();
 								}
@@ -579,8 +597,8 @@ $(function () {
 					checkBlank('#account'),
 					checkLength('#account', 5),
 					checkWhiteSpace('#account'),
-					checkBlank('#username'),
-					checkLength('#username', 8),
+					checkBlank('#user_name'),
+					checkLength('#user_name', 8),
 					checkBlank('#email'),
 					checkEmail('#email'),
 					checkBlank('#password'),
@@ -726,24 +744,26 @@ $(function () {
 				form: '.formAddCourses',
 				selectors: [checkBlank('#course')],
 				callback(forms) {
-					$.post(ROOT + "admin/addCourse", forms,
-						function (data, textStatus, jqXHR) {
-							if (data) {
-								swal('Thêm khoá học thành công', { icon: 'success', button: false, timer: 1000 });
-								$('.popup-add-courses').trigger('click');
-								_this.getCourses();
-							} else {
-								swal({
-									icon: 'error',
-									title: 'Thêm khoá học thất bại!',
-									text: 'Không được phép trùng tên khoá học!',
-									button: false,
-									timer: 2000
-								});
-							}
-						},
-						"json"
-					);
+					console.log(forms);
+					const admin = JSON.parse(sessionStorage.getItem('info'))
+					// $.post(ROOT + "admin/addCourse", forms,
+					// 	function (data, textStatus, jqXHR) {
+					// 		if (data) {
+					// 			swal('Thêm khoá học thành công', { icon: 'success', button: false, timer: 1000 });
+					// 			$('.popup-add-courses').trigger('click');
+					// 			_this.getCourses();
+					// 		} else {
+					// 			swal({
+					// 				icon: 'error',
+					// 				title: 'Thêm khoá học thất bại!',
+					// 				text: 'Không được phép trùng tên khoá học!',
+					// 				button: false,
+					// 				timer: 2000
+					// 			});
+					// 		}
+					// 	},
+					// 	"json"
+					// );
 
 				}
 			});

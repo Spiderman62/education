@@ -57,6 +57,7 @@ $(function () {
 				});
 				if (isSubmit) {
 					let formData = $(_this.form).serializeArray();
+					console.log(formData);
 					$('.pending').addClass('active');
 					$.post(ROOT + "ajax/lecturerSignUp", formData,
 						function (data, textStatus, jqXHR) {
@@ -119,7 +120,6 @@ $(function () {
 		},
 		debounce(data) {
 			const _this = this;
-			$(_this.form + " " + ".input-box .sub-menu").fadeOut();
 			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('click', function () {
 				$(_this.form + " " + ".input-box .sub-menu").fadeIn(300);
 			})
@@ -128,7 +128,9 @@ $(function () {
 			})
 			$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
 				const value = $(this).text();
-				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
+				const id = $(this).attr('data-id');
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="education"]').val(id);
 			});
 			/////////////////////////////////////////////////////////////////////////////
 			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('input', function () {
@@ -136,10 +138,10 @@ $(function () {
 			})
 			function handleShowResult(searchValue) {
 				let html = "";
-				const searchResults = data.filter(item => item.education.toLowerCase().trim().includes(searchValue.toLowerCase().trim()));
+				const searchResults = data.filter(item => item.education_name.toLowerCase().trim().includes(searchValue.toLowerCase().trim()));
 				if (searchResults.length > 0) {
 					for (let i = 0; i < searchResults.length; i++) {
-						html += `<li data-ID="${searchResults[i].ID}">${searchResults[i].education}</li>`
+						html += `<li data-ID="${searchResults[i].id}">${searchResults[i].education_name}</li>`
 					}
 					$(_this.form + " " + ".input-box .sub-menu ul").html(html);
 
@@ -149,7 +151,9 @@ $(function () {
 				}
 				$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
 					const value = $(this).text();
-					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
+					const id = $(this).attr('data-id');
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="education"]').val(id);
 				});
 			}
 		},
@@ -166,7 +170,7 @@ $(function () {
 			const _this = this;
 			let html = "";
 			for (let i = 0; i < data.length; i++) {
-				html += `<li data-ID="${data[i].ID}">${data[i].education}</li>`
+				html += `<li data-ID="${data[i].id}">${data[i].education_name}</li>`
 			}
 			$(_this.form + " " + ".input-box .sub-menu ul").html(html);
 			_this.debounce(data);
@@ -233,42 +237,42 @@ $(function () {
 							if (data.isAccount) {
 								$(_this.form + " " + "#account").parent('.input-box').addClass('error');
 								$(_this.form + " " + "#account").parent('.input-box').find('.message').text('Tài khoản không chính xác!');
-								
+
 							}
-							if(data.isPassword){
+							if (data.isPassword) {
 								$(_this.form + " " + "#password").parent('.input-box').addClass('error');
 								$(_this.form + " " + "#password").parent('.input-box').find('.message').text('Mật khẩu không chính xác!');
-								
+
 							}
-							if(data.isStatus){
+							if (data.isStatus) {
 								swal({
-									title:'Rất tiếc, truy cập bị từ chối!',
-									text:'Xin lỗi, tài khoản của bạn chưa được kích hoạt bởi quản trị viên. Vui lòng liên hệ với bộ phận hỗ trợ để được giúp đỡ',
-									icon:'warning',
+									title: 'Rất tiếc, truy cập bị từ chối!',
+									text: 'Xin lỗi, tài khoản của bạn chưa được kích hoạt bởi quản trị viên. Vui lòng liên hệ với bộ phận hỗ trợ để được giúp đỡ',
+									icon: 'warning',
 								})
-								
+
 							}
-							if(data.active){
-								if(data.info.hasOwnProperty('education')){
-										swal({
-											title:'Đăng nhập thành công!',
-											icon:'success',
-											text:'Chào mừng',
-											button:false
-										});
-										setTimeout(()=>{
-											window.location.href = `${ROOT}home`;
-										},1500)
-								}else{
+							if (data.active) {
+								if (data.info.hasOwnProperty('education_name')) {
 									swal({
-										title:'Đăng nhập thành công!',
-										text:'Chào mừng quản trị',
-										icon:'success',
-										button:false
+										title: 'Đăng nhập thành công!',
+										icon: 'success',
+										text: 'Chào mừng',
+										button: false
 									});
-									setTimeout(()=>{
+									setTimeout(() => {
+										window.location.href = `${ROOT}home`;
+									}, 1500)
+								} else {
+									swal({
+										title: 'Đăng nhập thành công!',
+										text: 'Chào mừng quản trị',
+										icon: 'success',
+										button: false
+									});
+									setTimeout(() => {
 										window.location.href = `${ROOT}admin`;
-									},1500)
+									}, 1500)
 								}
 							}
 						},

@@ -19,8 +19,8 @@ class Ajax extends Controller
 		$this->data['sendEmail'] = false;
 		$this->data['account'] = $_POST['account'];
 		$this->data['username'] = $_POST['username'];
-		$this->data['email'] = $_POST['email'];
 		$this->data['major'] = $_POST['major'];
+		$this->data['email'] = $_POST['email'];
 		$this->data['password'] = $_POST['password'];
 
 		$this->data['sendEmail'] = $this->DecentralizationModel->studentSignUp($this->data);

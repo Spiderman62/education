@@ -31,21 +31,21 @@
 		}
 		public function updateStudent(){
 			$array = [];
-			$array['userID'] = $_POST['user_ID'];
-			$array['account'] = $_POST['account'];
-			$array['username'] = $_POST['username'];
-			$array['email'] = $_POST['email'];
+			$array['id'] = $_POST['id'];
 			$array['major'] = $_POST['major'];
-			$array['phone'] = $_POST['phone'];
+			$array['account'] = $_POST['account'];
+			$array['user_name'] = $_POST['user_name'];
+			$array['email'] = $_POST['email'];
 			$array['password'] = $_POST['password'];
+			$array['phone'] = $_POST['phone'];
 			$array['status'] = $_POST['status'];
 			$this->AdminModel->updateStudent($array);
 		}
 		public function updateLecturer(){
 			$array = [];
-			$array['userID'] = $_POST['user_ID'];
+			$array['id'] = $_POST['id'];
 			$array['account'] = $_POST['account'];
-			$array['username'] = $_POST['username'];
+			$array['user_name'] = $_POST['user_name'];
 			$array['email'] = $_POST['email'];
 			$array['education'] = $_POST['education'];
 			$array['phone'] = $_POST['phone'];
@@ -137,8 +137,8 @@
 			</body>
 			</html>';
 			$email = $_POST['email'];
-			$user_ID = $_POST['user_ID'];
-			$this->AdminModel->activeAccountLecturer($user_ID);
+			$id = $_POST['id'];
+			$this->AdminModel->activeAccountLecturer($id);
 			$this->sendEmail($title,$html,$email);
 		}
 		public function getCourses() {
@@ -146,7 +146,8 @@
 		}
 		public function addCourse() {
 			$course = $_POST['course'];
-			$this->AdminModel->addCourse($course);
+			$id_admin = $_POST['id_admin'];
+			$this->AdminModel->addCourse($course,$id_admin);
 		}
 		public function editCourse(){
 			$ID = (INT)$_POST['ID'];

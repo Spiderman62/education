@@ -10,7 +10,7 @@ $(function () {
 			checkLength('#username', 8),
 			checkBlank('#email'),
 			checkEmail('#email'),
-			checkBlank('#major'),
+			checkBlank('#search'),
 			// checkBlank('#file'),
 			checkBlank('#password'),
 			checkLength('#password', 5),
@@ -118,42 +118,7 @@ $(function () {
 				});
 			});
 		},
-		debounce(data) {
-			const _this = this;
-			$(_this.form + " " + ".input-box .sub-menu").fadeOut();
-			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('click', function () {
-				$(_this.form + " " + ".input-box .sub-menu").fadeIn(300);
-			})
-			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('blur', function () {
-				$(_this.form + " " + ".input-box .sub-menu").fadeOut(300);
-			})
-			$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
-				const value = $(this).text();
-				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
-			});
-			/////////////////////////////////////////////////////////////////////////////
-			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('input', function () {
-				handleShowResult($(this).val());
-			})
-			function handleShowResult(searchValue) {
-				let html = "";
-				const searchResults = data.filter(item => item.major.toLowerCase().trim().includes(searchValue.toLowerCase().trim()));
-				if (searchResults.length > 0) {
-					for (let i = 0; i < searchResults.length; i++) {
-						html += `<li data-ID="${searchResults[i].ID}">${searchResults[i].major}</li>`
-					}
-					$(_this.form + " " + ".input-box .sub-menu ul").html(html);
-
-				} else {
-					$(_this.form + " " + ".input-box .sub-menu ul").html("<li>Không tìm thấy!</li>");
-
-				}
-				$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
-					const value = $(this).text();
-					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').val(value);
-				});
-			}
-		},
+		
 		getListMajors() {
 			const _this = this;
 			$.post(ROOT + "ajax/getStudyField", "",
@@ -167,10 +132,49 @@ $(function () {
 			const _this = this;
 			let html = "";
 			for (let i = 0; i < data.length; i++) {
-				html += `<li data-ID="${data[i].ID}">${data[i].major}</li>`
+				html += `<li data-ID="${data[i].id}">${data[i].major_name}</li>`
 			}
 			$(_this.form + " " + ".input-box .sub-menu ul").html(html);
 			_this.debounce(data);
+		},
+		debounce(data) {
+			const _this = this;
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('click', function () {
+				$(_this.form + " " + ".input-box .sub-menu").fadeIn(300);
+			})
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('blur', function () {
+				$(_this.form + " " + ".input-box .sub-menu").fadeOut(300);
+			})
+			$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
+				const value = $(this).text();
+				const id  = $(this).attr('data-id');
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="major"]').val(id);
+			});
+			/////////////////////////////////////////////////////////////////////////////
+			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').on('input', function () {
+				handleShowResult($(this).val());
+			})
+			function handleShowResult(searchValue) {
+				let html = "";
+				const searchResults = data.filter(item => item.major_name.toLowerCase().trim().includes(searchValue.toLowerCase().trim()));
+				if (searchResults.length > 0) {
+					for (let i = 0; i < searchResults.length; i++) {
+						html += `<li data-ID="${searchResults[i].id}">${searchResults[i].major_name}</li>`
+					}
+					$(_this.form + " " + ".input-box .sub-menu ul").html(html);
+
+				} else {
+					$(_this.form + " " + ".input-box .sub-menu ul").html("<li>Không tìm thấy!</li>");
+
+				}
+				$(_this.form + " " + ".input-box .sub-menu ul li").on('click', function () {
+					const value = $(this).text();
+					const id  = $(this).attr('data-id');
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="major"]').val(id);
+				});
+			}
 		},
 		main() {
 			this.getListMajors();
@@ -250,7 +254,7 @@ $(function () {
 								})	
 							}
 							if(data.active){
-								if(data.info.hasOwnProperty('major')){
+								if(data.info.hasOwnProperty('major_name')){
 										swal({
 											title:'Đăng nhập thành công!',
 											icon:'success',
