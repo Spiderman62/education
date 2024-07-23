@@ -226,6 +226,8 @@
 						<input type="checkbox" name="" id="">
 						<p>ID</p>
 						<p>Tên khoá học</p>
+						<p>Tài khoản người tạo</p>
+						<p>Tên người tạo</p>
 					</div>
 					<div class="content">
 

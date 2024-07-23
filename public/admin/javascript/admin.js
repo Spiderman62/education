@@ -1,12 +1,12 @@
 $(function () {
-	function getSession(){
-		$.post(ROOT+'session', {},
+	function getSession() {
+		$.post(ROOT + 'session', {},
 			function (data, textStatus, jqXHR) {
-				sessionStorage.setItem('info',JSON.stringify(data));
+				sessionStorage.setItem('info', JSON.stringify(data));
 			},
 			"json"
 		);
-		
+
 	}
 	getSession();
 	function validate({ form, selectors, callback }) {
@@ -263,7 +263,7 @@ $(function () {
 				$.each(majorsOption, function (indexInArray, valueOfElement) {
 					if (unique.education === $(valueOfElement).text()) {
 						$(valueOfElement).attr('selected', true);
-					}else{
+					} else {
 						$(valueOfElement).attr('selected', false);
 
 					}
@@ -271,7 +271,7 @@ $(function () {
 				$.each(status, function (indexInArray, valueOfElement) {
 					if (unique.status === $(valueOfElement).val()) {
 						$(valueOfElement).attr('selected', true);
-					}else{
+					} else {
 						$(valueOfElement).attr('selected', false);
 					}
 				});
@@ -524,18 +524,18 @@ $(function () {
 				$.each(majorsOption, function (indexInArray, valueOfElement) {
 					if (unique.major_name === $(valueOfElement).text()) {
 						$(valueOfElement).attr('selected', true);
-					}else{
+					} else {
 						$(valueOfElement).attr('selected', false);
 					}
 				});
 				$.each(status, function (indexInArray, valueOfElement) {
 					if (unique.status === $(valueOfElement).val()) {
 						$(valueOfElement).attr('selected', true);
-					}else{
+					} else {
 						$(valueOfElement).attr('selected', false);
 					}
 				});
-				
+
 
 				_this.sendRequestEditStudent();
 			});
@@ -744,26 +744,26 @@ $(function () {
 				form: '.formAddCourses',
 				selectors: [checkBlank('#course')],
 				callback(forms) {
-					console.log(forms);
-					const admin = JSON.parse(sessionStorage.getItem('info'))
-					// $.post(ROOT + "admin/addCourse", forms,
-					// 	function (data, textStatus, jqXHR) {
-					// 		if (data) {
-					// 			swal('Thêm khoá học thành công', { icon: 'success', button: false, timer: 1000 });
-					// 			$('.popup-add-courses').trigger('click');
-					// 			_this.getCourses();
-					// 		} else {
-					// 			swal({
-					// 				icon: 'error',
-					// 				title: 'Thêm khoá học thất bại!',
-					// 				text: 'Không được phép trùng tên khoá học!',
-					// 				button: false,
-					// 				timer: 2000
-					// 			});
-					// 		}
-					// 	},
-					// 	"json"
-					// );
+					const admin = JSON.parse(sessionStorage.getItem('info'));
+					forms.push({ name: 'admin', value: admin.id })
+					$.post(ROOT + "admin/addCourse", forms,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								swal('Thêm khoá học thành công', { icon: 'success', button: false, timer: 1000 });
+								$('.popup-add-courses').trigger('click');
+								_this.getCourses();
+							} else {
+								swal({
+									icon: 'error',
+									title: 'Thêm khoá học thất bại!',
+									text: 'Không được phép trùng tên khoá học!',
+									button: false,
+									timer: 2000
+								});
+							}
+						},
+						"json"
+					);
 
 				}
 			});
@@ -799,10 +799,12 @@ $(function () {
 		renderCourse(data = []) {
 			let html = "";
 			for (let i = 0; i < data.length; i++) {
-				html += `<div data-ID="${data[i].ID}" class="item">
+				html += `<div data-ID="${data[i].id_course}" class="item">
 							<input type="checkbox" name="" id="">
-							<p>${data[i].ID}</p>
-							<p class="name">${data[i].name}</p>
+							<p>${data[i].id_course}</p>
+							<p class="name">${data[i].course_name}</p>
+							<p>${data[i].account}</p>
+							<p>${data[i].user_name}</p>
 							<p class="icon"><i class='bx bx-edit edit'></i></p>
 							<p class="icon"><i class='bx bx-trash trash'></i></p>
 						</div>`
@@ -835,7 +837,7 @@ $(function () {
 			});
 			validate({
 				form: '.formEditCourses',
-				selectors: [checkBlank('#edit')],
+				selectors: [checkBlank('#edit'), checkLength('#edit', 3)],
 				callback(forms) {
 					$.post(ROOT + "admin/editCourse", forms,
 						function (data, textStatus, jqXHR) {
@@ -980,7 +982,7 @@ $(function () {
 							<div class="current">
 								<p>Câu hỏi số: ${i + 1}</p>
 								<div class="wrapper-icon">
-									<div class="edit"><i class='bx bx-edit edit'></i></i></div>
+									<div class="edit"><i class='bx bx-edit edit'></i></div>
 									<div class="trash"><i class='bx bx-trash trash'></i></div>
 								</div>
 							</div>
@@ -992,22 +994,114 @@ $(function () {
 								</div>
 							</div>
 							<div class="answers">
-								${answersHTML}
-								<div class="correct-answer">
+								${answersHTML}	
+							</div>
+							<div class="correct-answer input-box">
 									<label for="">Câu trả lời đúng là: </label>
 									<span class="question-text">${this.dataSimulator[i].result}</span>
 									<p class="message"></p>
 								</div>
-							</div>
+								<input type="submit" hidden>
 						</form>`;
 				answersHTML = "";
 				questionLists += `<a class="item" href="#item-${i}">${i + 1}</a>`;
 			}
 			$('.admin .tabs.subject .container .quiz .list-question .list').html(questionLists).hide().fadeIn(500);
 			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill').html(html).hide().slideDown(800);
-			$('.admin .tabs.subject .container .quiz .list-question .list .item').on('click',function(){
+			$('.admin .tabs.subject .container .quiz .list-question .list .item').on('click', function () {
 				$('.admin .tabs.subject .container .quiz .list-question .list .item').removeClass('active');
 				$(this).addClass('active');
+			});
+			this.editQuizz();
+			this.deleteQuizz();
+		},
+		editQuizz() {
+			const _this = this;
+			function handleEditForm(id_item, newActiveSelectors, currentIndex) {
+				validate({
+					form: `.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item#${id_item}`,
+					selectors: newActiveSelectors,
+					callback(forms) {
+						const obj = forms.reduce((acc, cur) => {
+							if (!acc[cur.name]) {
+								acc[cur.name] = [];
+							}
+							acc[cur.name].push(cur.value);
+							return acc;
+						}, {});
+						let [question] = obj.question;
+						obj.question = question;
+						let [result] = obj.result;
+						obj.result = result;
+						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(obj.question));
+						if (isDuplicate) {
+							swal('Không được trùng câu hỏi!', { icon: 'error', button: false, timer: 1500 });
+							return;
+						}
+						const isFoundMatchAnswer = obj.answers.some(item => item === obj.result);
+						if (!isFoundMatchAnswer) {
+							swal('Bắt buộc phải khớp 1 trong 4 đáp án!', { icon: 'error', button: false, timer: 1500 });
+							return;
+						}
+						obj.answers = obj.answers.join(",");
+						_this.dataSimulator[currentIndex] = obj;
+						_this.renderQuizz();
+
+					}
+				});
+			}
+			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.edit').on('click', function () {
+				$(this).closest('.item').find('.current .edit').fadeOut(300);
+				// $(this).closest('.item').find('.current .wrapper-icon').prepend(`<div class="save"><i class='bx bx-save save'></i></div>`).hide(0).fadeIn(100);
+				const currentIndex = $(this).closest('.item').index();
+				const id_item = $(this).closest('.item').attr(`id`);
+				const currentObj = _this.dataSimulator[currentIndex];
+				const question = currentObj.question;
+				const answers = currentObj.answers.split(',');
+				const result = currentObj.result;
+				$(this).closest('.item').find('.question .input-box .question-text').replaceWith(`
+				<input type="text" name="question" id="question" value="${question}">	
+				`);
+				let count = 0;
+				$(this).closest('.item').find('.answers .input-box .question-text').each((index, element) => {
+					$(element).replaceWith(`<input type="text" name="answers" id="answers-${index}" value="${answers[index]}">`);
+					count++;
+				})
+				let arr = [];
+				for (let i = 0; i < count; i++) {
+					arr.push(checkBlank(`#answers-${i}`));
+				}
+				let activeSelectors = [
+					checkBlank('#question'),
+					checkLength('#question', 5),
+					arr,
+					checkBlank('#result')
+				];
+				handleEditForm(id_item, activeSelectors.flat(), currentIndex);
+				$(this).closest('.item').find('.correct-answer.input-box .question-text').replaceWith(`
+					<input type="text" name="result" id="result" value="${result}">
+				`);
+			});
+
+		},
+		deleteQuizz() {
+			const _this = this;
+			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.trash').on('click', function () {
+				const ID = $(this).closest('.item').index();
+				swal(`Bạn có chắc chắn muốn xoá câu hỏi số: ${ID + 1}`,
+					{
+						icon: 'warning',
+						buttons: {
+							cancel:true,
+							confirm:true
+						}
+					}
+				).then(data=>{
+					if(data){
+						_this.dataSimulator.splice(ID,1);
+						_this.renderQuizz();
+					}
+				})
 			})
 		},
 		main() {

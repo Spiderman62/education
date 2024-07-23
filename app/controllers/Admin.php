@@ -146,8 +146,8 @@
 		}
 		public function addCourse() {
 			$course = $_POST['course'];
-			$id_admin = $_POST['id_admin'];
-			$this->AdminModel->addCourse($course,$id_admin);
+			$admin = $_POST['admin'];
+			$this->AdminModel->addCourse($course,$admin);
 		}
 		public function editCourse(){
 			$ID = (INT)$_POST['ID'];

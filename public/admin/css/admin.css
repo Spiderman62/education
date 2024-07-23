@@ -49,6 +49,15 @@ body {
 section::-webkit-scrollbar{
 	display: none;
 }
+.input-box .message{
+	opacity: 0;
+	font-size: 1.6rem;
+	transition: var(--tran-03);
+}
+.input-box.error .message{
+	opacity: 1;
+	color: #F63939;
+}
 * {
 	margin: 0;
 	padding: 0;
@@ -1267,7 +1276,7 @@ section .tabs main .switch-active .content .item p{
 .admin .tabs .courses .container .item-courses.course .title, 
 .admin .tabs .courses .container .item-courses.course .content .item{
 	display: grid;
-	grid-template-columns: auto repeat(4,1fr);
+	grid-template-columns: auto repeat(6,1fr);
 	place-items: center center;
 }
 .admin .tabs .courses .container .item-courses.course .content{
@@ -1495,6 +1504,9 @@ section .tabs main .switch-active .content .item p{
 .admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current .wrapper-icon i{
 	font-size: 2.7rem;
 	cursor: pointer;
+}
+.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current .wrapper-icon i.save{
+	color: #5d92ea;
 }
 .admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current p{
 	font-size: 2.0rem;

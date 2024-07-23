@@ -125,14 +125,17 @@ class AdminModel extends DB
 	public function getCourses()
 	{
 		$array = [];
-		$data = $this->connection->query("SELECT * FROM courses");
+		$data = $this->connection->query("SELECT courses.id as id_course,
+		courses.course_name,admin.id as id_admin,
+		admin.account,admin.user_name from courses
+		inner join admin on admin.id = courses.id_admin;");
 		while ($row = mysqli_fetch_assoc($data)) {
 			$array['courses'][] = $row;
 		}
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
-	public function addCourse($course,$id_admin)
+	public function addCourse($course,$admin)
 	{
 		header('Content-Type: application/json');
 		$isDuplicate = $this->connection->query("SELECT * FROM courses WHERE course_name = '$course'");
@@ -140,17 +143,18 @@ class AdminModel extends DB
 			echo json_encode(false);
 			return;
 		}
-			$this->connection->query("INSERT INTO courses(course_name,id_admin)value('$course','$id_admin')");
+			$this->connection->query("INSERT INTO courses(course_name,id_admin)
+			value('$course','$admin')");
 			echo json_encode(true);
 	}
 	public function editCourse($ID,$edit) {
 		header('Content-Type: application/json');
-		$this->connection->query("UPDATE courses SET name = '$edit' WHERE ID = $ID");
+		$this->connection->query("UPDATE courses SET course_name = '$edit' WHERE id = $ID");
 		echo json_encode(true);
 	}
 	public function deleteCourse($ID) {
 		header('Content-Type: application/json');
-		$this->connection->query("DELETE FROM courses WHERE ID = $ID");
+		$this->connection->query("DELETE FROM courses WHERE id = $ID");
 		echo json_encode(true);
 	}
 }
