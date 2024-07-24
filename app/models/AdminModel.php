@@ -17,7 +17,7 @@ class AdminModel extends DB
 		student.status,
 		student.password,
 		major.id as id_major
-		FROM student inner join major on major.id = student.major LIMIT $itemPerPages OFFSET $offset;");
+		FROM student inner join major on major.id = student.id_major LIMIT $itemPerPages OFFSET $offset;");
 		$getTotalStudentPages = $this->connection->query("SELECT * FROM student");
 		$getTotalStudentPages = ceil(mysqli_num_rows($getTotalStudentPages) / $itemPerPages);
 		while ($row = mysqli_fetch_assoc($dataStudent)) {
@@ -47,7 +47,7 @@ class AdminModel extends DB
 		lecturer.status,
 		lecturer.password,
 		education.id as id_education
-		FROM lecturer inner join education on education.id = lecturer.education LIMIT $itemPerPages OFFSET $offset;");
+		FROM lecturer inner join education on education.id = lecturer.id_education LIMIT $itemPerPages OFFSET $offset;");
 		while ($row = mysqli_fetch_assoc($dataLecturer)) {
 			$array['lecturer'][] = $row;
 		}
@@ -74,11 +74,11 @@ class AdminModel extends DB
 		$account = $data['account'];
 		$user_name = $data['user_name'];
 		$email = $data['email'];
-		$major = $data['major'];
+		$id_major = $data['id_major'];
 		$phone = $data['phone'];
 		$password = $data['password'];
 		$status = (int)$data['status'];
-		$this->connection->query("UPDATE student SET major = $major,email = '$email',account = '$account',
+		$this->connection->query("UPDATE student SET id_major = $id_major,email = '$email',account = '$account',
 		password = '$password',user_name = '$user_name',
 		phone = CASE WHEN '$phone' = '' THEN NULL ELSE '$phone' END,
 		status = $status WHERE id = $id;");
@@ -91,11 +91,11 @@ class AdminModel extends DB
 		$account = $data['account'];
 		$user_name = $data['user_name'];
 		$email = $data['email'];
-		$education = $data['education'];
+		$id_education = $data['id_education'];
 		$phone = $data['phone'];
 		$password = $data['password'];
 		$status = (int)$data['status'];
-		$this->connection->query("UPDATE lecturer SET education = '$education',account = '$account',
+		$this->connection->query("UPDATE lecturer SET id_education = '$id_education',account = '$account',
 		user_name = '$user_name',email = '$email',password = '$password',
 		 phone = CASE WHEN '$phone' = '' THEN NULL ELSE '$phone' END,
 		  status = $status WHERE id = $id;");

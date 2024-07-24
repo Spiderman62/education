@@ -19,7 +19,7 @@ class Ajax extends Controller
 		$this->data['sendEmail'] = false;
 		$this->data['account'] = $_POST['account'];
 		$this->data['username'] = $_POST['username'];
-		$this->data['major'] = $_POST['major'];
+		$this->data['id_major'] = $_POST['id_major'];
 		$this->data['email'] = $_POST['email'];
 		$this->data['password'] = $_POST['password'];
 
@@ -54,7 +54,7 @@ class Ajax extends Controller
 		$this->data['account'] = $_POST['account'];
 		$this->data['username'] = $_POST['username'];
 		$this->data['email'] = $_POST['email'];
-		$this->data['education'] = $_POST['education'];
+		$this->data['id_education'] = $_POST['id_education'];
 		$this->data['password'] = $_POST['password'];
 
 		$this->data['sendEmail'] = $this->DecentralizationModel->lecturerSignUp($this->data);

@@ -1030,7 +1030,7 @@ $(function () {
 							return acc;
 						}, {});
 						let [question] = obj.question;
-						obj.question = question;
+						obj.question = question; 
 						let [result] = obj.result;
 						obj.result = result;
 						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(obj.question));

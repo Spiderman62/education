@@ -149,7 +149,7 @@ $(function () {
 				const value = $(this).text();
 				const id  = $(this).attr('data-id');
 				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
-				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="major"]').val(id);
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="id_major"]').val(id);
 			});
 			/////////////////////////////////////////////////////////////////////////////
 			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').on('input', function () {
@@ -172,7 +172,7 @@ $(function () {
 					const value = $(this).text();
 					const id  = $(this).attr('data-id');
 					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
-					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="major"]').val(id);
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="id_major"]').val(id);
 				});
 			}
 		},

@@ -28,7 +28,7 @@ class DecentralizationModel extends DB
 		$account = $data['account'];
 		$email = $data['email'];
 		$username = $data['username'];
-		$major = $data['major'];
+		$id_major = $data['id_major'];
 		$password = $data['password'];
 		$isFoundAccount = $this->connection->query("SELECT account FROM student WHERE account = '$account'");
 		$isFoundEmail = $this->connection->query("SELECT account FROM student WHERE email = '$email'");
@@ -42,8 +42,8 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$this->connection->query("INSERT INTO student(account,email,user_name,password,major)
-			VALUE('$account','$email','$username','$password','$major');
+		$this->connection->query("INSERT INTO student(account,email,user_name,password,id_major)
+			VALUE('$account','$email','$username','$password','$id_major');
 			");
 		$dataResponse['active'] = true;
 		echo json_encode($dataResponse);
@@ -82,7 +82,7 @@ class DecentralizationModel extends DB
 			return;
 		}
 		
-		$isStatus = $this->connection->query("SELECT student.image,student.id,student.account,student.user_name,major.major_name FROM student inner join major on major.id = student.major
+		$isStatus = $this->connection->query("SELECT student.image,student.id,student.account,student.user_name,major.major_name FROM student inner join major on major.id = student.id_major
 		where account = '$account' AND password = '$password' AND status = 1;");
 		if (empty(mysqli_num_rows($isStatus))) {
 			$dataResponse['isStatus'] = true;
@@ -107,7 +107,7 @@ class DecentralizationModel extends DB
 		$account = $data['account'];
 		$email = $data['email'];
 		$username = $data['username'];
-		$education = $data['education'];
+		$id_education = $data['id_education'];
 		$password = $data['password'];
 		$isFoundAccount = $this->connection->query("SELECT account FROM lecturer WHERE account = '$account'");
 		$isFoundEmail = $this->connection->query("SELECT account FROM lecturer WHERE email = '$email'");
@@ -121,8 +121,8 @@ class DecentralizationModel extends DB
 			echo json_encode($dataResponse);
 			return;
 		}
-		$this->connection->query("INSERT INTO lecturer(account,email,user_name,password,education)
-			VALUE('$account','$email','$username','$password','$education');
+		$this->connection->query("INSERT INTO lecturer(account,email,user_name,password,id_education)
+			VALUE('$account','$email','$username','$password','$id_education');
 			");
 		$dataResponse['active'] = true;
 		echo json_encode($dataResponse);

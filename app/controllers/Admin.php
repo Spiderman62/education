@@ -32,7 +32,7 @@
 		public function updateStudent(){
 			$array = [];
 			$array['id'] = $_POST['id'];
-			$array['major'] = $_POST['major'];
+			$array['id_major'] = $_POST['id_major'];
 			$array['account'] = $_POST['account'];
 			$array['user_name'] = $_POST['user_name'];
 			$array['email'] = $_POST['email'];
@@ -47,7 +47,7 @@
 			$array['account'] = $_POST['account'];
 			$array['user_name'] = $_POST['user_name'];
 			$array['email'] = $_POST['email'];
-			$array['education'] = $_POST['education'];
+			$array['id_education'] = $_POST['id_education'];
 			$array['phone'] = $_POST['phone'];
 			$array['password'] = $_POST['password'];
 			$array['status'] = $_POST['status'];

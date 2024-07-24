@@ -258,7 +258,7 @@
 		<div class="blogs">
 			<div class="item">
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_04.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/banner_user_4.webp" ?> alt="">
 				</div>
 				<div class="content">
 					<div class="title">Top 8 phần mềm quản lý thi trắc nghiệm dành cho giáo viên</div>
@@ -268,7 +268,7 @@
 			</div>
 			<div class="item">
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_05.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/banner_user_4.webp" ?> alt="">
 				</div>
 				<div class="content">
 					<div class="title">Tổng hợp các trường y top đầu Việt Nam hiện nay</div>
@@ -278,7 +278,7 @@
 			</div>
 			<div class="item">
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_06.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/banner_user_4.webp" ?> alt="">
 				</div>
 				<div class="content">
 					<div class="title">Học đại học 3 năm: Mô hình học tập tiết kiệm thời gian và chi phí</div>
@@ -288,7 +288,7 @@
 			</div>
 			<div class="item">
 				<div class="wrapper_image">
-					<img src=<?php echo __ROOT__ . "public/clients/images/sunshine_07.jpg" ?> alt="">
+					<img src=<?php echo __ROOT__ . "public/clients/images/banner_user_4.webp" ?> alt="">
 				</div>
 				<div class="content">
 					<div class="title">Nên học đại học từ xa hay tại chức? Ưu và nhược điểm của từng hình thức</div>

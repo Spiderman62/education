@@ -10,7 +10,7 @@ $(function () {
 			checkLength('#username', 8),
 			checkBlank('#email'),
 			checkEmail('#email'),
-			checkBlank('#education'),
+			checkBlank('#search'),
 			checkBlank('#password'),
 			checkLength('#password', 5),
 			checkWhiteSpace('#password'),
@@ -130,7 +130,7 @@ $(function () {
 				const value = $(this).text();
 				const id = $(this).attr('data-id');
 				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
-				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="education"]').val(id);
+				$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="id_education"]').val(id);
 			});
 			/////////////////////////////////////////////////////////////////////////////
 			$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input').on('input', function () {
@@ -153,7 +153,7 @@ $(function () {
 					const value = $(this).text();
 					const id = $(this).attr('data-id');
 					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[type="search"]').val(value);
-					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="education"]').val(id);
+					$(_this.form + " " + ".input-box .sub-menu").parent('.input-box').find('input[name="id_education"]').val(id);
 				});
 			}
 		},

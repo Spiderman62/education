@@ -303,7 +303,7 @@
 					</div>
 					<div class="input-box major select">
 						<label for="major">Nghành học</label>
-						<select name="major" id="major">
+						<select name="id_major" id="id_major">
 
 						</select>
 					</div>
@@ -362,7 +362,7 @@
 					</div>
 					<div class="input-box education select">
 						<label for="education">Trình độ học vấn</label>
-						<select name="education" id="education">
+						<select name="id_education" id="id_education">
 
 						</select>
 					</div>
