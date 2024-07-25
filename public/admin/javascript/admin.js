@@ -21,9 +21,9 @@ $(function () {
 				for (let i = 0; i < validators.length; i++) {
 					switch (inputElement.attr('type')) {
 						case 'file':
-							const label = $(inputElement).parent('.input-box').find('label');
-							isError = validators[i](inputElement.val().trim(), label);
-							break;
+						
+						isError = validators[i](inputElement.val().trim(),inputElement);
+						break;
 						default:
 							isError = validators[i](inputElement.val().trim());
 					}
@@ -31,10 +31,10 @@ $(function () {
 				}
 				let messageElement = inputElement.parent('.input-box').find('.message');
 				if (isError) {
-					inputElement.parent('.input-box').addClass('error');
+					inputElement.parents('.input-box').addClass('error');
 					messageElement.text(isError);
 				} else {
-					inputElement.parent('.input-box').removeClass('error');
+					inputElement.parents('.input-box').removeClass('error');
 					messageElement.text('');
 				}
 				return !isError;
@@ -72,8 +72,8 @@ $(function () {
 					});
 					let inputElement = $(_this.form + " " + element.selector);
 					$(_this.form + " " + element.selector).on('input', function () {
-						inputElement.parent('.input-box').find('.message').text("");
-						inputElement.parent('.input-box').removeClass('error');
+						inputElement.parents('.input-box').find('.message').text("");
+						inputElement.parents('.input-box').removeClass('error');
 					});
 				});
 			},
@@ -927,11 +927,69 @@ $(function () {
 				$('.admin .tabs.subject .container .quiz').slideDown(600);
 				$('.admin .tabs.subject .wrapper-add').fadeIn(500);
 			});
+			////////////////////////////////////////////////////////////
 			$('.popup-add-quizz').on('click', function () {
 				$('.popup-add-quizz').removeClass('active');
 			})
 			$('.popup-add-quizz .wrapper').on('click', function (e) {
 				e.stopPropagation();
+			});
+			$('.popup-configuration-subject .content .wrapper-image').on('mousedown', function () {
+				$('.popup-configuration-subject .content input[name="image"]').click();
+			});
+			$('.popup-configuration-subject .content input[name="image"]').on('change', function () {
+				$('.popup-configuration-subject .content .infor').text($(this).val());
+			});
+			$('.popup-configuration-subject .input-box.select .show-screen').on('mousedown', function () {
+				$('.popup-configuration-subject .input-box.select ul').toggleClass('active');
+			});
+			$('.popup-configuration-subject .input-box.select ul li').on('mousedown', function () {
+				const id = $(this).attr('data-id');
+				const content = $(this).text();
+				$('.popup-configuration-subject .input-box.select .show-screen .screen').text(content);
+				$('.popup-configuration-subject .input-box.select input[name="isPrivate"]').val(id);
+			});
+			$.post(ROOT + `admin/getCourses`, {},
+				function (data, textStatus, jqXHR) {
+					let html = "";
+					for (let i = 0; i < data.courses.length; i++) {
+						html += `<li data-id="${data.courses[i].id_course}">${data.courses[i].course_name}</li>`;
+					}
+					$('.popup-configuration-subject .input-box.course ul').html(html);
+					courseLists();
+				},
+				"json"
+			);
+			$('.popup-configuration-subject .input-box.course .show-screen').on('mousedown', function () {
+				$('.popup-configuration-subject .input-box.course ul').toggleClass('active');
+			});
+			function courseLists() {
+				$('.popup-configuration-subject .input-box.course ul li').on('mousedown', function () {
+					const id = $(this).attr('data-id');
+					const content = $(this).text();
+					$('.popup-configuration-subject .input-box.course .show-screen .screen').text(content);
+					$('.popup-configuration-subject .input-box.course input[name="id_course"]').val(id);
+				});
+			}
+			validate({
+				form: '.form-popup-configuration-subject',
+				selectors: [
+					checkBlank('input[name="title"]'),
+					checkLength('input[name="title"]',8),
+					checkBlank('textarea[name="description"]'),
+					checkLength('textarea[name="description"]',12),
+					checkBlank('input[name="image"]'),
+					checkBlank('input[name="isPrivate"]'),
+					checkBlank('input[name="id_course"]'),
+				],
+				callback(forms){
+					console.log(forms);
+					let newForms = forms.reduce((acc,curr)=>{
+						acc[curr.name] = curr.value;
+						return acc;
+					},{});
+					console.log({config_subject:newForms});
+				}
 			})
 		},
 		addQuizz() {
@@ -1014,6 +1072,11 @@ $(function () {
 			});
 			this.editQuizz();
 			this.deleteQuizz();
+			if (this.dataSimulator.length > 4) {
+				$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').addClass('show');
+			} else {
+				$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').removeClass('show');
+			}
 		},
 		editQuizz() {
 			const _this = this;
@@ -1030,7 +1093,7 @@ $(function () {
 							return acc;
 						}, {});
 						let [question] = obj.question;
-						obj.question = question; 
+						obj.question = question;
 						let [result] = obj.result;
 						obj.result = result;
 						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(obj.question));
@@ -1092,21 +1155,27 @@ $(function () {
 					{
 						icon: 'warning',
 						buttons: {
-							cancel:true,
-							confirm:true
+							cancel: true,
+							confirm: true
 						}
 					}
-				).then(data=>{
-					if(data){
-						_this.dataSimulator.splice(ID,1);
+				).then(data => {
+					if (data) {
+						_this.dataSimulator.splice(ID, 1);
 						_this.renderQuizz();
 					}
 				})
 			})
 		},
+		configurationSubject() {
+			$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').on('click', function () {
+
+			});
+		},
 		main() {
 			this.events();
 			this.addQuizz();
+			this.configurationSubject();
 		}
 	}
 	subject_quizz.main();
@@ -1115,9 +1184,9 @@ $(function () {
 function checkBlank(selector) {
 	return {
 		selector: selector,
-		validator(value, label) {
-			if (label) {
-				value.length === 0 ? label.text('Upload file') : label.text(value);
+		validator(value, inputElement) {
+			if (inputElement) {
+				 value.length > 0 ? inputElement.siblings('input[name="image-text"]').val(value) : "";
 			}
 			return value.length === 0 ? 'Không được để trống!' : undefined;
 		}

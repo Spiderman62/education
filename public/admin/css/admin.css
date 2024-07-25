@@ -46,6 +46,13 @@ body {
 	background-color: var(--body-color);
 	transition: var(--tran-05);
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #333 !important;
+}
 section::-webkit-scrollbar{
 	display: none;
 }
@@ -53,10 +60,12 @@ section::-webkit-scrollbar{
 	opacity: 0;
 	font-size: 1.6rem;
 	transition: var(--tran-03);
+	visibility: hidden;
 }
 .input-box.error .message{
 	opacity: 1;
 	color: #F63939;
+	visibility: visible;
 }
 * {
 	margin: 0;
@@ -1404,7 +1413,7 @@ section .tabs main .switch-active .content .item p{
 	cursor: pointer;
 	-webkit-user-select:auto;
 	user-select: auto;
-	transition: unset;
+	transition: var(--tran-05);
 }
 .admin .tabs.subject > header h1#create-subject i{
 	font-size: 1.8rem;
@@ -1446,8 +1455,20 @@ section .tabs main .switch-active .content .item p{
 	color: var(--black-color);
 	transition: var(--tran-05);
 }
-/* .admin .tabs.subject .container .quiz .list-question .list{
-} */
+.admin .tabs.subject .container .quiz .list-question .list{
+	height: 100%;
+	overflow-y: auto;
+}
+.admin .tabs.subject .container .quiz .list-question .top-wrapper--question::-webkit-scrollbar{
+	width: 7px;
+	transition: var(--tran-05);
+}
+.admin .tabs.subject .container .quiz .list-question .top-wrapper--question::-webkit-scrollbar-thumb{
+	border-radius: 6px;
+	background-color: var(--text-color);
+	transition: var(--tran-05);
+
+}
 .admin .tabs.subject .container .quiz .list-question .list .item{
 	padding: 10px 20px;
 	border:1px solid var(--black-color);
@@ -1463,6 +1484,38 @@ section .tabs main .switch-active .content .item p{
 	background-color: var(--attention-color);
 	color: var(--mark-color);
 	border: 1px solid var(--attention-color);
+}
+.admin .tabs.subject .container .quiz .list-question .top-wrapper--question{
+	max-height: 450px;
+	overflow: auto;
+	transition: var(--tran-05);
+}
+.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p{
+	font-size: 1.6rem;
+	background-color: var(--primary-color);
+	color: var(--mark-color);
+	transition: var(--tran-05);
+	display: inline-block;
+	padding: 12px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	transform: scale(0);
+	opacity: 0;
+}
+.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p.show{
+	transform: scale(1);
+	opacity: 1;
+}
+.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p.show:hover{
+	transform: scale(1.05);
+
+}
+.admin .tabs.subject .container .quiz .list-question .line{
+	margin: 10px 0;
+	height: 2px;
+	width: 100%;
+	background-color: var(--black-color);
+	transition: var(--tran-05);
 }
 .admin .tabs.subject header .wrapper-add .add{
 	padding: 12px;
@@ -1622,4 +1675,202 @@ section .tabs main .switch-active .content .item p{
 	font-size: 1.6rem;
 	cursor: pointer;
 	transition: var(--tran-05);
+}
+.popup-configuration-subject{
+	backdrop-filter: blur(5px);
+	position: fixed;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	overflow: hidden;
+}
+.popup-configuration-subject .wrapper{
+	background-color: var(--sidebar-color);
+	width: 1000px;
+	height: 530px;
+	box-shadow: 0 0 12px 2px var(--shadow-color);
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+.popup-configuration-subject .wrapper header{
+	padding: 25px;
+	border-bottom: 2px solid var(--black-color);
+}
+.popup-configuration-subject .wrapper header .title{
+	font-size: 2.5rem;
+	text-align: center;
+	font-weight: 600;
+	color: var(--black-color);
+	transition: var(--tran-05);
+}
+.popup-configuration-subject .form-popup-configuration-subject{
+	display: grid;
+	grid-template-columns: repeat(3,1fr);
+	padding: 20px 20px 10px;
+	column-gap: 40px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left{
+	grid-column: 1/2;
+	overflow: hidden;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left .content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left .content .wrapper-image{
+	border: 1px solid var(--text-color);
+	border-radius: 8px;
+	height: 150px;
+	width: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left .content .wrapper-image i{
+	font-size: 5.0rem;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left .content .text-image{
+	margin-top: 10px;
+	font-size: 1.5rem;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-left .content .infor{
+	font-size: 1.8rem;
+    margin-top: 10px;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: center;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right{
+	grid-column: 2/4;
+	height: 100%;
+	max-height: 470px;
+	overflow-y: auto;
+	padding-right: 20px;
+	padding-bottom: 60px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right::-webkit-scrollbar{
+	width: 7px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right::-webkit-scrollbar-thumb{
+	background-color: var(--text-color);
+	border-radius: 4px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box{
+	margin-bottom: 25px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right label{
+	font-size: 1.6rem;
+	margin-bottom: 10px;
+	display: block;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right input{
+	width: 100%;
+	height: 40px;
+	border: 1px solid var(--black-color);
+	border-radius: 4px;
+	font-size: 1.8rem;
+	color: var(--black-color);
+	outline: none;
+	padding: 0 15px 0 5px;
+	font-weight: 500;
+	letter-spacing: .7px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right input[type='radio']{
+	accent-color: var(--attention-color);
+	height: 20px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right textarea{
+	width: 100%;
+	height: 150px;
+	font-size: 1.8rem;
+	color: var(--black-color);
+	padding: 2px 5px;
+	outline: none;
+	resize: none;
+	border-radius: 4px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course{
+	position: relative;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .screen, 
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .screen{
+	width: 200px;
+	height: 40px;
+	font-size: 1.6rem;
+	border: 1.9px solid lightgray;
+	border-radius: 4px;
+	color: var(--black-color);
+	cursor: pointer;
+	background-color: #FFF;
+	display: flex;
+	align-items: center;
+	padding-left: 5px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul{
+	width: 200px;
+	margin: 10px 0 0;
+	list-style: none;
+	border:2px solid var(--shadow-color);
+	border-radius: 4px;
+	overflow: hidden;
+	display: none;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul.active, 
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul.active{
+	display: block;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul li,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul li{
+	padding: 10px;
+	font-size: 1.4rem;
+	cursor: pointer;
+	color: var(--black-color);
+	transition: var(--tran-01);
+	&:hover{
+		background-color: var(--attention-color);
+		color: var(--mark-color);
+	}
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .show-screen,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .show-screen{
+	position: relative;
+	display: inline-block;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .icon,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .icon{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 1px;
+	font-size: 2.0rem;
+	pointer-events: none;
+}
+.popup-configuration-subject .form-popup-configuration-subject .select-course{
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+}
+.popup-configuration-subject .form-popup-configuration-subject .confirm{
+	display: flex;
+	justify-content: center;
+}
+.popup-configuration-subject .form-popup-configuration-subject .confirm input[type="submit"]{
+	background-color: var(--attention-color);
+	width: 30%;
+	font-size: 1.5rem;
+	padding: 8px 12px;
+	border-radius: 4px;
+	color: var(--mark-color);
+	outline: none;
+	border: none;
+	cursor: pointer;
 }

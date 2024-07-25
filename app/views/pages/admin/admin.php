@@ -254,14 +254,22 @@
 			<div class="quiz">
 				<div class="quizzes">
 					<div class="wrapper-data-fill">
-						
+
 					</div>
 				</div>
 				<div class="list-question">
-					<h1>Danh sách câu hỏi</h1>
-					<ul class="list">
-					
-					</ul>
+					<div class="top-wrapper--question">
+						<h1>Danh sách câu hỏi</h1>
+						<ul class="list">
+
+						</ul>
+					</div>
+					<div class="line"></div>
+					<div class="bottom-wrapper--confirm">
+						<div class="confirm">
+							<p>Xác nhận</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -447,6 +455,77 @@
 			</div>
 			<div class="submit">
 				<input type="submit" value="Thêm">
+			</div>
+		</form>
+	</div>
+</div>
+<div class="popup-configuration-subject">
+	<div class="wrapper">
+		<header>
+			<h1 class="title">Thông tin cơ bản</h1>
+		</header>
+		<form class="form-popup-configuration-subject">
+			<div class="col-left">
+				<div class="input-box content">
+					<div class="wrapper-image">
+						<i class='bx bx-image-add'></i>
+					</div>
+					<div class="text-image">Ảnh đại diện</div>
+					<p class="infor"></p>
+					<input type="file" hidden name="image">
+					<input type="text" hidden name="image-text">
+					<span class="message"></span>
+				</div>
+			</div>
+			<div class="col-right">
+				<div class="input-box">
+					<label for="">Tiêu đề môn học</label>
+					<input type="text" name="title" id="title">
+					<span class="message"></span>
+				</div>
+				<div class="input-box">
+					<label for="">Mô tả môn học</label>
+					<textarea name="description" id="description"></textarea>
+					<span class="message"></span>
+				</div>
+				<div class="select-course">
+					<div class="input-box select">
+						<label for="">Trạng thái</label>
+						<input type="text" hidden name="isPrivate">
+						<span class="message"></span>
+
+						<div class="show-screen">
+							<div class="screen">
+								Hãy chọn trạng thái
+							</div>
+							<i class='bx bx-chevron-down icon'></i>
+						</div>
+						<ul>
+							<li data-id="0">Công khai</li>
+							<li data-id="1">Riêng tư</li>
+						</ul>
+
+					</div>
+					<div class="input-box course">
+						<label for="">Khoá học</label>
+						<input type="text" hidden name="id_course">
+						<span class="message"></span>
+
+						<div class="show-screen">
+							<div class="screen">
+								Hãy chọn khoá học
+							</div>
+							<i class='bx bx-chevron-down icon'></i>
+						</div>
+						<ul>
+						
+						</ul>
+
+					</div>
+				</div>
+				<div class="confirm">
+					<input type="submit">
+				</div>
 			</div>
 		</form>
 	</div>
