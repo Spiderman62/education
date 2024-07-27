@@ -20,10 +20,6 @@ $(function () {
 				let isError;
 				for (let i = 0; i < validators.length; i++) {
 					switch (inputElement.attr('type')) {
-						case 'file':
-						
-						isError = validators[i](inputElement.val().trim(),inputElement);
-						break;
 						default:
 							isError = validators[i](inputElement.val().trim());
 					}
@@ -106,8 +102,8 @@ $(function () {
 	const tabs = {
 		handleTabs() {
 			$('.admin .tabs').fadeOut(1);
-			$('.admin .tabs').eq(3).fadeIn();
-			$('aside .menu .menu-tab ul li').eq(3).addClass('mark');
+			$('.admin .tabs').eq(2).fadeIn();
+			$('aside .menu .menu-tab ul li').eq(2).addClass('mark');
 			$('aside .menu .menu-tab ul li').on('click', function () {
 				const index = $(this).index();
 				$('.admin .tabs').fadeOut(0);
@@ -197,7 +193,8 @@ $(function () {
 						list: 'main .switch-active .panigation.lecturer ul li',
 						totalPages: data.totalLecturerPages,
 						path: `admin/getInforLecturer`,
-						type: 'lecturer'
+						role: 'lecturer',
+						type: 'educations'
 					});
 				},
 				"json"
@@ -261,7 +258,7 @@ $(function () {
 					valueOfElement.value = unique[valueOfElement.name] || "";
 				});
 				$.each(majorsOption, function (indexInArray, valueOfElement) {
-					if (unique.education === $(valueOfElement).text()) {
+					if (unique.education_name === $(valueOfElement).text()) {
 						$(valueOfElement).attr('selected', true);
 					} else {
 						$(valueOfElement).attr('selected', false);
@@ -383,12 +380,13 @@ $(function () {
 						});
 						if (isSubmit) {
 							let formData = $(_this.form).serializeArray();
-							console.log(formData)
 							$.post(ROOT + `admin/updateLecturer`, formData,
 								function (data, textStatus, jqXHR) {
 									if (data) {
 										$('.main.popup-edit.lecturer').trigger('click');
-										parentThis.getInforLecturer();
+										setTimeout(() => {
+											parentThis.getInforLecturer();
+										}, 300);
 										swal('Chỉnh sửa thành công', {
 											timer: 1000,
 											button: false,
@@ -461,7 +459,8 @@ $(function () {
 						list: 'main .switch-active .panigation.student ul li',
 						totalPages: data.totalStudentPages,
 						path: `admin/getInforStudent`,
-						type: 'student'
+						role: 'student',
+						type: 'majors'
 					}
 					);
 				},
@@ -688,17 +687,17 @@ $(function () {
 			student.main();
 		},
 		renderListTotalPages({ ...rest }) {
-			const { html, list, path, totalPages, type } = rest;
+			const { html, list, path, totalPages, role, type } = rest;
 			let htmlTotalPages = "";
 			for (let i = 0; i < totalPages; i++) {
 				htmlTotalPages += `<li data-ID='${i}' >${i + 1}</li>`
 			}
 			$(html).html(htmlTotalPages);
-			this.handlePagination({ list, path, type });
+			this.handlePagination({ list, path, role, type });
 
 		},
 		handlePagination({ ...rest }) {
-			const { list, path, type } = rest;
+			const { list, path, role, type } = rest;
 			const _this = this;
 			$(list).eq(0).addClass('active');
 			$(list).on('click', function () {
@@ -708,7 +707,7 @@ $(function () {
 				$(list).eq(index).addClass('active');
 				$.post(ROOT + path, { currentPage: currentPage },
 					function (data, textStatus, jqXHR) {
-						_this[type](data[type]);
+						_this[role](data[role], data[type]);
 					},
 					"json"
 				);
@@ -785,7 +784,8 @@ $(function () {
 			});
 			$('.popup-add-courses .wrapper').on('click', function (e) {
 				e.stopPropagation();
-			})
+			});
+
 		},
 		getCourses() {
 			const _this = this;
@@ -807,11 +807,13 @@ $(function () {
 							<p>${data[i].user_name}</p>
 							<p class="icon"><i class='bx bx-edit edit'></i></p>
 							<p class="icon"><i class='bx bx-trash trash'></i></p>
+							<p class="icon"><i class='bx bx-folder-plus plus'></i></p>
 						</div>`
 			};
 			$('.admin .tabs .courses .container .item-courses.course .content').html(html);
 			this.editCourse();
 			this.deleteCourse();
+			this.addSubject();
 		},
 		editCourse() {
 			const _this = this;
@@ -907,6 +909,148 @@ $(function () {
 				})
 			});
 		},
+		addSubject() {
+			const _this = this;
+			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.plus').on('click', function () {
+				$('.popup-configuration-subject').addClass('active');
+				const id_course = parseInt($(this).parents('.item').attr('data-ID'));
+				$('.popup-configuration-subject .input-box.course input[name="id_course"]').val(id_course);
+				const course_name = $(this).parents('.item').find('.name').text();
+				let ID = null;
+				switch (id_course) {
+					case 1:
+					case 2:
+					case 3:
+					case 4:
+					case 5:
+						ID = 1;
+						_this.selectLecturerEducation(ID, course_name);
+						break;
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+						ID = 2;
+						_this.selectLecturerEducation(ID, course_name);
+						break;
+					case 10:
+					case 11:
+					case 12:
+						ID = 3;
+						_this.selectLecturerEducation(ID, course_name);
+						break;
+					default:
+						ID = 4;
+						_this.selectLecturerEducation(ID, course_name);
+						break;
+				}
+
+			});
+			$('.popup-configuration-subject').on('click', function () {
+				$('.popup-configuration-subject').removeClass('active');
+				$('.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer .show-screen').off('click');
+				$('.popup-configuration-subject .input-box.lecturer .show-screen .screen').delay(500).text("Lựa chọn giảng viên phụ trách");
+				$('.popup-configuration-subject .input-box.lecturer input[name="id_lecturer"]').val("");
+			})
+
+			$('.popup-configuration-subject .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			})
+			$('.popup-configuration-subject .content .wrapper-image').on('mousedown', function () {
+				$('.popup-configuration-subject .content input[name="image"]').click();
+			});
+			$('.popup-configuration-subject .content input[name="image"]').on('change', function () {
+				$('.popup-configuration-subject .content .infor').text($(this).val());
+				$('.popup-configuration-subject .content input[name="image-text"]').val(this.files[0].name);
+			});
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			$('.popup-configuration-subject .input-box.select .show-screen').on('mousedown', function () {
+				$('.popup-configuration-subject .input-box.select ul').toggleClass('active');
+			});
+
+			$('.popup-configuration-subject .input-box.select ul li').on('mousedown', function () {
+				const id = $(this).attr('data-id');
+				const content = $(this).text();
+				$('.popup-configuration-subject .input-box.select .show-screen .screen').text(content);
+				$('.popup-configuration-subject .input-box.select input[name="isPrivate"]').val(id);
+				$('.popup-configuration-subject .input-box.select .show-screen ul li').removeClass('active');
+			});
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			validate({
+				form: '.form-popup-configuration-subject',
+				selectors: [
+					checkBlank('input[name="title"]'),
+					checkLength('input[name="title"]', 8),
+					checkBlank('textarea[name="description"]'),
+					checkLength('textarea[name="description"]', 12),
+					// checkBlank('input[name="image"]'),
+					checkBlank('input[name="isPrivate"]'),
+					checkBlank('input[name="id_lecturer"]')
+				],
+				callback(forms) {
+					let newForms = forms.reduce((acc, curr) => {
+						acc[curr.name] = curr.value;
+						return acc;
+					}, {});
+
+					if(parseInt(newForms.isPrivate) === 1){
+						newForms.subject_code = _this.randomSubjectCode();
+						_this.sendSubjectIntoDB(newForms);
+						return;
+					}
+					_this.sendSubjectIntoDB(newForms);
+				}
+			})
+		},
+		sendSubjectIntoDB(send){
+			$.post(ROOT+"admin/addSubject", send,
+				function (data, textStatus, jqXHR) {
+					if(data.type){
+						swal('Thêm môn học thành công',{icon:'success',button:false,timer:1000});
+						$('.popup-configuration-subject').trigger('click');
+					}else{
+						swal('Môn học này đã tồn tại!',{icon:'error',button:false,timer:1500});
+					}
+				},
+				"json"
+			);
+		},
+		randomSubjectCode(){
+			const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			let code = "";
+			for(let i = 0;i<12;i++){
+				code += characters.charAt(Math.floor(Math.random() * characters.length));
+			}
+			return code;
+		},
+		selectLecturerEducation(ID, course_name) {
+			const _this = this;
+			$.post(ROOT + "admin/selectLecturerEducation", { id_course: ID },
+				function (data, textStatus, jqXHR) {
+					_this.renderInforLecturer(data, course_name);
+				},
+				"json"
+			);
+		},
+		renderInforLecturer(data, course_name) {
+			$('.popup-configuration-subject .input-box.course .show-screen .screen').text(course_name);
+			////////////////////////////////////////////////////////////////////////////////
+			let html = $.map(data, (item, index) => `
+			<li data-id="${item.id_lecturer}">${item.user_name}</li>
+			`).join('');
+			$('.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul').html(html);
+			$('.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer .show-screen').on('click', function () {
+				$('.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul').toggleClass('active');
+			});
+			$('.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul li').on('click', function () {
+				const id = $(this).attr('data-id');
+				const content = $(this).text();
+				$('.popup-configuration-subject .input-box.lecturer .show-screen .screen').text(content);
+				$('.popup-configuration-subject .input-box.lecturer input[name="id_lecturer"]').val(id);
+			});
+
+
+		},
 		main() {
 			this.catchEvent();
 			this.getCourses();
@@ -934,63 +1078,7 @@ $(function () {
 			$('.popup-add-quizz .wrapper').on('click', function (e) {
 				e.stopPropagation();
 			});
-			$('.popup-configuration-subject .content .wrapper-image').on('mousedown', function () {
-				$('.popup-configuration-subject .content input[name="image"]').click();
-			});
-			$('.popup-configuration-subject .content input[name="image"]').on('change', function () {
-				$('.popup-configuration-subject .content .infor').text($(this).val());
-			});
-			$('.popup-configuration-subject .input-box.select .show-screen').on('mousedown', function () {
-				$('.popup-configuration-subject .input-box.select ul').toggleClass('active');
-			});
-			$('.popup-configuration-subject .input-box.select ul li').on('mousedown', function () {
-				const id = $(this).attr('data-id');
-				const content = $(this).text();
-				$('.popup-configuration-subject .input-box.select .show-screen .screen').text(content);
-				$('.popup-configuration-subject .input-box.select input[name="isPrivate"]').val(id);
-			});
-			$.post(ROOT + `admin/getCourses`, {},
-				function (data, textStatus, jqXHR) {
-					let html = "";
-					for (let i = 0; i < data.courses.length; i++) {
-						html += `<li data-id="${data.courses[i].id_course}">${data.courses[i].course_name}</li>`;
-					}
-					$('.popup-configuration-subject .input-box.course ul').html(html);
-					courseLists();
-				},
-				"json"
-			);
-			$('.popup-configuration-subject .input-box.course .show-screen').on('mousedown', function () {
-				$('.popup-configuration-subject .input-box.course ul').toggleClass('active');
-			});
-			function courseLists() {
-				$('.popup-configuration-subject .input-box.course ul li').on('mousedown', function () {
-					const id = $(this).attr('data-id');
-					const content = $(this).text();
-					$('.popup-configuration-subject .input-box.course .show-screen .screen').text(content);
-					$('.popup-configuration-subject .input-box.course input[name="id_course"]').val(id);
-				});
-			}
-			validate({
-				form: '.form-popup-configuration-subject',
-				selectors: [
-					checkBlank('input[name="title"]'),
-					checkLength('input[name="title"]',8),
-					checkBlank('textarea[name="description"]'),
-					checkLength('textarea[name="description"]',12),
-					checkBlank('input[name="image"]'),
-					checkBlank('input[name="isPrivate"]'),
-					checkBlank('input[name="id_course"]'),
-				],
-				callback(forms){
-					console.log(forms);
-					let newForms = forms.reduce((acc,curr)=>{
-						acc[curr.name] = curr.value;
-						return acc;
-					},{});
-					console.log({config_subject:newForms});
-				}
-			})
+
 		},
 		addQuizz() {
 			const _this = this;
@@ -1184,10 +1272,7 @@ $(function () {
 function checkBlank(selector) {
 	return {
 		selector: selector,
-		validator(value, inputElement) {
-			if (inputElement) {
-				 value.length > 0 ? inputElement.siblings('input[name="image-text"]').val(value) : "";
-			}
+		validator(value) {
 			return value.length === 0 ? 'Không được để trống!' : undefined;
 		}
 	}

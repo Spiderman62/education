@@ -228,6 +228,9 @@
 						<p>Tên khoá học</p>
 						<p>Tài khoản người tạo</p>
 						<p>Tên người tạo</p>
+						<p>Sửa</p>
+						<p>Xoá</p>
+						<p>Thêm môn học</p>
 					</div>
 					<div class="content">
 
@@ -492,36 +495,49 @@
 					<div class="input-box select">
 						<label for="">Trạng thái</label>
 						<input type="text" hidden name="isPrivate">
-						<span class="message"></span>
 
 						<div class="show-screen">
 							<div class="screen">
 								Hãy chọn trạng thái
 							</div>
 							<i class='bx bx-chevron-down icon'></i>
+							<ul>
+								<li data-id="0">Công khai</li>
+								<li data-id="1">Riêng tư</li>
+							</ul>
 						</div>
-						<ul>
-							<li data-id="0">Công khai</li>
-							<li data-id="1">Riêng tư</li>
-						</ul>
+						<p class="message"></p>
 
 					</div>
 					<div class="input-box course">
 						<label for="">Khoá học</label>
 						<input type="text" hidden name="id_course">
-						<span class="message"></span>
 
 						<div class="show-screen">
 							<div class="screen">
 								Hãy chọn khoá học
 							</div>
-							<i class='bx bx-chevron-down icon'></i>
+							<ul>
+
+							</ul>
 						</div>
-						<ul>
-						
-						</ul>
+						<p class="message"></p>
 
 					</div>
+				</div>
+				<div class="input-box lecturer">
+					<label for="">Giảng viên đảm nhiệm</label>
+					<input type="text" hidden name="id_lecturer">
+					<div class="show-screen">
+						<div class="screen">
+							Lựa chọn giảng viên phụ trách
+						</div>
+						<ul>
+							
+						</ul>
+					</div>
+					<p class="message"></p>
+
 				</div>
 				<div class="confirm">
 					<input type="submit">

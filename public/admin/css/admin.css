@@ -666,6 +666,10 @@ section .tabs main .switch-active .content .item p.icon i.trash,
 .admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current .wrapper-icon i.trash{
 	color: rgb(224, 49, 39);
 }
+.admin .tabs .courses .container .item-courses.course .content p.icon i.plus{
+	color: #4973c9;
+}
+
 section .tabs main .switch-active .panigation{
 	list-style: none;
 	margin-top: 15px;
@@ -1218,6 +1222,7 @@ section .tabs main .switch-active .content .item p{
 	padding: 20px;
 	border-radius: 8px;
 	height: 610px;
+	overflow: hidden;
 }
 .admin .tabs .courses .wrapper-courses-filter{
 	display: flex;
@@ -1256,6 +1261,8 @@ section .tabs main .switch-active .content .item p{
 }
 .admin .tabs .courses .container{
 	margin-top: 20px;
+	height: 100%;
+	overflow: hidden;
 }
 .admin .tabs .courses .container .item-courses.course .add-course{
 	display: flex;
@@ -1281,11 +1288,17 @@ section .tabs main .switch-active .content .item p{
 	border: 2px solid var(--toggle-color);
 	border-radius: 6px;
 	padding: 10px 20px;
+	height: 100%;
+	overflow: auto;
+	padding-bottom: 55px;
+}
+.admin .tabs .courses .container .item-courses.course .title{
+	margin-top: 20px;
 }
 .admin .tabs .courses .container .item-courses.course .title, 
 .admin .tabs .courses .container .item-courses.course .content .item{
 	display: grid;
-	grid-template-columns: auto repeat(6,1fr);
+	grid-template-columns: 50px repeat(1,.3fr) repeat(3,1fr) repeat(3,.5fr);
 	place-items: center center;
 }
 .admin .tabs .courses .container .item-courses.course .content{
@@ -1304,11 +1317,21 @@ section .tabs main .switch-active .content .item p{
 	font-weight: 600;
 	color: var(--black-color);
 	transition: var(--tran-05);
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .admin .tabs .courses .container .item-courses.course .content .item p{
 	font-size: 1.7rem;
 	color: var(--black-color);
 	transition: var(--tran-05);
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	display: flex;
+	place-items: center center;
 }
 .popup-add-courses, 
 .popup-edit-courses{
@@ -1426,6 +1449,7 @@ section .tabs main .switch-active .content .item p{
 .admin .tabs.subject .container{
 	height: 610px;
 	margin-top: 20px;
+	overflow: hidden;
 }
 .admin .tabs.subject .container .quiz{
 	display: grid;
@@ -1685,6 +1709,11 @@ section .tabs main .switch-active .content .item p{
 	align-items: center;
 	z-index: 9999;
 	overflow: hidden;
+	transform: scale(0);
+	transition: var(--tran-03);
+}
+.popup-configuration-subject.active{
+	transform: scale(1);
 }
 .popup-configuration-subject .wrapper{
 	background-color: var(--sidebar-color);
@@ -1738,6 +1767,7 @@ section .tabs main .switch-active .content .item p{
 .popup-configuration-subject .form-popup-configuration-subject .col-left .content .text-image{
 	margin-top: 10px;
 	font-size: 1.5rem;
+	color: var(--black-color);
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-left .content .infor{
 	font-size: 1.8rem;
@@ -1770,6 +1800,7 @@ section .tabs main .switch-active .content .item p{
 	font-size: 1.6rem;
 	margin-bottom: 10px;
 	display: block;
+	color: var(--black-color);
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right input{
 	width: 100%;
@@ -1782,11 +1813,9 @@ section .tabs main .switch-active .content .item p{
 	padding: 0 15px 0 5px;
 	font-weight: 500;
 	letter-spacing: .7px;
+	background-color: transparent;
 }
-.popup-configuration-subject .form-popup-configuration-subject .col-right input[type='radio']{
-	accent-color: var(--attention-color);
-	height: 20px;
-}
+
 .popup-configuration-subject .form-popup-configuration-subject .col-right textarea{
 	width: 100%;
 	height: 150px;
@@ -1796,53 +1825,77 @@ section .tabs main .switch-active .content .item p{
 	outline: none;
 	resize: none;
 	border-radius: 4px;
+	background-color: transparent;
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select,
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course{
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer{
 	position: relative;
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .screen, 
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .screen{
-	width: 200px;
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .screen,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer .screen{
+	width: 270px;
 	height: 40px;
 	font-size: 1.6rem;
 	border: 1.9px solid lightgray;
 	border-radius: 4px;
 	color: var(--black-color);
 	cursor: pointer;
-	background-color: #FFF;
+	background-color: var(--sidebar-color);
 	display: flex;
 	align-items: center;
-	padding-left: 5px;
+	padding: 12px 30px 12px 12px;
+	white-space: nowrap;
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul,
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul{
-	width: 200px;
-	margin: 10px 0 0;
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul{
+	position: absolute;
+	width: 100%;
+	bottom: calc(100% + 4px);
 	list-style: none;
 	border:2px solid var(--shadow-color);
 	border-radius: 4px;
 	overflow: hidden;
-	display: none;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 10;
+	background-color: var(--sidebar-color);
+	transition: var(--tran-03);
+	max-height: 180px;
+	overflow: auto;
 }
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul.active, 
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul.active{
-	display: block;
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul::-webkit-scrollbar{
+	width: 5px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul::-webkit-scrollbar-thumb{
+	background-color: var(--text-color);
+	border-radius: 6px;
+}
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .show-screen ul.active,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .show-screen ul.active,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer .show-screen ul.active{
+	visibility: visible;
+	opacity: 1;
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select ul li,
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul li{
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course ul li, 
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer ul li{
 	padding: 10px;
 	font-size: 1.4rem;
 	cursor: pointer;
 	color: var(--black-color);
 	transition: var(--tran-01);
+	white-space: nowrap;
 	&:hover{
 		background-color: var(--attention-color);
 		color: var(--mark-color);
 	}
 }
 .popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.select .show-screen,
-.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .show-screen{
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.course .show-screen,
+.popup-configuration-subject .form-popup-configuration-subject .col-right .input-box.lecturer .show-screen{
 	position: relative;
 	display: inline-block;
 }
@@ -1855,6 +1908,10 @@ section .tabs main .switch-active .content .item p{
 	font-size: 2.0rem;
 	pointer-events: none;
 }
+.popup-configuration-subject .input-box.lecturer .show-screen .list-lecturer {
+  display: none;
+}
+
 .popup-configuration-subject .form-popup-configuration-subject .select-course{
 	display: grid;
 	grid-template-columns: repeat(auto-fit,minmax(150px,1fr));

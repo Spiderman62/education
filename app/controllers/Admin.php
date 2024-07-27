@@ -158,5 +158,12 @@
 			$ID = (INT)$_POST['ID'];
 			$this->AdminModel->deleteCourse($ID);
 		}
+		public function selectLecturerEducation() {
+			$id_course = $_POST['id_course'];
+			$this->AdminModel->selectLecturerEducation($id_course);
+		}
+		public function addSubject() {
+			$this->AdminModel->addSubject();
+		}
 	}
 ?>

@@ -37,17 +37,20 @@ class AdminModel extends DB
 		$itemPerPages = 7;
 		$currentPage = !empty($_POST['currentPage']) ? $_POST['currentPage'] : 0;
 		$offset = $currentPage * $itemPerPages;
-		$dataLecturer = $this->connection->query("SELECT lecturer.image,
-		lecturer.id,
-		lecturer.account,
-		lecturer.user_name,
-		lecturer.email,
-		lecturer.phone,
-		education.education_name,
-		lecturer.status,
-		lecturer.password,
-		education.id as id_education
-		FROM lecturer inner join education on education.id = lecturer.id_education LIMIT $itemPerPages OFFSET $offset;");
+		$dataLecturer = $this->connection->query("SELECT 
+    	lecturer.image,
+    	lecturer.id,
+    	lecturer.account,
+    	lecturer.user_name,
+    	lecturer.email,
+    	lecturer.phone,
+    	education.education_name,
+    	lecturer.status,
+    	lecturer.password,
+    	education.id as id_education
+		FROM lecturer INNER JOIN education ON education.id = lecturer.id_education
+		ORDER BY lecturer.id ASC
+		LIMIT $itemPerPages OFFSET $offset;");
 		while ($row = mysqli_fetch_assoc($dataLecturer)) {
 			$array['lecturer'][] = $row;
 		}
@@ -128,33 +131,78 @@ class AdminModel extends DB
 		$data = $this->connection->query("SELECT courses.id as id_course,
 		courses.course_name,admin.id as id_admin,
 		admin.account,admin.user_name from courses
-		inner join admin on admin.id = courses.id_admin;");
+		inner join admin on admin.id = courses.id_admin WHERE courses.status = 1;");
 		while ($row = mysqli_fetch_assoc($data)) {
 			$array['courses'][] = $row;
 		}
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
-	public function addCourse($course,$admin)
+	public function addCourse($course, $admin)
 	{
 		header('Content-Type: application/json');
-		$isDuplicate = $this->connection->query("SELECT * FROM courses WHERE course_name = '$course'");
+		$isDuplicate = $this->connection->query("SELECT * FROM courses WHERE course_name = '$course' AND status = 1");
 		if (mysqli_num_rows($isDuplicate) > 0) {
-			echo json_encode(false);
+			echo json_encode(true);
 			return;
 		}
-			$this->connection->query("INSERT INTO courses(course_name,id_admin)
-			value('$course','$admin')");
+		$isExist = $this->connection->query("SELECT * FROM courses WHERE course_name = '$course' AND status = 0");
+		if (mysqli_num_rows($isExist) > 0) {
+			$this->connection->query("UPDATE courses SET status = 1 where course_name = '$course';");
 			echo json_encode(true);
+			return;
+		}
+		$this->connection->query("INSERT INTO courses(course_name,id_admin)
+			value('$course','$admin')");
+		echo json_encode(true);
 	}
-	public function editCourse($ID,$edit) {
+	public function editCourse($ID, $edit)
+	{
 		header('Content-Type: application/json');
 		$this->connection->query("UPDATE courses SET course_name = '$edit' WHERE id = $ID");
 		echo json_encode(true);
 	}
-	public function deleteCourse($ID) {
+	public function deleteCourse($ID)
+	{
 		header('Content-Type: application/json');
-		$this->connection->query("DELETE FROM courses WHERE id = $ID");
+		$this->connection->query("UPDATE courses SET status = 0 WHERE id = $ID");
 		echo json_encode(true);
 	}
+	public function selectLecturerEducation($id_course)
+	{
+		header('Content-Type: application/json');
+		$array = [];
+		$lecturer_education = $this->connection->query("SELECT lecturer.id as id_lecturer,lecturer.account,lecturer.user_name,education.education_name from lecturer
+		inner join education on education.id = lecturer.id_education
+		where education.id = '$id_course' AND lecturer.status = 1 order by lecturer.id asc");
+		while ($row = mysqli_fetch_assoc($lecturer_education)) {
+			$array[] = $row;
+		};
+		echo json_encode($array);
+	}
+	public function addSubject()
+	{
+		header('Content-Type: application/json');
+		$array = [];
+		date_default_timezone_set('Asia/Ho_Chi_Minh');
+		$date = date('Y-m-d H:i:s');
+		$title = $_POST['title'];
+		$description = $_POST['description'];
+		$id_course = $_POST['id_course'];
+		$id_lecturer = $_POST['id_lecturer'];
+		$image_text = !empty($_POST['image-text']) ? "'".$_POST['image-text']."'" : 'NULL';
+		$subject_code = !empty($_POST['subject_code']) ? "'".$_POST['subject_code']."'"  : 'NULL';
+		$isPrivate = $_POST['isPrivate'];
+		$isDuplicate = $this->connection->query("SELECT * FROM subject WHERE subject_name = '$title'");
+		if(mysqli_num_rows($isDuplicate) > 0){
+			$array['type'] = false;
+			echo json_encode($array);
+			return;
+		}
+			$this->connection->query("INSERT into subject (subject_name,description,image,create_at,update_at,subject_code,is_private,id_lecturer,id_course)
+			value('$title','$description',$image_text,'$date','$date',$subject_code,'$isPrivate','$id_lecturer','$id_course')");
+			$array['type'] = true;
+			echo json_encode($array);
+
+}
 }
