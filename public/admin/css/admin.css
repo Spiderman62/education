@@ -666,7 +666,8 @@ section .tabs main .switch-active .content .item p.icon i.trash,
 .admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current .wrapper-icon i.trash{
 	color: rgb(224, 49, 39);
 }
-.admin .tabs .courses .container .item-courses.course .content p.icon i.plus{
+.admin .tabs .courses .container .item-courses.course .content p.icon i.plus, 
+.admin .tabs .courses .container .item-courses.course .content p.icon i.filter{
 	color: #4973c9;
 }
 
@@ -1263,6 +1264,7 @@ section .tabs main .switch-active .content .item p{
 	margin-top: 20px;
 	height: 100%;
 	overflow: hidden;
+	max-height: 515px;
 }
 .admin .tabs .courses .container .item-courses.course .add-course{
 	display: flex;
@@ -1290,7 +1292,13 @@ section .tabs main .switch-active .content .item p{
 	padding: 10px 20px;
 	height: 100%;
 	overflow: auto;
-	padding-bottom: 55px;
+}
+.admin .tabs .courses .container .item-courses::-webkit-scrollbar{
+	width: 6px;
+}
+.admin .tabs .courses .container .item-courses::-webkit-scrollbar-thumb{
+	background-color: var(--text-color);
+	border-radius: 6px;
 }
 .admin .tabs .courses .container .item-courses.course .title{
 	margin-top: 20px;
@@ -1298,8 +1306,9 @@ section .tabs main .switch-active .content .item p{
 .admin .tabs .courses .container .item-courses.course .title, 
 .admin .tabs .courses .container .item-courses.course .content .item{
 	display: grid;
-	grid-template-columns: 50px repeat(1,.3fr) repeat(3,1fr) repeat(3,.5fr);
+	grid-template-columns: 50px repeat(1,.3fr) repeat(3,.5fr) repeat(4,.5fr);
 	place-items: center center;
+	column-gap: 20px;
 }
 .admin .tabs .courses .container .item-courses.course .content{
 	margin-top: 20px;
@@ -1330,8 +1339,6 @@ section .tabs main .switch-active .content .item p{
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
-	display: flex;
-	place-items: center center;
 }
 .popup-add-courses, 
 .popup-edit-courses{
@@ -1929,5 +1936,254 @@ section .tabs main .switch-active .content .item p{
 	color: var(--mark-color);
 	outline: none;
 	border: none;
+	cursor: pointer;
+}
+.item-courses.subject .item{
+	border: 1px solid var(--black-color);
+	padding: 20px;
+	border-radius: 6px;
+	display: grid;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.item-courses.subject .item .top{
+	display: grid;
+	grid-template-columns:.7fr repeat(2,1fr);
+	column-gap: 20px;
+	width: 100%;
+}
+
+.item-courses.subject .item .top img{
+	width: 100%;
+	object-fit: cover;
+	border-radius: 4px;
+	border: 1px solid var(--black-color);
+	padding: 18px;
+	transition: var(--tran-03);
+}
+
+.item-courses.subject .item .top .content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	row-gap: 10px;
+	transition: var(--tran-03);
+
+	color: var(--black-color);
+}
+
+.item-courses.subject .item .top .content .update-at{
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+.item-courses.subject .item .top .content .title{
+	font-size: 2.2rem;
+	max-height: 46px;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	line-height: 22px;
+}
+.item-courses.subject .item .top .content .description{
+	font-size: 1.6rem;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+	line-height: 22px;
+	overflow: hidden;
+	max-height: 110px;
+	color: var(--text-color);
+	transition: var(--tran-03);
+
+}
+.item-courses.subject .item .top .info{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	row-gap: 12px;
+	color: var(--black-color);
+	transition: var(--tran-03);
+}
+.item-courses.subject .item .top .info p{
+	font-size: 1.8rem;
+	display: flex;
+	align-items: center;
+	column-gap: 5px;
+}
+.item-courses.subject .item .top .info span{
+	font-size: 1.6rem;
+	color: var(--text-color);
+	transition: var(--tran-03);
+	display: block;
+}
+.item-courses.subject .item .bottom{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+.item-courses.subject .item .bottom .wrapper-profile{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.item-courses.subject .item .bottom .wrapper-profile img{
+	width: 100%;
+}
+.item-courses.subject .item .bottom .wrapper-action{
+	display: flex;
+	column-gap: 20px;
+	transition: var(--tran-03);
+
+}
+.item-courses.subject .item .bottom .wrapper-action p{
+	font-size: 1.6rem;
+	background-color: var(--primary-color);
+	transition: var(--tran-03);
+	padding: 12px 16px;
+	border-radius: 4px;
+	color: var(--mark-color);
+	transition: var(--tran-03);
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+	cursor: pointer;
+	&:hover{
+		transform: scale(1.05);
+	}
+}
+.item-courses.subject .item .bottom .wrapper-action p i{
+	font-size: 1.8rem;
+}
+.popup-edit-subject{
+	position: fixed;
+	inset: 0;
+	backdrop-filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: var(--tran-03);
+	transform: scale(0);
+}
+.popup-edit-subject.active{
+	transform: scale(1)
+}
+.popup-edit-subject .wrapper{
+	background-color: var(--sidebar-color);
+	padding: 20px;
+	width: 800px;
+	border-radius: 8px;
+	box-shadow: 0 0 12px 2px var(--shadow-color);
+}
+.popup-edit-subject .wrapper .title{
+	font-size: 2.2rem;
+	color: var(--black-color);
+	margin-bottom: 25px;
+	text-align: center;
+}
+.popup-edit-subject .wrapper form{
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	column-gap: 20px;
+}
+.popup-edit-subject .wrapper form .col-left .input-box{
+	margin-bottom: 20px;
+}
+.popup-edit-subject .wrapper form .col-left .input-box.status .screen{
+	border: 1px solid var(--text-color);
+	border-radius: 4px;
+	height: 40px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	font-size: 1.6rem;
+	padding: 0 0 0 10px;
+	cursor: pointer;
+}
+.popup-edit-subject .wrapper form .col-left .input-box.status{
+	position: relative;
+}
+.popup-edit-subject .wrapper form .col-left .input-box.status ul{
+	position: absolute;
+	top: -60px;
+	left: 0;
+	background-color: var(--mark-color);
+	list-style: none;
+	width: 100%;
+	box-shadow: 0 0 12px 2px var(--shadow-color);
+	border-radius: 4px;
+	overflow: hidden;
+	transition: var(--tran-03);
+	opacity: 0;
+	visibility: hidden;
+}
+.popup-edit-subject .wrapper form .col-left .input-box.status ul.active{
+	opacity: 1;
+	visibility: visible;
+}
+.popup-edit-subject .wrapper form .col-left .input-box.status ul li{
+	font-size: 1.4rem;
+	padding: 10px 12px;
+	transition: var(--tran-03);
+	cursor: pointer;
+	&:hover{
+		background-color: var(--primary-color);
+		color: var(--mark-color);
+	}
+}
+.popup-edit-subject .wrapper form .col-left label{
+	font-size: 1.6rem;
+	margin-bottom: 7px;
+	display: block;
+}
+.popup-edit-subject .wrapper form .col-left input{
+	width: 100%;
+	height: 40px;
+	border-radius: 4px;
+	outline: none;
+	font-size: 1.6rem;
+	padding: 0 15px 0 5px;
+}
+.popup-edit-subject .wrapper form .col-left textarea{
+	resize: none;
+	height: 120px;
+	width: 100%;
+	outline: none;
+	border-radius: 4px;
+	border: 1px solid var(--black-color);
+	padding: 2px;
+	font-size: 1.6rem;
+}
+.popup-edit-subject .wrapper form .col-right{
+	border-left: 1px dashed var(--black-color);
+}
+.popup-edit-subject .wrapper form .col-right .wrapper-image{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+.popup-edit-subject .wrapper form .col-right .wrapper-image i{
+	font-size: 12.0rem;
+	cursor: pointer;
+}
+.popup-edit-subject .wrapper form .col-right .title-image{
+	text-align: center;
+	font-size: 1.8rem;
+	white-space: nowrap;
+	width: 100%;
+	text-overflow: ellipsis;
+}
+.popup-edit-subject .wrapper form input[type='submit']{
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	font-size: 1.6rem;
+	color: var(--mark-color);
+	background-color: var(--primary-color);
 	cursor: pointer;
 }

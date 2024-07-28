@@ -231,13 +231,14 @@
 						<p>Sửa</p>
 						<p>Xoá</p>
 						<p>Thêm môn học</p>
+						<p>Lọc môn học</p>
 					</div>
 					<div class="content">
 
 					</div>
 				</div>
-				<div class="item-courses">
-					2
+				<div class="item-courses subject">
+
 				</div>
 				<div class="item-courses">
 					3
@@ -533,7 +534,7 @@
 							Lựa chọn giảng viên phụ trách
 						</div>
 						<ul>
-							
+
 						</ul>
 					</div>
 					<p class="message"></p>
@@ -543,6 +544,48 @@
 					<input type="submit">
 				</div>
 			</div>
+		</form>
+	</div>
+</div>
+<div class="popup-edit-subject">
+	<div class="wrapper">
+		<div class="title">Chỉnh sửa môn học</div>
+		<form class="form-popup-edit-subject">
+			<div class="col-left">
+				<div class="input-box">
+					<label for="">Tiêu đề</label>
+					<input type="text" name="subject_name">
+					<p class="message"></p>
+				</div>
+				<div class="input-box">
+					<label for="">Mô tả</label>
+					<textarea name="description" id=""></textarea>
+					<p class="message"></p>
+				</div>
+				<div class="input-box status">
+					<label for="">Trạng thái</label>
+					<input type="text" hidden name="is_private">
+					<div class="screen">Vui lòng chọn trạng thái</div>
+					<ul>
+						<li data-id="0">Công khai</li>
+						<li data-id="1">Riêng tư</li>
+					</ul>
+					<p class="message"></p>
+				</div>
+			</div>
+			<div class="col-right">
+				<div class="wrapper-image">
+					<i class='bx bx-image-alt'></i>
+				</div>
+				<p class="title-image"></p>
+				<div class="input-box">
+					<input type="file" hidden name="image">
+					<input type="text" hidden name="image-text">
+					<input type="text" hidden name="id">
+					<p class="message"></p>
+				</div>
+			</div>
+			<input type="submit">
 		</form>
 	</div>
 </div>

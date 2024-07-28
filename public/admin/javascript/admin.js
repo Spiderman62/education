@@ -37,7 +37,7 @@ $(function () {
 			},
 			handleSubmitForm() {
 				const _this = this;
-				$(_this.form).on('submit', function (e) {
+				$(_this.form).off('submit').on('submit', function (e) {
 					e.preventDefault();
 					let isSubmit = true;
 					$.each(_this.selectors, function (indexInArray, valueOfElement) {
@@ -122,7 +122,7 @@ $(function () {
 			const roleElementWidth = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
 			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `0px`);
 			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${roleElementWidth}px`);
-			$('.admin .tabs .courses .container .item-courses').fadeOut(1);
+			$('.admin .tabs .courses .container .item-courses').fadeOut(0);
 			$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn();
 			$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').on('click', function () {
 				const index = $(this).closest('.filter-courses').find('.role').index(this);
@@ -721,6 +721,7 @@ $(function () {
 	}
 	callAPIUser.main();
 	const callAPICourses = {
+		formData: [],
 		catchEvent() {
 			const _this = this;
 			$('.admin .tabs .courses .container .item-courses.course .add-course .right').on('click', function () {
@@ -796,25 +797,7 @@ $(function () {
 				"json"
 			);
 		},
-		renderCourse(data = []) {
-			let html = "";
-			for (let i = 0; i < data.length; i++) {
-				html += `<div data-ID="${data[i].id_course}" class="item">
-							<input type="checkbox" name="" id="">
-							<p>${data[i].id_course}</p>
-							<p class="name">${data[i].course_name}</p>
-							<p>${data[i].account}</p>
-							<p>${data[i].user_name}</p>
-							<p class="icon"><i class='bx bx-edit edit'></i></p>
-							<p class="icon"><i class='bx bx-trash trash'></i></p>
-							<p class="icon"><i class='bx bx-folder-plus plus'></i></p>
-						</div>`
-			};
-			$('.admin .tabs .courses .container .item-courses.course .content').html(html);
-			this.editCourse();
-			this.deleteCourse();
-			this.addSubject();
-		},
+		
 		editCourse() {
 			const _this = this;
 			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.edit').on('click', function () {
@@ -909,6 +892,207 @@ $(function () {
 				})
 			});
 		},
+		renderCourse(data = []) {
+			let html = "";
+			for (let i = 0; i < data.length; i++) {
+				html += `<div data-ID="${data[i].id_course}" class="item">
+							<input type="checkbox" name="" id="">
+							<p>${data[i].id_course}</p>
+							<p class="name">${data[i].course_name}</p>
+							<p>${data[i].account}</p>
+							<p>${data[i].user_name}</p>
+							<p class="icon"><i class='bx bx-edit edit'></i></p>
+							<p class="icon"><i class='bx bx-trash trash'></i></p>
+							<p class="icon"><i class='bx bx-folder-plus plus'></i></p>
+							<p class="icon"><i class='bx bx-filter-alt filter'></i></p>
+						</div>`
+			};
+			$('.admin .tabs .courses .container .item-courses.course .content').html(html);
+			this.editCourse();
+			this.deleteCourse();
+			this.addSubject();
+			this.filterSubject();
+		},
+		filterSubject() {
+			const _this = this;
+			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.filter').on('click', function () {
+				
+				const ID = $(this).parents('.item').attr('data-id');
+				$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+				$('.admin .tabs .courses .container .item-courses').eq(1).fadeIn(300);
+				const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).width();
+				const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).position().left;
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+				$.post(ROOT + "admin/getIdSubject", { id_course: ID },
+					function (data, textStatus, jqXHR) {
+						_this.renderSubject(data);
+					},
+					"json"
+				);
+			});
+		},
+		renderSubject(data) {
+			let html = "";
+			for (let i = 0; i < data.length; i++) {
+				html += `<div data-id="${data[i].id}" class="item">
+						<div class="wrapper">
+							<div class="top">		
+									<img src="${data[i].image !== null ? ROOT + `public/admin/images/${data[i].image}` : ROOT + "public/admin/images/default_image.avif"}" alt="">
+								<div class="content">
+									<p class="update-at">Ngày tạo ${data[i].create_at}</p>
+									<p class="title">${data[i].subject_name}</p>
+									<p class="description">${data[i].description}</p>
+								</div>
+								<div class="info">
+									<p>ID: <span>${data[i].id}</span></p>
+									<p>Cấp độ: <span>${data[i].education_name}</span></p>
+									<p>Khoá học: <span>${data[i].course_name}</span></p>
+									<p>Giảng viên đảm nhiệm: <span>${data[i].user_name}</span></p>
+									<p>Trạng thái: <span>${parseInt(data[i].is_private) === 0 ? 'Công khai' : 'Riêng tư'}</span></p>
+									<p>Mã môn: <span>${data[i].subject_code !== null ? data[i].subject_code : "Không có mã code"}</span></p>
+									<p>Số lượng trắc nhiệm: <span>0</span></p>
+								</div>
+							</div>
+							<div class="bottom">
+								<div class="wrapper-profile">
+									<img src="${data[i].image !== null ? data[i].image : ROOT + "public/admin/images/default_image.avif"}" alt="">
+								</div>
+								<div class="wrapper-action">
+									<p><i class='bx bx-plus-circle add'></i>Thêm Quizz</p>
+									<p><i class='bx bx-edit edit'></i>Sửa môn học</p>
+									<p><i class='bx bx-trash delete'></i>Xoá môn học</p>
+								</div>
+							</div>
+						</div>
+											
+					</div>`
+			}
+			$('.item-courses.subject').html(html).hide().slideDown(800);
+			this.deleteSubject();
+			this.editSubject();
+		},
+		
+		deleteSubject() {
+			const _this = this;
+			$('.item-courses.subject .item .bottom .wrapper-action i.delete').parent('p').on('click', function () {
+				const id = $(this).parents('.item').attr('data-id');
+				swal(`Bạn có chắc chắn muốn xoá ID: ${id}?`, {
+					icon: 'error',
+					buttons: {
+						cancel: true,
+						confirm: true
+					}
+				}).then(data => {
+					if (data) {
+						$.post(ROOT + "admin/deleteSubject", { id: id },
+							function (data, textStatus, jqXHR) {
+								if (data) {
+									$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+									$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+									swal('Xoá môn học thành công', { icon: 'success', timer: 1000 });
+								}
+							},
+							"json"
+						);
+					}
+				})
+
+			});
+		},
+		editSubject() {
+			const _this = this;
+			$('.popup-edit-subject').on('click', function () {
+				$('.popup-edit-subject').removeClass('active');
+				$('.popup-edit-subject .wrapper form .col-left .input-box.status .screen').off('click');
+			});
+			$('.popup-edit-subject .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			$('.item-courses.subject .item .bottom .wrapper-action i.edit').parent('p').on('click', function () {
+				$('.popup-edit-subject').addClass('active');
+				const id = $(this).parents('.item').attr('data-id');
+				$.post(ROOT + "admin/editSubject", { id: id },
+					function (data, textStatus, jqXHR) {
+						renderEdit(data, id);
+					},
+					"json"
+				);
+			});
+			function renderEdit(data, id) {
+				$('.popup-edit-subject .form-popup-edit-subject').find('input[name="subject_name"]').val(data.subject_name);
+				$('.popup-edit-subject .form-popup-edit-subject').find('input[name="id"]').val(id);
+				$('.popup-edit-subject .form-popup-edit-subject').find('textarea[name="description"]').val(data.description);
+				$('.popup-edit-subject .form-popup-edit-subject .input-box.status .screen').text(parseInt(data.is_private) === 0 ? 'Công khai' : 'Riêng tư');
+				$('.popup-edit-subject .wrapper form .col-left .input-box.status input[name="is_private"]').val(data.is_private);
+				$('.popup-edit-subject .wrapper form .col-left .input-box.status .screen').on('click', function () {
+					$('.popup-edit-subject .wrapper form .col-left .input-box.status ul').toggleClass('active');
+
+				});
+				$('.popup-edit-subject .wrapper form .col-left .input-box.status ul li').on('click', function () {
+					$('.popup-edit-subject .wrapper form .col-left .input-box.status ul').removeClass('active');
+					const id = $(this).attr('data-id');
+					const text = $(this).text();
+					$('.popup-edit-subject .wrapper form .col-left .input-box.status input[name="is_private"]').val(id);
+					$('.popup-edit-subject .form-popup-edit-subject .input-box.status .screen').text(text);
+				});
+				$('.popup-edit-subject .wrapper form .col-right .wrapper-image i').on('click', function () {
+					$('.popup-edit-subject .form-popup-edit-subject .col-right input[name="image"]').click();
+				});
+				$('.popup-edit-subject .wrapper form .col-right input[name="image"]').on('change', function () {
+					const text = this.value;
+					const formData = new FormData();
+					formData.append('image', this.files[0]);
+					_this.formData = formData;
+					$('.popup-edit-subject .wrapper form .col-right .title-image').text(text);
+					$('.popup-edit-subject .form-popup-edit-subject .col-right input[name="image-text"]').val(this.files[0].name);
+				});
+
+			}
+			validate({
+				form: '.form-popup-edit-subject',
+				selectors: [
+					checkBlank('input[name="subject_name"]'),
+					checkLength('input[name="subject_name"]', 8),
+					checkBlank('textarea[name="description"]'),
+					checkLength('textarea[name="description"]', 12)
+				],
+				callback(forms) {
+					const obj = {};
+					for (let i = 0; i < forms.length; i++) {
+						obj[forms[i].name] = forms[i].value;
+					};
+					fetch(ROOT + "admin/addImage", {
+						method: 'post',
+						body: _this.formData
+					});
+					if (parseInt(obj.is_private) === 1) {
+						obj.subject_code = _this.randomSubjectCode();
+					}
+					$.post(ROOT + "admin/sendEditSubject", obj,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								$('.popup-edit-subject .wrapper form .col-left .input-box.status ul li').off('click');
+								$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+								$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+								$('.popup-edit-subject').removeClass('active');
+								$('.popup-edit-subject .wrapper form .col-left .input-box.status .screen').off('click');
+								swal('Sửa môn học thành công', { icon: 'success', timer: 1000, button: false });
+							}
+						},
+						"json"
+					);
+				}
+			});
+		},
 		addSubject() {
 			const _this = this;
 			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.plus').on('click', function () {
@@ -961,6 +1145,9 @@ $(function () {
 			});
 			$('.popup-configuration-subject .content input[name="image"]').on('change', function () {
 				$('.popup-configuration-subject .content .infor').text($(this).val());
+				const formData = new FormData();
+				formData.append('image', this.files[0]);
+				_this.formData = formData;
 				$('.popup-configuration-subject .content input[name="image-text"]').val(this.files[0].name);
 			});
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -993,7 +1180,7 @@ $(function () {
 						return acc;
 					}, {});
 
-					if(parseInt(newForms.isPrivate) === 1){
+					if (parseInt(newForms.isPrivate) === 1) {
 						newForms.subject_code = _this.randomSubjectCode();
 						_this.sendSubjectIntoDB(newForms);
 						return;
@@ -1002,23 +1189,28 @@ $(function () {
 				}
 			})
 		},
-		sendSubjectIntoDB(send){
-			$.post(ROOT+"admin/addSubject", send,
+		sendSubjectIntoDB(send) {
+			fetch(ROOT + "admin/addImage", {
+				method: "post",
+				body: this.formData
+			})
+				.catch(console.error);
+			$.post(ROOT + "admin/addSubject", send,
 				function (data, textStatus, jqXHR) {
-					if(data.type){
-						swal('Thêm môn học thành công',{icon:'success',button:false,timer:1000});
+					if (data.type) {
+						swal('Thêm môn học thành công', { icon: 'success', button: false, timer: 1000 });
 						$('.popup-configuration-subject').trigger('click');
-					}else{
-						swal('Môn học này đã tồn tại!',{icon:'error',button:false,timer:1500});
+					} else {
+						swal('Môn học này đã tồn tại!', { icon: 'error', button: false, timer: 1500 });
 					}
 				},
 				"json"
 			);
 		},
-		randomSubjectCode(){
+		randomSubjectCode() {
 			const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 			let code = "";
-			for(let i = 0;i<12;i++){
+			for (let i = 0; i < 12; i++) {
 				code += characters.charAt(Math.floor(Math.random() * characters.length));
 			}
 			return code;
@@ -1267,6 +1459,15 @@ $(function () {
 		}
 	}
 	subject_quizz.main();
+	const subject_configuration = {
+		catchEvents() {
+
+		},
+		main() {
+			this.catchEvents();
+		}
+	}
+	subject_configuration.main();
 });
 
 function checkBlank(selector) {

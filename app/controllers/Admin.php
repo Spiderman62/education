@@ -165,5 +165,22 @@
 		public function addSubject() {
 			$this->AdminModel->addSubject();
 		}
+		public function addImage(){
+			$targetPath = "./public/admin/images/" . basename($_FILES['image']['name']);
+			move_uploaded_file($_FILES['image']['tmp_name'],$targetPath);
+		}
+		public function getIdSubject(){
+			$this->AdminModel->getIdSubject();
+		}
+		public function deleteSubject() {
+			$this->AdminModel->deleteSubject();
+		}
+		public function editSubject() {
+			$this->AdminModel->editSubject();
+		}
+		public function sendEditSubject(){
+			
+			$this->AdminModel->sendEditSubject();
+		}
 	}
 ?>

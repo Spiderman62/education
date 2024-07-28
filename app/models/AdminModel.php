@@ -190,19 +190,55 @@ class AdminModel extends DB
 		$description = $_POST['description'];
 		$id_course = $_POST['id_course'];
 		$id_lecturer = $_POST['id_lecturer'];
-		$image_text = !empty($_POST['image-text']) ? "'".$_POST['image-text']."'" : 'NULL';
-		$subject_code = !empty($_POST['subject_code']) ? "'".$_POST['subject_code']."'"  : 'NULL';
+		$image_text = !empty($_POST['image-text']) ? "'" . $_POST['image-text'] . "'" : 'NULL';
+		$subject_code = !empty($_POST['subject_code']) ? "'" . $_POST['subject_code'] . "'"  : 'NULL';
 		$isPrivate = $_POST['isPrivate'];
 		$isDuplicate = $this->connection->query("SELECT * FROM subject WHERE subject_name = '$title'");
-		if(mysqli_num_rows($isDuplicate) > 0){
+		if (mysqli_num_rows($isDuplicate) > 0) {
 			$array['type'] = false;
 			echo json_encode($array);
 			return;
 		}
-			$this->connection->query("INSERT into subject (subject_name,description,image,create_at,update_at,subject_code,is_private,id_lecturer,id_course)
+		$this->connection->query("INSERT into subject (subject_name,description,image,create_at,update_at,subject_code,is_private,id_lecturer,id_course)
 			value('$title','$description',$image_text,'$date','$date',$subject_code,'$isPrivate','$id_lecturer','$id_course')");
-			$array['type'] = true;
-			echo json_encode($array);
-
-}
+		$array['type'] = true;
+		echo json_encode($array);
+	}
+	public function getIdSubject() {
+		$array = [];
+		$id_course = $_POST['id_course'];
+		$data = $this->connection->query("SELECT education.education_name, courses.course_name, subject.id,subject.subject_name,subject.description,subject.image,subject.create_at,subject.subject_code,subject.is_private,lecturer.user_name from subject
+		inner join lecturer on lecturer.id = subject.id_lecturer
+		inner join courses on courses.id = subject.id_course
+		inner join education on education.id = lecturer.id_education
+		where subject.id_course = $id_course AND subject.status = 1;");
+		while($row = mysqli_fetch_assoc($data)){
+			$array[] = $row;
+		}
+		header('Content-Type: application/json');
+		echo json_encode($array);
+	}
+	public function deleteSubject() {
+		$id = $_POST['id'];
+		$this->connection->query("UPDATE subject SET status = 0 WHERE id = $id");
+		header('Content-Type: aplication/json');
+		echo json_encode(true);
+	}
+	public function editSubject() {
+		header('Content-Type: application/json');
+		$id = $_POST['id'];
+		$data = $this->connection->query("SELECT * FROM subject where id = $id");
+		$row = mysqli_fetch_assoc($data);
+		echo json_encode($row);
+	}
+	public function sendEditSubject() {
+		$id = $_POST['id'];
+		$subject_name = $_POST['subject_name'];
+		$description = $_POST['description'];
+		$is_private = $_POST['is_private'];
+		$subject_code = !empty($_POST['subject_code']) ? "'". $_POST['subject_code'] ."'" : 'NULL';
+		header('Content-Type: application/json');
+		$this->connection->query("UPDATE subject SET subject_name = '$subject_name', description = '$description', is_private = '$is_private',subject_code = $subject_code WHERE id = '$id'");
+		echo json_encode(true);
+	}
 }
