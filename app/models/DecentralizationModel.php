@@ -90,7 +90,6 @@ class DecentralizationModel extends DB
 			return;
 		}
 		if (!empty(mysqli_num_rows($isStatus))) {
-
 			$result =  mysqli_fetch_assoc($isStatus);
 			$dataResponse['info'] = $result;
 			$dataResponse['active'] = true;
@@ -147,7 +146,7 @@ class DecentralizationModel extends DB
 		if (empty(mysqli_num_rows($isAccount))) {
 			$dataResponse['isAccount'] = true;
 		}
-		$isPassword = $this->connection->query(" SELECT * FROM lecturer where password = '$password'");
+		$isPassword = $this->connection->query("SELECT * FROM lecturer where password = '$password'");
 		if (empty(mysqli_num_rows($isPassword))) {
 			$dataResponse['isPassword'] = true;
 		}
@@ -156,8 +155,8 @@ class DecentralizationModel extends DB
 			return;
 		}
 		
-		$isStatus = $this->connection->query("SELECT lecturer.image,lecturer.id,lecturer.account,lecturer.user_name,education.education_name from lecturer inner join education on education.id = lecturer.education
-		where account = '$account' AND password = '$password' AND status = 1;");
+		$isStatus = $this->connection->query("SELECT lecturer.image,lecturer.id,lecturer.account,lecturer.user_name,education.education_name from lecturer inner join education on education.id = lecturer.id_education
+		where lecturer.account = '$account' AND lecturer.password = '$password' AND lecturer.status = 1;");
 		if (empty(mysqli_num_rows($isStatus))) {
 			$dataResponse['isStatus'] = true;
 			echo json_encode($dataResponse);

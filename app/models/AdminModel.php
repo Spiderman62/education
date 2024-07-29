@@ -241,4 +241,23 @@ class AdminModel extends DB
 		$this->connection->query("UPDATE subject SET subject_name = '$subject_name', description = '$description', is_private = '$is_private',subject_code = $subject_code WHERE id = '$id'");
 		echo json_encode(true);
 	}
+	public function addQuizName() {
+		$quiz_name = $_POST['quiz-name'];
+		$id_subject = $_POST['id_subject'];
+		$this->connection->query("INSERT INTO quizzs(quizz_name,id_subject)
+		VALUES('$quiz_name','$id_subject')
+		");
+		echo json_encode(true);
+	}
+	public function getIdQuizz(){
+		$id_subject = $_POST['id_subject'];
+		$array = [];
+		$data = $this->connection->query("SELECT quizzs.id,quizzs.quizz_name,quizzs.id_subject,subject.subject_name FROM quizzs
+		inner join subject on subject.id = quizzs.id_subject WHERE id_subject = '$id_subject';");
+		while($row = mysqli_fetch_assoc($data)){
+			$array[] = $row;
+		}
+		header('Content-Type: application/json');
+		echo json_encode($array);
+	}
 }

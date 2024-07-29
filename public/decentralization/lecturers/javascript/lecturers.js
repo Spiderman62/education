@@ -46,7 +46,7 @@ $(function () {
 		},
 		handleSubmitForm() {
 			const _this = this;
-			$(_this.form).on('submit', function (e) {
+			$(_this.form).off('click').on('submit', function (e) {
 				e.preventDefault();
 				let isSubmit = true;
 				$.each(_this.selectors, function (indexInArray, valueOfElement) {
@@ -220,7 +220,7 @@ $(function () {
 		},
 		handleSubmitForm() {
 			const _this = this;
-			$(_this.form).on('submit', function (e) {
+			$(_this.form).off('click').on('submit', function (e) {
 				e.preventDefault();
 				let isSubmit = true;
 				$.each(_this.selectors, function (indexInArray, valueOfElement) {

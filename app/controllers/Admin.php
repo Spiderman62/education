@@ -178,9 +178,14 @@
 		public function editSubject() {
 			$this->AdminModel->editSubject();
 		}
-		public function sendEditSubject(){
-			
+		public function sendEditSubject(){		
 			$this->AdminModel->sendEditSubject();
+		}
+		public function addQuizName(){
+			$this->AdminModel->addQuizName();
+		}
+		public function getIdQuizz(){
+			$this->AdminModel->getIdQuizz();
 		}
 	}
 ?>

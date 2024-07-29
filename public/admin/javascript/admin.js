@@ -175,13 +175,13 @@ $(function () {
 	optionMenu.main();
 	const callAPIUser = {
 		showCountUsers() {
-			$.post(ROOT + `admin/countAllUsers`, "",
-				function (data, textStatus, jqXHR) {
-					$('section .tabs header.user .list span').text(data.countAll);
-					$('section .tabs header.user .show span').text(data.countAll);
-				},
-				"json"
-			);
+			// $.post(ROOT + `admin/countAllUsers`, "",
+			// 	function (data, textStatus, jqXHR) {
+			// 		$('section .tabs header.user .list span').text(data.countAll);
+			// 		$('section .tabs header.user .show span').text(data.countAll);
+			// 	},
+			// 	"json"
+			// );
 		},
 		getInforLecturer() {
 			const _this = this;
@@ -797,7 +797,6 @@ $(function () {
 				"json"
 			);
 		},
-		
 		editCourse() {
 			const _this = this;
 			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.edit').on('click', function () {
@@ -916,7 +915,7 @@ $(function () {
 		filterSubject() {
 			const _this = this;
 			$('.admin .tabs .courses .container .item-courses.course .content .item p.icon i.filter').on('click', function () {
-				
+
 				const ID = $(this).parents('.item').attr('data-id');
 				$('.admin .tabs .courses .container .item-courses').fadeOut(300);
 				$('.admin .tabs .courses .container .item-courses').eq(1).fadeIn(300);
@@ -951,14 +950,14 @@ $(function () {
 									<p>Giảng viên đảm nhiệm: <span>${data[i].user_name}</span></p>
 									<p>Trạng thái: <span>${parseInt(data[i].is_private) === 0 ? 'Công khai' : 'Riêng tư'}</span></p>
 									<p>Mã môn: <span>${data[i].subject_code !== null ? data[i].subject_code : "Không có mã code"}</span></p>
-									<p>Số lượng trắc nhiệm: <span>0</span></p>
 								</div>
 							</div>
 							<div class="bottom">
 								<div class="wrapper-profile">
-									<img src="${data[i].image !== null ? data[i].image : ROOT + "public/admin/images/default_image.avif"}" alt="">
+									<img src="${data[i].image !== null ? ROOT + `public/admin/images/${data[i].image}` : ROOT + "public/admin/images/default_image.avif"}" alt="">
 								</div>
 								<div class="wrapper-action">
+									<p><i class='bx bx-list-ul list'></i>Danh sách câu hỏi</p>
 									<p><i class='bx bx-plus-circle add'></i>Thêm Quizz</p>
 									<p><i class='bx bx-edit edit'></i>Sửa môn học</p>
 									<p><i class='bx bx-trash delete'></i>Xoá môn học</p>
@@ -971,8 +970,9 @@ $(function () {
 			$('.item-courses.subject').html(html).hide().slideDown(800);
 			this.deleteSubject();
 			this.editSubject();
+			this.addQuizName();
+			this.listQuizz();
 		},
-		
 		deleteSubject() {
 			const _this = this;
 			$('.item-courses.subject .item .bottom .wrapper-action i.delete').parent('p').on('click', function () {
@@ -1188,6 +1188,87 @@ $(function () {
 					_this.sendSubjectIntoDB(newForms);
 				}
 			})
+		},
+		addQuizName() {
+			let id = null;
+			$('.item-courses.subject .item .bottom .wrapper-action i.add').parent('p').on('click', function () {
+				id = parseInt($(this).parents('.item').attr('data-id'));
+				$('.popup-add-quiz-name').addClass('active');
+				$('.popup-add-quiz-name .wrapper h1').text(`Bạn đang thêm câu hỏi ở môn học có ID: ${id}`)
+			});
+			$('.popup-add-quiz-name').on('click', function () {
+				$('.popup-add-quiz-name').removeClass('active');
+				id = null;
+			})
+			$('.popup-add-quiz-name .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			validate({
+				form: '.form-add-quiz-name',
+				selectors: [
+					checkBlank('input[name="quiz-name"]'),
+					checkLength('input[name="quiz-name"]', 4)
+				],
+				callback(forms) {
+					const newForms = forms.reduce((acc, curr) => {
+						acc[curr.name] = curr.value;
+						return acc;
+					}, {});
+					newForms.id_subject = id;
+					$.post(ROOT + "admin/addQuizName", newForms,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								if (data) {
+									$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+									$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+									$('.popup-add-quiz-name').removeClass('active');
+									swal('Thêm quizz thành công', { icon: 'success', timer: 1000, button: false });
+								}
+							}
+						},
+						"json"
+					);
+				}
+			})
+		},
+		listQuizz() {
+			const _this = this;
+			$('.item-courses.subject .item .bottom .wrapper-action i.list').parent('p').on('click', function () {
+				const id = $(this).parents('.item').attr('data-id');
+				$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+				$('.admin .tabs .courses .container .item-courses').eq(2).fadeIn(300);
+				const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).width();
+				const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).position().left;
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+				$.post(ROOT + "admin/getIdQuizz", { id_subject: id },
+					function (data, textStatus, jqXHR) {
+						_this.renderQuizz(data);
+					},
+					"json"
+				);
+			});
+		},
+		renderQuizz(data) {
+			let html = "";
+			for (let i = 0; i < data.length; i++) {
+				html += `
+				<div data-id="${data[i].id}" class="item">
+							<p>${data[i].id}</p>
+							<p>${data[i].quizz_name}</p>
+							<p>${data[i].id_subject}</p>
+							<p>${data[i].subject_name}</p>
+							<p><i class='bx bx-plus-circle plus'></i></p>
+							<p><i class='bx bx-edit edit'></i></p>
+							<p><i class='bx bx-trash delete'></i></p>
+						</div>
+						`
+			}
+			$('.item-courses.quizz .content').html(html).hide().slideDown(800);
 		},
 		sendSubjectIntoDB(send) {
 			fetch(ROOT + "admin/addImage", {

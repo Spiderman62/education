@@ -1352,6 +1352,29 @@ section .tabs main .switch-active .content .item p{
 	transform: scale(0);
 	opacity: 0;
 }
+.popup-add-quiz-name{
+	backdrop-filter: blur(5px);
+	background-color: rgba(236, 241, 250, 0.498);
+	position: fixed;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: scale(0);
+	opacity: 0;
+	transition: var(--tran-03);
+}
+.popup-add-quiz-name.active{
+	transform: scale(1);
+	opacity: 1;
+}
+.popup-add-quiz-name .wrapper{
+	background-color: var(--sidebar-color);
+	width: 550px;
+	border-radius: 12px;
+	box-shadow: 0 0 12px 2px var(--shadow-color);
+	padding: 30px;
+}
 .popup-add-courses .wrapper, 
 .popup-edit-courses .wrapper{
 	background-color: var(--sidebar-color);
@@ -1363,7 +1386,8 @@ section .tabs main .switch-active .content .item p{
 	opacity: 0;
 }
 .popup-add-courses .wrapper h1, 
-.popup-edit-courses .wrapper h1{
+.popup-edit-courses .wrapper h1,
+.popup-add-quiz-name .wrapper h1{
 	font-size: 2.2rem;
 	font-weight: 600;
 	margin-bottom: 10px;
@@ -1372,7 +1396,8 @@ section .tabs main .switch-active .content .item p{
 	color: var(--black-color);
 }
 .popup-add-courses .wrapper p, 
-.popup-edit-courses .wrapper p{
+.popup-edit-courses .wrapper p,
+.popup-add-quiz-name .wrapper p{
 	font-size: 1.5rem;
 	color: var(--text-color);
 	margin-bottom: 15px;
@@ -1380,18 +1405,21 @@ section .tabs main .switch-active .content .item p{
 	user-select: none;
 }
 .popup-add-courses .wrapper form, 
-.popup-edit-courses .wrapper form{
+.popup-edit-courses .wrapper form,
+.popup-add-quiz-name .wrapper form{
 	display: flex;
 	column-gap: 10px;
 }
 .popup-add-courses .wrapper form .input-box, 
-.popup-edit-courses .wrapper form .input-box{
+.popup-edit-courses .wrapper form .input-box,
+.popup-add-quiz-name .wrapper form .input-box{
 	height: 40px;
 	width: 200px;
 	transition: var(--tran-05);
 }
 .popup-add-courses .wrapper form .input-box input, 
-.popup-edit-courses .wrapper form .input-box input{
+.popup-edit-courses .wrapper form .input-box input, 
+.popup-add-quiz-name .wrapper form .input-box input{
 	border: 1px solid var(--black-color);
 	width: 100%;
 	height: 100%;
@@ -1403,18 +1431,21 @@ section .tabs main .switch-active .content .item p{
 	background-color: transparent;
 }
 .popup-add-courses .wrapper form .input-box .message, 
-.popup-edit-courses .wrapper form .input-box .message{
+.popup-edit-courses .wrapper form .input-box .message,
+.popup-add-quiz-name .wrapper form .input-box .message{
 	opacity: 0;
 	transition: var(--tran-03);
 }
 .popup-add-courses .wrapper form .input-box.error .message, 
-.popup-edit-courses .wrapper form .input-box.error .message{
+.popup-edit-courses .wrapper form .input-box.error .message,
+.popup-add-quiz-name .wrapper form .input-box.error .message{
 	color: rgb(240, 56, 56);
 	font-size: 1.4rem;
 	opacity: 1;
 }
 .popup-add-courses .wrapper form input[type='submit'], 
-.popup-edit-courses .wrapper form input[type='submit']{
+.popup-edit-courses .wrapper form input[type='submit'],
+.popup-add-quiz-name .wrapper form input[type='submit']{
 	border: none;
 	outline: none;
 	background-color: var(--primary-color);
@@ -2033,6 +2064,8 @@ section .tabs main .switch-active .content .item p{
 }
 .item-courses.subject .item .bottom .wrapper-profile img{
 	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 .item-courses.subject .item .bottom .wrapper-action{
 	display: flex;
@@ -2186,4 +2219,51 @@ section .tabs main .switch-active .content .item p{
 	color: var(--mark-color);
 	background-color: var(--primary-color);
 	cursor: pointer;
+}
+.item-courses.quizz .title{
+	margin-bottom: 20px;
+}
+.item-courses.quizz .title, 
+.item-courses.quizz .content .item{
+	display: grid;
+	grid-template-columns: 40px 200px 100px 1fr 120px 120px 120px;
+	place-items: center;
+    column-gap: 20px;
+}
+.item-courses.quizz .title p{
+	font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--black-color);
+    transition: var(--tran-05);
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.item-courses.quizz .content{
+	display: grid;
+	row-gap: 20px;
+}
+.item-courses.quizz .content .item p{
+	font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--black-color);
+    transition: var(--tran-05);
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.item-courses.quizz .content .item p i{
+	font-size: 2.5rem;
+	cursor: pointer;
+}
+.item-courses.quizz .content .item p i.edit{
+	color: rgb(77, 221, 77);
+}
+.item-courses.quizz .content .item p i.delete{
+	color: rgb(243, 83, 47);
+}
+.item-courses.quizz .content .item p i.plus{
+	color: #5d92ea;
 }

@@ -240,8 +240,20 @@
 				<div class="item-courses subject">
 
 				</div>
-				<div class="item-courses">
-					3
+				<div class="item-courses quizz">
+					<div class="title">
+						<p>ID</p>
+						<p>Tên quizz</p>
+						<p>ID môn học</p>
+						<p>Tên môn học</p>
+						<p>Khởi tạo</p>
+						<p>Chỉnh sửa</p>
+						<p>Xoá</p>
+					</div>
+					<div class="content">
+						
+						
+					</div>
 				</div>
 			</div>
 		</div>
@@ -586,6 +598,19 @@
 				</div>
 			</div>
 			<input type="submit">
+		</form>
+	</div>
+</div>
+<div class="popup-add-quiz-name">
+	<div class="wrapper">
+		<h1></h1>
+		<p>Khi bạn tạo câu hỏi từ môn học này thì giảng viên chỉ có thể tạo những câu hỏi trắc nhiệm từ môn học có chứa câu hỏi bạn đã tạo, điều này ngăn chặn những trường hợp thêm những câu hỏi quiz ngoài ý muốn</p>
+		<form class="form-add-quiz-name" action="">
+			<div class="input-box">
+				<input name="quiz-name" type="text" placeholder="quiz 1, quiz 2, quiz 3">
+				<span class="message"></span>
+			</div>
+			<input type="submit" value="Thêm quizz">
 		</form>
 	</div>
 </div>
