@@ -1228,6 +1228,8 @@ $(function () {
 									$('.popup-add-quiz-name').removeClass('active');
 									swal('Thêm quizz thành công', { icon: 'success', timer: 1000, button: false });
 								}
+							} else {
+								swal('Không được trùng tên trắc nhiệm đã tồn tại!', { icon: 'error', timer: 1000, button: false });
 							}
 						},
 						"json"
@@ -1259,9 +1261,10 @@ $(function () {
 				html += `
 				<div data-id="${data[i].id}" class="item">
 							<p>${data[i].id}</p>
-							<p>${data[i].quizz_name}</p>
-							<p>${data[i].id_subject}</p>
+							<p class="quizz_name">${data[i].quizz_name}</p>
+							<p class='id_subject'>${data[i].id_subject}</p>
 							<p>${data[i].subject_name}</p>
+							<p><i class='bx bx-layer question-lists'></i></p>
 							<p><i class='bx bx-plus-circle plus'></i></p>
 							<p><i class='bx bx-edit edit'></i></p>
 							<p><i class='bx bx-trash delete'></i></p>
@@ -1269,6 +1272,239 @@ $(function () {
 						`
 			}
 			$('.item-courses.quizz .content').html(html).hide().slideDown(800);
+			this.deleteQuizz();
+			this.editQuizz();
+			this.createQuestionFromQuizz();
+			this.listQuestion();
+		},
+		deleteQuizz() {
+			$('.item-courses.quizz .content .item p i.delete').parent('p').on('click', function () {
+				const id = $(this).parents('.item').attr('data-id');
+				swal({
+					title: `Bạn có chắc chắn muốn xoá ID: ${id}`,
+					text: 'Điều này sẽ không thể khôi phục những câu hỏi từ trắc nhiệm',
+					icon: 'warning',
+					buttons: {
+						cancel: true,
+						confirm: true
+					}
+				}).then(type => {
+					if (type) {
+						$.post(ROOT + "admin/deleteQuizz", { id: id },
+							function (data, textStatus, jqXHR) {
+								$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+								$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+								swal('Xoá thành công', { timer: 1000, icon: 'success', button: false });
+							},
+							"json"
+						);
+					}
+				})
+			});
+		},
+		editQuizz() {
+			let id = null;
+			let id_subject = null;
+			$('.item-courses.quizz .content .item p i.edit').parent('p').on('click', function () {
+				id = $(this).parents('.item').attr('data-id');
+				id_subject = parseInt($(this).parents('.item').find('.id_subject').text());
+				const text = $(this).parents('.item').find('.quizz_name').text();
+				$('.popup-edit-quizz').addClass('active');
+				$('.popup-edit-quizz').find('input[name="quizz"]').val(text);
+			});
+			$('.popup-edit-quizz').on('click', function () {
+				$('.popup-edit-quizz').removeClass('active');
+				$('.popup-edit-quizz').find('input[name="quizz"]').val('');
+			});
+			$('.popup-edit-quizz .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			validate({
+				form: '.popup-edit-quizz .form-edit-quiz',
+				selectors: [
+					checkBlank('input[name="quizz"]'),
+					checkLength('input[name="quizz"]', 4)
+				],
+				callback(forms) {
+					const obj = {};
+					for (let i = 0; i < forms.length; i++) {
+						obj[forms[i].name] = forms[i].value;
+					}
+					obj.id = id;
+					obj.id_subject = id_subject;
+					$.post(ROOT + "admin/editQuizz", obj,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+								$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+								$('.popup-edit-quizz').removeClass('active');
+								swal('Sửa thành công', { timer: 1000, icon: 'success', button: false });
+							} else {
+								swal('Không được trùng lặp', { timer: 1000, icon: 'error', button: false });
+
+							}
+						},
+						"json"
+					);
+				}
+			})
+		},
+		listQuestion() {
+			const _this = this;
+			$('.item-courses.quizz .content .item p i.question-lists').parent('p').on('click', function () {
+				const id = parseInt($(this).parents('.item').attr('data-id'));
+				$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+				$('.admin .tabs .courses .container .item-courses').eq(3).fadeIn(300);
+				const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(3).width();
+				const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(3).position().left;
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+				$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+				$.post(ROOT + "admin/listQuestion", { id_quizz: id },
+					function (data, textStatus, jqXHR) {
+						_this.renderQuestion(data);
+					},
+					"json"
+				);
+			});
+		},
+		renderQuestion(data) {
+			let html = "";
+			for (let i = 0; i < data.length; i++) {
+				html += `
+				<div data-id="${data[i].id_question}" class="item">
+							<p>${data[i].id_question}</p>
+							<p class="quizz_name">${data[i].question}</p>
+							<p class='id_subject'>${data[i].answers}</p>
+							<p>${data[i].result}</p>
+							<p data-id="${data[i].id_quizz}"><i class='bx bx-edit edit'></i></p>
+							<p><i class='bx bx-trash delete'></i></p>
+						</div>
+				`
+			};
+			$('.item-courses.question .content').html(html).hide().slideDown(800);
+			this.deleteQuestion();
+			this.editQuestion(data);
+		},
+		deleteQuestion() {
+			$('.item-courses.question .content .item p i.delete').on('click', function () {
+				const id = parseInt($(this).parents('.item').attr('data-id'));
+				swal(`Bạn có chắc chắn muốn xoá ID: ${id}?`, {
+					icon: 'warning',
+					buttons: {
+						cancel: true,
+						confirm: true
+					}
+				}).then(data => {
+					if (data) {
+						$.post(ROOT + "admin/deleteQuestion", { id: id },
+							function (data, textStatus, jqXHR) {
+								if (data) {
+									$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+									$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
+									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
+									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+									swal(`Xoá câu hỏi thành công`, { icon: 'success', timer: 1000, button: false });
+								}
+							},
+							"json"
+						);
+					}
+				})
+			});
+		},
+		editQuestion(data) {
+			let id_quizz = null;
+			let id_question = null;
+			$('.item-courses.question .content .item p i.edit').on('click', function () {
+				id_quizz = parseInt($(this).parent('p').attr('data-id'));
+				id_question = parseInt($(this).parents('.item').attr('data-id'));
+				$('.popup-edit-question').addClass('active');
+				let [obj] = data.filter(item => parseInt(item.id_question) === id_question);
+				$('.popup-edit-question .form-edit-question input[name="question"]').val(obj.question);
+				$('.popup-edit-question .form-edit-question input[name="answers"]').val(obj.answers);
+				$('.popup-edit-question .form-edit-question input[name="result"]').val(obj.result);
+			});
+			$('.popup-edit-question .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			$('.popup-edit-question').on('click', function () {
+				$('.popup-edit-question').removeClass('active');
+				$('.popup-edit-question .form-edit-question input[name="question"]').val('');
+				$('.popup-edit-question .form-edit-question input[name="answers"]').val('');
+				$('.popup-edit-question .form-edit-question input[name="result"]').val('');
+			});
+			validate({
+				form: '.form-edit-question',
+				selectors: [
+					checkBlank('input[name="question"]'),
+					checkLength('input[name="question"]',8),
+					checkBlank('input[name="answers"]'),
+					checkLength('input[name="answers"]',8),
+					checkBlank('input[name="result"]'),
+					checkLength('input[name="result"]',1),
+				],
+				callback(forms){
+					const newForm = forms.reduce((accu,curr)=>{
+						accu[curr.name] = curr.value;
+						return accu;
+					},{});
+					
+					const isMatch = newForm.answers.split(',').map(item=> item.trim()).some(item=> item === newForm.result);
+					newForm.id_quizz = id_quizz;
+					newForm.id_question = id_question;
+					if(isMatch){
+						$.post(ROOT+"admin/editQuestion", newForm,
+							function (data, textStatus, jqXHR) {
+								if(data){
+									swal('Sửa thành công',{
+										icon:'success',
+										timer:1000,
+										button:false
+									})
+								}else{
+									swal('Không được phép trùng tên câu hỏi đã tồn tại!',{
+										icon:'error',
+										timer:1000,
+										button:false
+									})
+								}
+							},
+							"json"
+						);
+					}else{
+						swal('Bắt buộc phải khớp 1 trong 4 đáp án trên!',{
+							icon:'error',
+							button:false
+						})
+					}
+				}
+			})
+		},
+		createQuestionFromQuizz() {
+			$('.item-courses.quizz .content .item p i.plus').parent('p').off('click').on('click', function () {
+				$('.admin .tabs').fadeOut(1);
+				$('.admin .tabs').eq(3).fadeIn();
+				$('aside .menu .menu-tab ul li').removeClass('mark');
+				$('aside .menu .menu-tab ul li').eq(3).addClass('mark');
+				const id = parseInt($(this).parents('.item').attr('data-id'));
+				$('.admin .tabs.subject .container .quiz .list-question .list').html('');
+				$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill').html('');
+				$('.admin .tabs.subject > header h1#create-subject').removeClass('add-question');
+				$('.admin .tabs.subject > header h1#create-subject').find('span').text("Tạo đề thi nhanh");
+				subject_quizz.main();
+				subject_quizz.dataSimulator = [];
+				subject_quizz.ID_quizz = id;
+			});
 		},
 		sendSubjectIntoDB(send) {
 			fetch(ROOT + "admin/addImage", {
@@ -1321,8 +1557,6 @@ $(function () {
 				$('.popup-configuration-subject .input-box.lecturer .show-screen .screen').text(content);
 				$('.popup-configuration-subject .input-box.lecturer input[name="id_lecturer"]').val(id);
 			});
-
-
 		},
 		main() {
 			this.catchEvent();
@@ -1332,10 +1566,11 @@ $(function () {
 	callAPICourses.main();
 	const subject_quizz = {
 		dataSimulator: [],
+		ID_quizz: null,
 		events() {
 			const _this = this;
 			$('.admin .tabs.subject .container .quiz').fadeOut();
-			$('.admin .tabs.subject > header h1#create-subject').on('click', function () {
+			$('.admin .tabs.subject > header h1#create-subject').off('click').on('click', function () {
 				if ($('.admin .tabs.subject > header h1#create-subject').hasClass('add-question')) {
 					$('.popup-add-quizz').addClass('active');
 				}
@@ -1345,15 +1580,14 @@ $(function () {
 				$('.admin .tabs.subject .wrapper-add').fadeIn(500);
 			});
 			////////////////////////////////////////////////////////////
-			$('.popup-add-quizz').on('click', function () {
+			$('.popup-add-quizz').off('click').on('click', function () {
 				$('.popup-add-quizz').removeClass('active');
 			})
-			$('.popup-add-quizz .wrapper').on('click', function (e) {
+			$('.popup-add-quizz .wrapper').off('click').on('click', function (e) {
 				e.stopPropagation();
 			});
-
 		},
-		addQuizz() {
+		addQuestion() {
 			const _this = this;
 			validate({
 				form: '.form-add-quizz', selectors: [
@@ -1362,20 +1596,20 @@ $(function () {
 					checkBlank('#answers'),
 					checkLength('#answers', 3),
 					checkBlank('#result'),
-					checkLength('#result', 3),
+					checkLength('#result', 2),
 				], callback(forms) {
 					const test = {};
 					$.each(forms, function (indexInArray, valueOfElement) {
 						test[valueOfElement.name] = valueOfElement.value;
 					});
-					const arrayAnswers = test.answers.split(',');
+					const arrayAnswers = test.answers.split(',').map(item=> item.trim());
 					if (arrayAnswers.includes(test.result)) {
 						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(test.question));
 						if (isDuplicate) {
 							swal('Tuyệt đối không được trùng câu hỏi!', { icon: 'error', button: false, timer: 2000 });
 						} else {
 							_this.dataSimulator.push(test);
-							_this.renderQuizz();
+							_this.renderQuestion();
 						}
 					} else {
 						swal('Bắt buộc phải khớp 1 trong 4 câu hỏi trên!', { icon: 'error', button: false, timer: 2000 });
@@ -1383,7 +1617,7 @@ $(function () {
 				}
 			});
 		},
-		renderQuizz() {
+		renderQuestion() {
 			const titles = ['A', 'B', 'C', 'D'];
 			let html = "";
 			let answersHTML = "";
@@ -1427,19 +1661,19 @@ $(function () {
 			}
 			$('.admin .tabs.subject .container .quiz .list-question .list').html(questionLists).hide().fadeIn(500);
 			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill').html(html).hide().slideDown(800);
-			$('.admin .tabs.subject .container .quiz .list-question .list .item').on('click', function () {
+			$('.admin .tabs.subject .container .quiz .list-question .list .item').off('click').on('click', function () {
 				$('.admin .tabs.subject .container .quiz .list-question .list .item').removeClass('active');
 				$(this).addClass('active');
 			});
-			this.editQuizz();
-			this.deleteQuizz();
+			this.editQuestion();
+			this.deleteQuestion();
 			if (this.dataSimulator.length > 4) {
 				$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').addClass('show');
 			} else {
 				$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').removeClass('show');
 			}
 		},
-		editQuizz() {
+		editQuestion() {
 			const _this = this;
 			function handleEditForm(id_item, newActiveSelectors, currentIndex) {
 				validate({
@@ -1469,12 +1703,12 @@ $(function () {
 						}
 						obj.answers = obj.answers.join(",");
 						_this.dataSimulator[currentIndex] = obj;
-						_this.renderQuizz();
+						_this.renderQuestion();
 
 					}
 				});
 			}
-			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.edit').on('click', function () {
+			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.edit').off('click').on('click', function () {
 				$(this).closest('.item').find('.current .edit').fadeOut(300);
 				// $(this).closest('.item').find('.current .wrapper-icon').prepend(`<div class="save"><i class='bx bx-save save'></i></div>`).hide(0).fadeIn(100);
 				const currentIndex = $(this).closest('.item').index();
@@ -1508,9 +1742,9 @@ $(function () {
 			});
 
 		},
-		deleteQuizz() {
+		deleteQuestion() {
 			const _this = this;
-			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.trash').on('click', function () {
+			$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill .item .current i.trash').off('click').on('click', function () {
 				const ID = $(this).closest('.item').index();
 				swal(`Bạn có chắc chắn muốn xoá câu hỏi số: ${ID + 1}`,
 					{
@@ -1523,23 +1757,55 @@ $(function () {
 				).then(data => {
 					if (data) {
 						_this.dataSimulator.splice(ID, 1);
-						_this.renderQuizz();
+						_this.renderQuestion();
 					}
 				})
 			})
 		},
 		configurationSubject() {
-			$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').on('click', function () {
-
+			const _this = this;
+			$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').off('click').on('click', function () {
+				$.post(ROOT + "admin/addQuestion", {
+					data: _this.dataSimulator,
+					id_quizz: _this.ID_quizz
+				},
+					function (data, textStatus, jqXHR) {
+						if (data) {
+							swal(`Thêm những câu hỏi vào trắc nhiệm có ID: ${_this.ID_quizz} thành công!`, {
+								icon: 'success',
+								button: false,
+								timer: 2000
+							});
+							$('.admin .tabs').fadeOut(1);
+							$('.admin .tabs').eq(2).fadeIn();
+							$('aside .menu .menu-tab ul li').removeClass('mark');
+							$('aside .menu .menu-tab ul li').eq(2).addClass('mark');
+							$('.admin .tabs.subject .container .quiz .list-question .list').html('');
+							$('.admin .tabs.subject .container .quiz .quizzes .wrapper-data-fill').html('');
+							$('.admin .tabs.subject > header h1#create-subject').removeClass('add-question');
+							$('.admin .tabs.subject > header h1#create-subject').find('span').text("KHÔNG THỂ TẠO NẾU KHÔNG CÓ ID CỤ THỂ");
+							$('.admin .tabs.subject .container .quiz .list-question .bottom-wrapper--confirm .confirm p').removeClass('show');
+							_this.dataSimulator = [];
+							_this.ID_quizz = null;
+							$('.admin .tabs.subject > header h1#create-subject').off('click');
+						} else {
+							swal(`Phát hiện 1 số câu hỏi bị trùng trong cơ sở dữ liệu!`, {
+								icon: 'error',
+								button: false
+							});
+						}
+					},
+					"json"
+				);
 			});
 		},
 		main() {
 			this.events();
-			this.addQuizz();
+			this.addQuestion();
 			this.configurationSubject();
 		}
 	}
-	subject_quizz.main();
+	// subject_quizz.main();
 	const subject_configuration = {
 		catchEvents() {
 

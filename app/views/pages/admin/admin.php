@@ -209,6 +209,10 @@
 						Quiz
 					</div>
 					<div class="line"></div>
+					<div class="role">
+						<i class='bx bxs-book'></i>
+						Questions
+					</div>
 				</div>
 				<div class="filter">
 
@@ -246,12 +250,24 @@
 						<p>Tên quizz</p>
 						<p>ID môn học</p>
 						<p>Tên môn học</p>
-						<p>Khởi tạo</p>
+						<p>Danh sách câu hỏi</p>
+						<p>Tạo câu hỏi</p>
 						<p>Chỉnh sửa</p>
 						<p>Xoá</p>
 					</div>
 					<div class="content">
-						
+					</div>
+				</div>
+				<div class="item-courses question">
+					<div class="title">
+						<p>ID</p>
+						<p>Câu hỏi</p>
+						<p>Câu trả lời</p>
+						<p>Đáp án đúng</p>
+						<p>Chỉnh sửa</p>
+						<p>Xoá</p>
+					</div>
+					<div class="content">	
 						
 					</div>
 				</div>
@@ -263,7 +279,7 @@
 			<h1>QUẢN LÝ MÔN HỌC</h1>
 			<h1 id="create-subject">
 				<i class='bx bx-plus-circle'></i>
-				<span>TẠO ĐỀ THI NHANH</span>
+				<span>KHÔNG THỂ TẠO NẾU KHÔNG CÓ ID CỤ THỂ</span>
 			</h1>
 		</header>
 		<div class="container">
@@ -475,6 +491,33 @@
 		</form>
 	</div>
 </div>
+<div class="popup-edit-question">
+	<div class="wrapper">
+		<form class="form-edit-question">
+			<h1>Câu hỏi</h1>
+			<div class="input-box">
+				<input type="text" name="question" >
+				<span class="message"></span>
+			</div>
+			<h1 class="answers">Nội dung câu trả lời ngăn cách bởi dấu,</h1>
+			<div class="wrapper-2-col">
+				<div class="input-box">
+					<input type="text"  name="answers" placeholder="VD: water,fire,wind,earth">
+					<span class="message"></span>
+				</div>
+
+			</div>
+			<h1>Đáp áp đúng</h1>
+			<div class="input-box">
+				<input type="text" name="result" >
+				<span class="message"></span>
+			</div>
+			<div class="submit">
+				<input type="submit" value="Sửa">
+			</div>
+		</form>
+	</div>
+</div>
 <div class="popup-configuration-subject">
 	<div class="wrapper">
 		<header>
@@ -611,6 +654,18 @@
 				<span class="message"></span>
 			</div>
 			<input type="submit" value="Thêm quizz">
+		</form>
+	</div>
+</div>
+<div class="popup-edit-quizz">
+	<div class="wrapper">
+		<h1>Sửa quizz</h1>
+		<form class="form-edit-quiz">
+			<div class="input-box">
+				<input name="quizz" type="text">
+				<span class="message"></span>
+			</div>
+			<input type="submit" value="Sửa quizz">
 		</form>
 	</div>
 </div>

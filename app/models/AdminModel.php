@@ -204,7 +204,8 @@ class AdminModel extends DB
 		$array['type'] = true;
 		echo json_encode($array);
 	}
-	public function getIdSubject() {
+	public function getIdSubject()
+	{
 		$array = [];
 		$id_course = $_POST['id_course'];
 		$data = $this->connection->query("SELECT education.education_name, courses.course_name, subject.id,subject.subject_name,subject.description,subject.image,subject.create_at,subject.subject_code,subject.is_private,lecturer.user_name from subject
@@ -212,52 +213,138 @@ class AdminModel extends DB
 		inner join courses on courses.id = subject.id_course
 		inner join education on education.id = lecturer.id_education
 		where subject.id_course = $id_course AND subject.status = 1;");
-		while($row = mysqli_fetch_assoc($data)){
+		while ($row = mysqli_fetch_assoc($data)) {
 			$array[] = $row;
 		}
 		header('Content-Type: application/json');
 		echo json_encode($array);
 	}
-	public function deleteSubject() {
+	public function deleteSubject()
+	{
 		$id = $_POST['id'];
 		$this->connection->query("UPDATE subject SET status = 0 WHERE id = $id");
 		header('Content-Type: aplication/json');
 		echo json_encode(true);
 	}
-	public function editSubject() {
+	public function editSubject()
+	{
 		header('Content-Type: application/json');
 		$id = $_POST['id'];
 		$data = $this->connection->query("SELECT * FROM subject where id = $id");
 		$row = mysqli_fetch_assoc($data);
 		echo json_encode($row);
 	}
-	public function sendEditSubject() {
+	public function sendEditSubject()
+	{
 		$id = $_POST['id'];
 		$subject_name = $_POST['subject_name'];
 		$description = $_POST['description'];
 		$is_private = $_POST['is_private'];
-		$subject_code = !empty($_POST['subject_code']) ? "'". $_POST['subject_code'] ."'" : 'NULL';
+		$subject_code = !empty($_POST['subject_code']) ? "'" . $_POST['subject_code'] . "'" : 'NULL';
 		header('Content-Type: application/json');
 		$this->connection->query("UPDATE subject SET subject_name = '$subject_name', description = '$description', is_private = '$is_private',subject_code = $subject_code WHERE id = '$id'");
 		echo json_encode(true);
 	}
-	public function addQuizName() {
+	public function addQuizName()
+	{
 		$quiz_name = $_POST['quiz-name'];
 		$id_subject = $_POST['id_subject'];
+		$isDuplicate = $this->connection->query("SELECT * FROM quizzs WHERE quizz_name = '$quiz_name' AND id_subject = '$id_subject'");
+		if (mysqli_num_rows($isDuplicate) > 0) {
+			echo json_encode(false);
+			return;
+		}
 		$this->connection->query("INSERT INTO quizzs(quizz_name,id_subject)
 		VALUES('$quiz_name','$id_subject')
 		");
 		echo json_encode(true);
 	}
-	public function getIdQuizz(){
+	public function getIdQuizz()
+	{
 		$id_subject = $_POST['id_subject'];
 		$array = [];
 		$data = $this->connection->query("SELECT quizzs.id,quizzs.quizz_name,quizzs.id_subject,subject.subject_name FROM quizzs
 		inner join subject on subject.id = quizzs.id_subject WHERE id_subject = '$id_subject';");
-		while($row = mysqli_fetch_assoc($data)){
+		while ($row = mysqli_fetch_assoc($data)) {
 			$array[] = $row;
 		}
 		header('Content-Type: application/json');
 		echo json_encode($array);
+	}
+	public function deleteQuizz()
+	{
+		$id = $_POST['id'];
+		$this->connection->query("DELETE FROM quizzs WHERE id = '$id'");
+		header('Content-Type: application/json');
+		echo json_encode(true);
+	}
+	public function editQuizz()
+	{
+		$id = $_POST['id'];
+		$quizz_name = $_POST['quizz'];
+		$id_subject = $_POST['id_subject'];
+		$data =	$this->connection->query("SELECT * FROM quizzs WHERE quizz_name = '$quizz_name' AND id_subject = '$id_subject'");
+		if (mysqli_num_rows($data) > 0) {
+			echo json_encode(false);
+			return;
+		}
+		$this->connection->query("UPDATE quizzs SET quizz_name = '$quizz_name' WHERE id = '$id'");
+		header('Content-Type: application/json');
+		echo json_encode(true);
+	}
+	public function addQuestion()
+	{
+		header('Content-Type: application/json');
+		$data = $_POST['data'];
+		$id_quizz = $_POST['id_quizz'];
+		for ($i = 0; $i < count($data); $i++) {
+			$question = $data[$i]['question'];
+			$isDuplicate = $this->connection->query("SELECT * FROM question WHERE question = '$question' AND id_quizz = '$id_quizz'");
+			if (mysqli_num_rows($isDuplicate) > 0) {
+				echo json_encode(false);
+				return;
+			}
+		}
+		foreach ($data as $item) {
+			$question = $item['question'];
+			$answers = $item['answers'];
+			$result = $item['result'];
+			$this->connection->query("INSERT INTO question (question,answers,result,id_quizz) 
+			value('$question','$answers','$result','$id_quizz');");
+		};
+		echo json_encode(true);
+	}
+	public function listQuestion() {
+		header('Content-Type: application/json');
+		$array = [];
+		$id_quizz = $_POST['id_quizz'];
+		$data = $this->connection->query("SELECT quizzs.id as id_quizz,question.id as id_question,question.question,question.answers,question.result FROM question
+		INNER JOIN quizzs ON quizzs.id = question.id_quizz WHERE question.id_quizz = '$id_quizz'");
+		while($row = mysqli_fetch_assoc($data)){
+			$array[] = $row;
+		}
+		echo json_encode($array);
+	}
+	public function deleteQuestion() {
+		header('Content-Type: application/json');
+		$id = $_POST['id'];
+		$this->connection->query("DELETE FROM question WHERE id = '$id'");
+		echo json_encode(true);
+	}
+	public function editQuestion() {
+		header('Content-Type: application/json');
+		$question = $_POST['question'];
+		$answers = $_POST['answers'];
+		$result = $_POST['result'];
+		$id_quizz = $_POST['id_quizz'];
+		$id_question = $_POST['id_question'];
+		$isDuplicate = $this->connection->query("SELECT * FROM question WHERE question = '$question' AND id_quizz = '$id_quizz'");
+		if(mysqli_num_rows($isDuplicate) > 0){
+			echo json_encode(false);
+			return;
+		}
+		$this->connection->query("UPDATE question SET question = '$question',answers = '$answers',result = '$result'
+		WHERE id = '$id_question' AND id_quizz = '$id_quizz'");
+		echo json_encode(true);
 	}
 }

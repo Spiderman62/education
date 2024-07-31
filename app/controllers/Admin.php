@@ -187,5 +187,23 @@
 		public function getIdQuizz(){
 			$this->AdminModel->getIdQuizz();
 		}
+		public function deleteQuizz() {
+			$this->AdminModel->deleteQuizz();
+		}
+		public function editQuizz() {
+			$this->AdminModel->editQuizz();
+		}
+		public function addQuestion() {
+			$this->AdminModel->addQuestion();
+		}
+		public function listQuestion() {
+			$this->AdminModel->listQuestion();
+		}
+		public function deleteQuestion() {
+			$this->AdminModel->deleteQuestion();
+		}
+		public function editQuestion() {
+			$this->AdminModel->editQuestion();
+		}
 	}
 ?>
