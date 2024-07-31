@@ -274,6 +274,7 @@ class AdminModel extends DB
 	public function deleteQuizz()
 	{
 		$id = $_POST['id'];
+		$this->connection->query("DELETE FROM question WHERE id_quizz = '$id'");
 		$this->connection->query("DELETE FROM quizzs WHERE id = '$id'");
 		header('Content-Type: application/json');
 		echo json_encode(true);
