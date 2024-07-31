@@ -1293,9 +1293,9 @@ $(function () {
 						$.post(ROOT + "admin/deleteQuizz", { id: id },
 							function (data, textStatus, jqXHR) {
 								$('.admin .tabs .courses .container .item-courses').fadeOut(300);
-								$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
-								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
-								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+								$('.admin .tabs .courses .container .item-courses').eq(1).fadeIn(300);
+								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).width();
+								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).position().left;
 								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
 								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
 								swal('Xoá thành công', { timer: 1000, icon: 'success', button: false });
@@ -1340,9 +1340,9 @@ $(function () {
 						function (data, textStatus, jqXHR) {
 							if (data) {
 								$('.admin .tabs .courses .container .item-courses').fadeOut(300);
-								$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
-								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
-								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+								$('.admin .tabs .courses .container .item-courses').eq(1).fadeIn(300);
+								const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).width();
+								const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(1).position().left;
 								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
 								$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
 								$('.popup-edit-quizz').removeClass('active');
@@ -1408,9 +1408,9 @@ $(function () {
 							function (data, textStatus, jqXHR) {
 								if (data) {
 									$('.admin .tabs .courses .container .item-courses').fadeOut(300);
-									$('.admin .tabs .courses .container .item-courses').eq(0).fadeIn(300);
-									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).width();
-									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(0).position().left;
+									$('.admin .tabs .courses .container .item-courses').eq(2).fadeIn(300);
+									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).width();
+									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).position().left;
 									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
 									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
 									swal(`Xoá câu hỏi thành công`, { icon: 'success', timer: 1000, button: false });
@@ -1447,44 +1447,51 @@ $(function () {
 				form: '.form-edit-question',
 				selectors: [
 					checkBlank('input[name="question"]'),
-					checkLength('input[name="question"]',8),
+					checkLength('input[name="question"]', 8),
 					checkBlank('input[name="answers"]'),
-					checkLength('input[name="answers"]',8),
+					checkLength('input[name="answers"]', 8),
 					checkBlank('input[name="result"]'),
-					checkLength('input[name="result"]',1),
+					checkLength('input[name="result"]', 1),
 				],
-				callback(forms){
-					const newForm = forms.reduce((accu,curr)=>{
+				callback(forms) {
+					const newForm = forms.reduce((accu, curr) => {
 						accu[curr.name] = curr.value;
 						return accu;
-					},{});
-					
-					const isMatch = newForm.answers.split(',').map(item=> item.trim()).some(item=> item === newForm.result);
+					}, {});
+
+					const isMatch = newForm.answers.split(',').map(item => item.trim()).some(item => item === newForm.result);
 					newForm.id_quizz = id_quizz;
 					newForm.id_question = id_question;
-					if(isMatch){
-						$.post(ROOT+"admin/editQuestion", newForm,
+					if (isMatch) {
+						$.post(ROOT + "admin/editQuestion", newForm,
 							function (data, textStatus, jqXHR) {
-								if(data){
-									swal('Sửa thành công',{
-										icon:'success',
-										timer:1000,
-										button:false
-									})
-								}else{
-									swal('Không được phép trùng tên câu hỏi đã tồn tại!',{
-										icon:'error',
-										timer:1000,
-										button:false
+								if (data) {
+									swal('Sửa thành công', {
+										icon: 'success',
+										timer: 1000,
+										button: false
+									});
+									$('.popup-edit-question').removeClass('active');
+									$('.admin .tabs .courses .container .item-courses').fadeOut(300);
+									$('.admin .tabs .courses .container .item-courses').eq(2).fadeIn(300);
+									const width = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).width();
+									const position = $('.admin .tabs .courses .wrapper-courses-filter .filter-courses .role').eq(2).position().left;
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('left', `${position}px`);
+									$('.admin .tabs .courses .wrapper-courses-filter .filter-courses .line').css('width', `${width}px`);
+								} else {
+									swal('Không được phép trùng tên câu hỏi đã tồn tại!', {
+										icon: 'error',
+										timer: 1000,
+										button: false
 									})
 								}
 							},
 							"json"
 						);
-					}else{
-						swal('Bắt buộc phải khớp 1 trong 4 đáp án trên!',{
-							icon:'error',
-							button:false
+					} else {
+						swal('Bắt buộc phải khớp 1 trong 4 đáp án trên!', {
+							icon: 'error',
+							button: false
 						})
 					}
 				}
@@ -1602,7 +1609,7 @@ $(function () {
 					$.each(forms, function (indexInArray, valueOfElement) {
 						test[valueOfElement.name] = valueOfElement.value;
 					});
-					const arrayAnswers = test.answers.split(',').map(item=> item.trim());
+					const arrayAnswers = test.answers.split(',').map(item => item.trim());
 					if (arrayAnswers.includes(test.result)) {
 						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(test.question));
 						if (isDuplicate) {
