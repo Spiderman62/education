@@ -102,8 +102,8 @@ $(function () {
 	const tabs = {
 		handleTabs() {
 			$('.admin .tabs').fadeOut(1);
-			$('.admin .tabs').eq(2).fadeIn();
-			$('aside .menu .menu-tab ul li').eq(2).addClass('mark');
+			$('.admin .tabs').eq(0).fadeIn();
+			$('aside .menu .menu-tab ul li').eq(0).addClass('mark');
 			$('aside .menu .menu-tab ul li').on('click', function () {
 				const index = $(this).index();
 				$('.admin .tabs').fadeOut(0);
@@ -949,7 +949,7 @@ $(function () {
 				html += `<div data-id="${data[i].id}" class="item">
 						<div class="wrapper">
 							<div class="top">		
-									<img src="${data[i].image !== null ? ROOT + `public/admin/images/${data[i].image}` : ROOT + "public/admin/images/default_image.avif"}" alt="">
+									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.avif"}" alt="">
 								<div class="content">
 									<p class="update-at">Ngày tạo ${data[i].create_at}</p>
 									<p class="title">${data[i].subject_name}</p>
@@ -966,7 +966,7 @@ $(function () {
 							</div>
 							<div class="bottom">
 								<div class="wrapper-profile">
-									<img src="${data[i].image !== null ? ROOT + `public/admin/images/${data[i].image}` : ROOT + "public/admin/images/default_image.avif"}" alt="">
+									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.avif"}" alt="">
 								</div>
 								<div class="wrapper-action">
 									<p><i class='bx bx-list-ul list'></i>Danh sách câu hỏi</p>
@@ -1611,7 +1611,7 @@ $(function () {
 					checkBlank('#answers'),
 					checkLength('#answers', 3),
 					checkBlank('#result'),
-					checkLength('#result', 2),
+					checkLength('#result', 1),
 				], callback(forms) {
 					const test = {};
 					$.each(forms, function (indexInArray, valueOfElement) {
@@ -1706,7 +1706,8 @@ $(function () {
 						obj.question = question;
 						let [result] = obj.result;
 						obj.result = result;
-						const ID_duplicate = parseInt(id_item[id_item.length-1]);
+						const [item,num] = id_item.split('-');
+						const ID_duplicate = parseInt(num);
 						let isDuplicate = null;
 						for(let i = 0;i<_this.dataSimulator.length;i++){
 							if(i !== ID_duplicate){

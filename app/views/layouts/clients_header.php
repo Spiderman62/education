@@ -45,7 +45,15 @@
 	</a>
 	<ul>
 		<li><a <?php echo $current_page === "home" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "home" ?>>Trang chủ</a></li>
-		<li><a <?php echo $current_page === "quiz" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "quiz" ?>>Đề thi</a></li>
+		<?php
+		if (!empty($_SESSION['info']['major_name'])) {
+		?>
+			<li><a <?php echo $current_page === "quiz" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "quiz/student" ?>>Đề thi</a></li>
+		<?php } else if (!empty($_SESSION['info']['education_name'])) { ?>
+			<li><a <?php echo $current_page === "quiz" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "quiz/lecturer" ?>>Đề thi</a></li>
+		<?php } else { ?>
+			<li><a <?php echo $current_page === "quiz" ? "class='primary_nav'" : "" ?> href=<?php echo __ROOT__ . "quiz" ?>>Đề thi</a></li>
+		<?php } ?>
 		<li><a <?php echo $current_page === "news" ? "class='primary_nav'" : "" ?> href="">Tin tức</a></li>
 		<li><a <?php echo $current_page === "guide" ? "class='primary_nav'" : "" ?> href="">Hướng dẫn</a></li>
 		<li><a <?php echo $current_page === "contact" ? "class='primary_nav'" : "" ?> href="">Liên hệ</a></li>
