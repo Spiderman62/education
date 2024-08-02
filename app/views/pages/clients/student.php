@@ -109,162 +109,33 @@
 					</div>
 				</div>
 				<div class="bottom">
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div data-id="${subject[j].id_subject}" class="item">
-							<div class="wrapper-image">
-								<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-							</div>
-							<div class="content">
-								<h1 class="subject_name">asdfasdfasdnfasndfiajsbdfiabsdfbasdfbasdbfkzshdb</h1>
-								<div class="infor-lecturer">
-									<div class="profile-image">
-										<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
-									</div>
-									<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
-								</div>
-								<p class="create_at"><i class='bx bx-time'></i> 1/8/2024 9:17:44</p>
-								<div class="wrapper-icon">
-									<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 40</span>
-									<span><i class='bx bxs-book book'></i>Trắc nhiệm: 4</span>
-								</div>
-								<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 		<div class="detail-course">
 			<div class="wrapper">
+				<div class="turn-back">
+					<p>Quay về</p>
+				</div>
 				<div class="detail-subject">
 					<h1 class="infor-detail">Thông tin môn học</h1>
 					<div class="wrapper-image">
-						<img src=<?php echo __ROOT__ . "public/images/default_image.avif" ?> alt="">
+						<img src="" alt="">
 					</div>
-					<h1 class="subject_name">Tiếng anh lớp 10 chương trình đại trà</h1>
-					<p class="description">Bộ đề trắc nghiệm toàn diện nhằm giúp học sinh lớp 10 ôn tập và chuẩn bị cho kỳ thi học kỳ và kỳ thi cuối năm về môn Tiếng Anh. Bao gồm các dạng bài tập như ngữ pháp, từ vựng, đọc hiểu và nghe hiểu.</p>
+					<h1 class="subject_name"></h1>
+					<p class="description"></p>
 					<div class="infor-lecturer">
 						<div class="profile-image">
-							<img src=<?php echo __ROOT__ . "public/images/anonymous.jpg" ?> alt="">
+							<img src="" alt="">
 						</div>
-						<p class="lecturer_username">Giảng viên: Nguyễn Lâm Hoàng</p>
+						<p class="lecturer_username"></p>
 					</div>
-					<p class="create_at"><i class='bx bx-time'></i> 2/8/2024</p>
+					<p class="create_at"></p>
 					<div class="wrapper-icon">
-						<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: 60</span>
-						<span><i class='bx bxs-book book'></i>Trắc nhiệm: 5</span>
+						<span class="question"></span>
+						<span class="book"></span>
 					</div>
-					<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu làm bài</div>
+					<div data-id="" class="start"><i class='bx bx-book-content'></i>Bắt đầu làm bài</div>
 				</div>
 				<div class="comment">
 					<div class="about-english">

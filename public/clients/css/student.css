@@ -508,6 +508,7 @@ aside.close+section {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-evenly;
+	align-items: center;
 	gap: 20px;
 }
 
@@ -757,6 +758,7 @@ aside.close+section {
 	color: var(--black-color);
 	transition: var(--tran-03);
 	column-gap: 40px;
+	row-gap: 20px;
 }
 
 .expand .courses .detail-course .wrapper .detail-subject {
@@ -861,9 +863,22 @@ aside.close+section {
 	margin-top: 10px;
 }
 
+.expand .courses .detail-course .wrapper .turn-back{
+	grid-column: 1/6;
+	background-color: var(--sidebar-color);
+	transition: var(--tran-03);
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 12px 1px rgb(188, 188, 188);
+}
+.expand .courses .detail-course .wrapper .turn-back p{
+	font-size: var(--font-size-18);
+	font-weight: 500;
+	cursor: pointer;
+}
 .expand .courses .detail-course .wrapper .comment {
 	grid-column: 3/6;
-	grid-row: 1/3;
+	grid-row: 2/3;
 	background-color: var(--sidebar-color);
 	padding: 20px;
 	border-radius: 8px;

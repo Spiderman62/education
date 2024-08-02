@@ -38,4 +38,54 @@ class QuizzStudentModel extends DB
 
 		echo json_encode($result);
 	}
+	public function getAllSubjectFromCourse() {
+		header('Content-Type: application/json');
+		$id_course = $_POST['id_course'];
+		$result = [];
+		$data = $this->connection->query("SELECT 
+    	subject.id AS id_subject, 
+    	subject.subject_name,
+    	subject.update_at,
+    	subject.image AS subject_image,
+    	lecturer.image AS lecturer_image,
+    	lecturer.user_name,
+    	COALESCE(COUNT(DISTINCT quizzs.id), 0) AS total_quizzes,
+    	COALESCE(COUNT(DISTINCT question.id), 0) AS total_questions
+		FROM subject
+		INNER JOIN courses ON subject.id_course = courses.id
+		INNER JOIN lecturer ON lecturer.id = subject.id_lecturer  
+		LEFT JOIN quizzs ON quizzs.id_subject = subject.id
+		LEFT JOIN question ON question.id_quizz = quizzs.id
+		WHERE subject.id_course = '$id_course' AND subject.status = 1 AND subject.is_private = 0 
+		GROUP BY subject.id limit 20;");
+		while($row = mysqli_fetch_assoc($data)){
+			$result[] = $row;
+		}
+		echo json_encode($result);
+	}
+	public function detailSubject() {
+		header('Content-Type: application/json');
+		$result = [];
+		$id_subject = $_POST['id_subject'];
+		$data = $this->connection->query("SELECT 
+    	subject.id AS id_subject, 
+    	subject.subject_name,
+		subject.description,
+    	subject.update_at,
+    	subject.image AS subject_image,
+    	lecturer.image AS lecturer_image,
+    	lecturer.user_name,
+    	COALESCE(COUNT(DISTINCT quizzs.id), 0) AS total_quizzes,
+    	COALESCE(COUNT(DISTINCT question.id), 0) AS total_questions
+		FROM subject
+		INNER JOIN lecturer ON lecturer.id = subject.id_lecturer  
+		LEFT JOIN quizzs ON quizzs.id_subject = subject.id
+		LEFT JOIN question ON question.id_quizz = quizzs.id
+		WHERE subject.id = '$id_subject' AND subject.status = 1 AND subject.is_private = 0 
+		GROUP BY subject.id;");
+		while($row = mysqli_fetch_assoc($data)){
+			$result = $row;
+		}
+		echo json_encode($result);
+	}
 }

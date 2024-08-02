@@ -9,4 +9,10 @@ class QuizzStudent extends Controller
 	public function callAPISubject() {
 		$this->QuizzStudentModel->callAPISubject();
 	}
+	public function getAllSubjectFromCourse() {
+		$this->QuizzStudentModel->getAllSubjectFromCourse();
+	}
+	public function detailSubject() {
+		$this->QuizzStudentModel->detailSubject();
+	}
 }
