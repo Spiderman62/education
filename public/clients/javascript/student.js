@@ -53,13 +53,13 @@ $(function () {
 					htmlSubjects += `
 					<div data-id="${subject[j].id_subject}" class="item">
 						<div class="wrapper-image">
-							<img src=${subject[j].subject_image !== null ? ROOT +`public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.avif"} alt="">
+							<img src=${subject[j].subject_image !== null ? ROOT + `public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.avif"} alt="">
 						</div>
 						<div class="content">
 							<h1 class="subject_name">${subject[j].subject_name}</h1>
 							<div class="infor-lecturer">
 								<div class="profile-image">
-									<img src=${subject[j].lecturer_image !== null ? ROOT +`public/images/${subject[j].lecturer_image}` : ROOT + "public/images/anonymous.jpg"} alt="">
+									<img src=${subject[j].lecturer_image !== null ? ROOT + `public/images/${subject[j].lecturer_image}` : ROOT + "public/images/anonymous.jpg"} alt="">
 								</div>
 								<p class="lecturer_username">Giảng viên: ${subject[j].user_name}</p>
 							</div>
@@ -68,7 +68,7 @@ $(function () {
 								<span><i class='bx bxs-help-circle questions'></i>Câu hỏi: ${subject[j].total_questions}</span>
 								<span><i class='bx bxs-book book'></i>Trắc nhiệm: ${subject[j].total_quizzes}</span>
 							</div>
-							<div class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
+							<div data-id="${subject[j].id_subject}" class="start"><i class='bx bx-book-content'></i>Bắt đầu</div>
 						</div>
 					</div>
 					`
@@ -86,10 +86,26 @@ $(function () {
 				`
 				htmlSubjects = "";
 			}
-			$('.expand .courses .handle--course').html(htmlCourses);
+			$('.expand .courses .handle--course').html(htmlCourses).hide(1).slideDown(2000);
+			this.showMore();
+			this.detailSubject();
+		},
+		showMore() {
+			
+			
+		},
+		detailSubject() {
+
 		},
 		main() {
-			this.call();
+			// this.call();
+			// $('.expand .tab.courses .handle--course').fadeOut(300);
+			// $('.expand .tab.courses .show--more-courses').fadeIn(300);
+			$('.expand .tab.courses .detail-course').fadeIn(300);
+			$('.expand .courses .course-container .top p.show--more').on('click', function () {
+				const id_course = $(this).attr('data-id');
+
+			});
 		}
 	}
 	callAPISubject.main();
