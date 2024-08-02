@@ -42,6 +42,11 @@
 	?>
 		<script src=<?php echo __ROOT__ . "public/jQuery.js?v=" . time(); ?>></script>
 	<?php } ?>
+	<?php
+		if(!empty($sweetAlert)){
+	?>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<?php }?>
 </head>
 
 <body>
@@ -64,6 +69,10 @@
 	if (!empty($root)) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/root.js?v=" . time(); ?>></script>
+	<?php } ?>
+	<?php if (!empty($validate)) {
+	?>
+		<script src=<?php echo __ROOT__ . "public/validate.js?v=" . time(); ?>></script>
 	<?php } ?>
 	<?php if (!empty($lenis)) { ?>
 		<script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>

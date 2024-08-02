@@ -25,6 +25,8 @@ class Quiz extends Controller
 		$this->data['gsap'] = true;
 		$this->data['fonts'] = true;
 		$this->data['root'] = true;
+		$this->data['validate'] = true;
+		$this->data['sweetAlert'] = true;
 		$this->view('clients_layout', $this->data);
 	}
 	public function lecturer()

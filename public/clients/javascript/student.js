@@ -156,14 +156,21 @@ $(function () {
 				_this.detailSubject(id_subject);
 			});
 		},
-		detailSubject(id_subject) {
+		detailSubject(id_subject = null, is_private = 0,subject_code = null) {
 			const _this = this;
-			$('.expand .tab.courses .detail-course').fadeIn(300);
 			$.post(ROOT + "quizzStudent/detailSubject", {
-				id_subject: id_subject
+				id_subject: id_subject,
+				is_private: is_private,
+				subject_code:subject_code
 			},
-				function (data, textStatus, jqXHR) {
+			function (data, textStatus, jqXHR) {
+				if(data){
+					$('.expand .tab.courses .handle--course').fadeOut(300);
+					$('.expand .tab.courses .detail-course').fadeIn(300);
 					_this.renderDetailSubject(data);
+					}else{
+						swal(`Không tồn tại môn học!`,{timer:2000,icon:'error',button:false});
+					}
 				},
 				"json"
 			);
@@ -172,8 +179,17 @@ $(function () {
 				$('.expand .tab.courses .handle--course').fadeIn(300);
 			});
 		},
-		detailSubjectPrivate(){
-			
+		detailSubjectPrivate() {
+			const _this = this;
+			validate({
+				form: '#search-subject-private',
+				selectors: [checkBlank('input[name="code"]')],
+				callback(forms) {
+					let [name] = forms;
+					name = name.value;
+					_this.detailSubject(null,1,name);
+				}
+			})
 		},
 		renderDetailSubject(data) {
 			const subject = $('.expand .courses .detail-course .wrapper .detail-subject');
@@ -185,10 +201,78 @@ $(function () {
 			subject.find('.create_at').html(`<i class='bx bx-time'></i> ${data.update_at}`);
 			subject.find('.wrapper-icon .question').html(`<i class='bx bxs-help-circle questions'></i>Câu hỏi: ${data.total_questions}`);
 			subject.find('.wrapper-icon .book').html(`<i class='bx bxs-book book'></i>Trắc nhiệm: ${data.total_quizzes}`);
-			subject.find('.start').attr('data-id', `${data.id_subject}`)
+			subject.find('.start').attr('data-id', `${data.id_subject}`);
+			this.getIdSubject();
+		},
+		getIdSubject(){
+			const _this = this;
+			$('.expand .courses .detail-course .wrapper .detail-subject .start').off('click').on('click',function(){
+				const id_subject = parseInt($(this).attr('data-id'));
+				$('.popup-choose-quizz').addClass('active');
+				$.post(ROOT+"quizzStudent/getAllQuizz", {id_subject:id_subject},
+					function (data, textStatus, jqXHR) {
+						_this.renderQuizzFromSubject(data);
+					},
+					"json"
+				);
+			});	
+			$('.popup-choose-quizz').on('click',function(){
+				$('.popup-choose-quizz').removeClass('active');
+				$('.popup-choose-quizz .wrapper .content .show-screen ul').html('');
+				$('.popup-choose-quizz .wrapper .content .show-screen .screen').text('Vui Lòng chọn trắc nhiệm');
+				$('.select-quizz input[name="id_quizz"]').val('');
+			});
+			$('.popup-choose-quizz .wrapper').on('click',function(e){
+				e.stopPropagation();
+			});
+		},
+		renderQuizzFromSubject(data){
+			const _this = this;
+			let html = "";
+			if(data.length > 0){
+				for(let i = 0;i<data.length;i++){
+					html += `
+					<li data-id="${data[i].id}">${data[i].quizz_name}</li>
+					`
+				}
+				$('.popup-choose-quizz .wrapper .content .show-screen ul').html(html);
+				_this.configurationQuizzFromSubject();
+			}else{
+				$('.popup-choose-quizz .wrapper .content .show-screen .screen').text('Rất tiếc vì chúng tôi không trắc nhiệm =((');
+			}
+		},
+		configurationQuizzFromSubject(){
+			$('.popup-choose-quizz .wrapper .content .show-screen .screen').off('click').on('click',function(){
+				$('.popup-choose-quizz .wrapper .content .show-screen ul').toggleClass('active');
+			});
+			$('.popup-choose-quizz .wrapper .content .show-screen ul li').off('click').on('click',function(){
+				$('.popup-choose-quizz .wrapper .content .show-screen ul').removeClass('active');
+				const id_quizz = parseInt($(this).attr('data-id'));
+				const quizz_text = $(this).text();
+				$('.popup-choose-quizz .wrapper .content .show-screen .screen').text(quizz_text);
+				$('.select-quizz input[name="id_quizz"]').val(id_quizz);
+			});
+			$('.popup-choose-quizz .wrapper .content .show-screen .confirm').off('click').on('click',function(){
+				$('.select-quizz input[type="submit"]').click();
+			})
+			validate({
+				form:'.select-quizz',
+				selectors:[
+					checkBlank('input[name="id_quizz"]')
+				],
+				callback(forms){
+					$.post(ROOT+"quizzStudent/getQuestion", forms,
+						function (data, textStatus, jqXHR) {
+							console.log(data);
+						},
+						"json"
+					);
+				},
+			});
 		},
 		main() {
 			this.call();
+			this.detailSubjectPrivate();
 		}
 	}
 	callAPISubject.main();

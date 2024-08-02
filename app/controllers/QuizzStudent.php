@@ -15,4 +15,10 @@ class QuizzStudent extends Controller
 	public function detailSubject() {
 		$this->QuizzStudentModel->detailSubject();
 	}
+	public function getAllQuizz() {
+		$this->QuizzStudentModel->getAllQuizz();
+	}
+	public function getQuestion() {
+		$this->QuizzStudentModel->getQuestion();
+	}
 }

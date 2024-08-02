@@ -15,7 +15,9 @@
 				<div class="icon">
 					<i class='bx bx-search'></i>
 				</div>
-				<input type="text" placeholder="Code...">
+				<form id="search-subject-private">
+					<input type="text" name="code" placeholder="Code...">
+				</form>
 			</li>
 			<ul>
 				<a style="text-decoration: none;" href="<?php echo __ROOT__ . "home" ?>">
@@ -176,3 +178,31 @@
 		truy cap gan day
 	</div>
 </section>
+<div class="popup-choose-quizz">
+	<div class="wrapper">
+		<div class="icon">
+			<svg class="logo" viewBox="0 0 128 128" width="50" height="50" data-v-3fd5be35="">
+				<path fill="#42b883" d="M78.8,10L64,35.4L49.2,10H0l64,110l64-110C128,10,78.8,10,78.8,10z" data-v-3fd5be35=""></path>
+				<path fill="#35495e" d="M78.8,10L64,35.4L49.2,10H25.6L64,76l38.4-66H78.8z" data-v-3fd5be35=""></path>
+			</svg>
+		</div>
+		<div class="content">
+			<h1>Welcome to the brand new world!</h1>
+			<p class="description">Trước khi làm bài hãy chọn trắc nhiệm mà bạn muốn</p>
+			<div class="show-screen">
+				<div class="screen">Vui Lòng chọn trắc nhiệm</div>
+				<ul>
+					
+				</ul>
+				<div class="confirm">Xác nhận</div>
+			</div>
+			<form class="select-quizz">
+				<div class="input-box">
+					<input type="text" hidden name="id_quizz">
+					<p class="message"></p>
+				</div>
+				<input hidden type="submit">
+			</form>
+		</div>
+	</div>
+</div>
