@@ -166,6 +166,51 @@
 				</div>
 			</div>
 		</div>
+		<div class="quizz">
+			<div class="start-education">
+				<div class="progress">
+					<h1 class="name-quizz"></h1>
+					<div class="info-lecturer">
+						<div class="wrapper-image">
+							<img src="" alt="">
+						</div>
+						<p class="name-lecturer"></p>
+					</div>
+					<div class="line"></div>
+					<div class="quiz_progress">
+						<svg>
+							<circle r="82"></circle>
+							<circle id="progress" r="82"></circle>
+						</svg>
+						<span id="progress_text"></span>
+					</div>
+					<div class="end-quizz">Kết thúc bài làm</div>
+					<div class="turn-back">Quay về</div>
+				</div>
+				<div class="question">
+					<h5 class="total-question"></h5>
+					<p class="name-question"></p>
+					<div class="line"></div>
+					<ul>
+						<li>A.<span></span></li>
+						<li>B.<span></span></li>
+						<li>C.<span></span></li>
+						<li>D.<span></span></li>
+					</ul>
+					<div class="wrapper-button">
+						<button class="prev"><i class='bx bxs-left-arrow-circle'></i>Trước</button>
+						<button class="next">Sau<i class='bx bxs-right-arrow-circle'></i></button>
+					</div>
+				</div>
+				<div class="list-question">
+					<h1>Mục lục câu hỏi</h1>
+					<div class="line"></div>
+					<ul>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 	</div>
 	<div class="tab">
@@ -192,7 +237,7 @@
 			<div class="show-screen">
 				<div class="screen">Vui Lòng chọn trắc nhiệm</div>
 				<ul>
-					
+
 				</ul>
 				<div class="confirm">Xác nhận</div>
 			</div>

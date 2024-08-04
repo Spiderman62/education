@@ -30,15 +30,16 @@ class QuizzStudentModel extends DB
 				$subject[] = $rows;
 			}
 			$result[] = [
-					'id_course'=> $id_course,
-					'course_name' => $course_name,
-					'subject'=> $subject
+				'id_course' => $id_course,
+				'course_name' => $course_name,
+				'subject' => $subject
 			];
 		};
 
 		echo json_encode($result);
 	}
-	public function getAllSubjectFromCourse() {
+	public function getAllSubjectFromCourse()
+	{
 		header('Content-Type: application/json');
 		$id_course = $_POST['id_course'];
 		$result = [];
@@ -58,18 +59,19 @@ class QuizzStudentModel extends DB
 		LEFT JOIN question ON question.id_quizz = quizzs.id
 		WHERE subject.id_course = '$id_course' AND subject.status = 1 AND subject.is_private = 0 
 		GROUP BY subject.id limit 20;");
-		while($row = mysqli_fetch_assoc($data)){
+		while ($row = mysqli_fetch_assoc($data)) {
 			$result[] = $row;
 		}
 		echo json_encode($result);
 	}
-	public function detailSubject() {
+	public function detailSubject()
+	{
 		header('Content-Type: application/json');
 		$result = [];
-		$id_subject = !empty($_POST['id_subject']) ?$_POST['id_subject'] : null;
+		$id_subject = !empty($_POST['id_subject']) ? $_POST['id_subject'] : null;
 		$is_private = (int)$_POST['is_private'];
-		$subject_code = !empty($_POST['subject_code']) ? $_POST['subject_code'] : null ;
-		if($is_private === 0){
+		$subject_code = !empty($_POST['subject_code']) ? $_POST['subject_code'] : null;
+		if ($is_private === 0) {
 			$data = $this->connection->query("SELECT 
 			subject.id AS id_subject, 
 			subject.subject_name,
@@ -86,10 +88,10 @@ class QuizzStudentModel extends DB
 			LEFT JOIN question ON question.id_quizz = quizzs.id
 			WHERE subject.id = '$id_subject' AND subject.status = 1 AND subject.is_private = 0 
 			GROUP BY subject.id;");
-			while($row = mysqli_fetch_assoc($data)){
+			while ($row = mysqli_fetch_assoc($data)) {
 				$result = $row;
 			}
-		}else{
+		} else {
 			$data = $this->connection->query("SELECT 
 			subject.id AS id_subject, 
 			subject.subject_name,
@@ -107,35 +109,45 @@ class QuizzStudentModel extends DB
 			LEFT JOIN question ON question.id_quizz = quizzs.id
 			WHERE subject.status = 1 AND subject.subject_code = '$subject_code' 
 			GROUP BY subject.id;");
-			if(mysqli_num_rows($data) > 0){
-				while($row = mysqli_fetch_assoc($data)){
+			if (mysqli_num_rows($data) > 0) {
+				while ($row = mysqli_fetch_assoc($data)) {
 					$result = $row;
 				}
-			}else{
+			} else {
 				echo json_encode(null);
 				return;
 			}
 		}
 		echo json_encode($result);
 	}
-	public function getAllQuizz() {
+	public function getAllQuizz()
+	{
 		header('Content-Type: application/json');
 		$result = [];
 		$id_subject = $_POST['id_subject'];
 		$data = $this->connection->query("SELECT * FROM quizzs WHERE id_subject = '$id_subject'");
-		while($row = mysqli_fetch_assoc($data)){
+		while ($row = mysqli_fetch_assoc($data)) {
 			$result[] = $row;
 		};
 		echo json_encode($result);
 	}
-	public function getQuestion() {
+	public function getQuestion()
+	{
 		header('Content-Type: application/json');
 		$id_quizz = $_POST['id_quizz'];
 		$result = [];
-		$data = $this->connection->query("SELECT * FROM question WHERE id_quizz = '$id_quizz'");
-		while($row = mysqli_fetch_assoc($data)){
-			$result[] = $row;
+		$infor = mysqli_fetch_assoc($this->connection->query("SELECT quizzs.quizz_name,quizzs.id as id_quizz,subject.id as id_subject,lecturer.user_name,lecturer.image from quizzs
+		inner join subject on subject.id = quizzs.id_subject 
+		inner join lecturer on lecturer.id = subject.id_lecturer
+		where quizzs.id = '$id_quizz';"));
+		$data = $this->connection->query("SELECT id,question,answers,result FROM question WHERE id_quizz = '$id_quizz'");
+		while ($row = mysqli_fetch_assoc($data)) {
+			$questions[] = $row;
 		};
+		$result = [
+			'infor'=>$infor,
+			'questions'=>$questions
+		];
 		echo json_encode($result);
 	}
 }

@@ -1615,9 +1615,10 @@ $(function () {
 				], callback(forms) {
 					const test = {};
 					$.each(forms, function (indexInArray, valueOfElement) {
-						test[valueOfElement.name] = valueOfElement.value;
+						test[valueOfElement.name] = valueOfElement.value.trim();
 					});
-					const arrayAnswers = test.answers.split(',').map(item => item.trim());
+					test.answers = test.answers.split(',').map(item => item.trim()).join(',');
+					const arrayAnswers = test.answers.split(',');
 					if (arrayAnswers.includes(test.result)) {
 						const isDuplicate = _this.dataSimulator.some(item => item.question.includes(test.question));
 						if (isDuplicate) {
