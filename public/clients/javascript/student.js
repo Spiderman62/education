@@ -327,13 +327,13 @@ $(function () {
 				handleAnswers() {
 					const _this = this;
 					$('.expand .courses .start-education .question ul li').on('click', function () {
-						if(!_this.isSubmit){
+						if (!_this.isSubmit) {
 							$('.expand .courses .start-education .question ul li').removeClass('active');
 							$('.expand .courses .start-education .question ul li').eq($(this).index()).addClass('active');
 							$('.expand .courses .start-education .list-question ul li').eq(_this.currentIndex).addClass('active');
 							_this.listsSubmit[_this.currentIndex] = $(this).index();
 							_this.handleProgress();
-						}else{
+						} else {
 							return;
 						}
 					});
@@ -342,10 +342,10 @@ $(function () {
 					const _this = this;
 					const radius = $('.expand .courses .start-education .progress .quiz_progress svg circle').attr('r');
 					const progressLength = _this.listsSubmit.filter(item => item >= 0);
-					if(!_this.isSubmit){
+					if (!_this.isSubmit) {
 						$('#progress').css('stroke-dasharray', `${(2 * Math.PI * radius) * progressLength.length / _this.data.length}px 9999px`);
 						$('#progress_text').text(`${progressLength.length}/${_this.data.length}`);
-					}else{
+					} else {
 						$('#progress').css('stroke-dasharray', `${(2 * Math.PI * radius) * correct / _this.data.length}px 9999px`);
 						$('#progress_text').text(`${correct}/${_this.data.length}`);
 					}
@@ -428,11 +428,11 @@ $(function () {
 						item.answers = item.answers.split(',').sort(() => Math.random() - Math.random()).join(',');
 					});
 				},
-				handleKeyDown(){
+				handleKeyDown() {
 					const _this = this;
-					$(document).on('keydown',function(e){
+					$(document).on('keydown', function (e) {
 						const direction = e.keyCode;
-						switch(direction){
+						switch (direction) {
 							case 39:
 								$('.expand .courses .start-education .question .wrapper-button button.next').trigger('click');
 								return;
@@ -444,11 +444,49 @@ $(function () {
 						}
 					})
 				},
-				sendDataToStudent(){
+				sendDataToStudent() {
 					const _this = this;
-					$('.expand .courses .start-education .turn-back').on('click',function(){
-						console.log(_this.listsSubmit);
+					const countCorrect = _this.listsResult.filter((item, index) => item === _this.listsSubmit[index]).length;
+					const countIncorrect = _this.listsResult.filter((item, index) => item !== _this.listsSubmit[index]).length;
+					const totalQuestion = _this.data.length;
+					const score = parseFloat(((countCorrect / totalQuestion) * 10).toFixed(1));
+					const gradeLevel = this.calculatorGradeLevel(score);
+					const result = {
+						countCorrect:countCorrect,
+						countIncorrect:countIncorrect,
+						totalQuestion:totalQuestion,
+						score:score,
+						gradeLevel:gradeLevel,
+						id_quizz:_this.infor.id_quizz
+					}
+					$.post(ROOT+"quizzStudent/insertScoreStudent", result,
+						function (data, textStatus, jqXHR) {
+							
+						},
+						"json"
+					);
+					$.post(ROOT+"quizzStudent/insertStudentSubject", {id_subject:_this.infor.id_subject},
+						function (data, textStatus, jqXHR) {
+							
+						},
+						"json"
+					);
+					$('.expand .courses .start-education .turn-back').on('click', function () {
+						window.location.href = ROOT+"quiz/student";
 					});
+				},
+				calculatorGradeLevel(score) {
+					if (score >= 9) {
+						return "Xuất sắc";
+					} else if (score >= 8) {
+						return "Giỏi";
+					} else if (score >= 7) {
+						return "Khá";
+					} else if (score >= 5) {
+						return "Trung bình";
+					} else {
+						return "Yếu";
+					}
 				},
 				main() {
 					this.inforQuizz();

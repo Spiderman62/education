@@ -21,4 +21,10 @@ class QuizzStudent extends Controller
 	public function getQuestion() {
 		$this->QuizzStudentModel->getQuestion();
 	}
+	public function insertScoreStudent() {
+		$this->QuizzStudentModel->insertScoreStudent();
+	}
+	public function insertStudentSubject() {
+		$this->QuizzStudentModel->insertStudentSubject();
+	}
 }

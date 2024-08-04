@@ -150,4 +150,43 @@ class QuizzStudentModel extends DB
 		];
 		echo json_encode($result);
 	}
+	public function insertScoreStudent() {
+		date_default_timezone_set('Asia/Ho_Chi_Minh');
+		header('Content-Type: application/json');
+		$score = $_POST['score'];
+		$countCorrect = $_POST['countCorrect'];
+		$countIncorrect = $_POST['countIncorrect'];
+		$totalQuestion = $_POST['totalQuestion'];
+		$gradeLevel = $_POST['gradeLevel'];
+		$gradeLevel = $_POST['gradeLevel'];
+		$id_quizz = $_POST['id_quizz'];
+		$id_student = $_SESSION['info']['id'];
+		$date = date('Y-m-d H:i:s');
+		$isDuplicate = $this->connection->query("SELECT id FROM score_student WHERE id_student = '$id_student' AND id_quizz = '$id_quizz'");
+		if(mysqli_num_rows($isDuplicate) > 0){
+			$row = mysqli_fetch_assoc($isDuplicate);
+			$id_score = $row['id'];
+			$this->connection->query("UPDATE score_student SET 
+			total = '$totalQuestion',correct = '$countCorrect',
+			incorrect = '$countIncorrect',grade_level = '$gradeLevel',score = '$score',create_at = '$date'
+			WHERE id = '$id_score'");
+			return;
+		}
+		$this->connection->query("INSERT INTO score_student(total,correct,incorrect,id_student,id_quizz,grade_level,score,create_at)
+		value('$totalQuestion','$countCorrect','$countIncorrect','$id_student','$id_quizz','$gradeLevel','$score','$date');
+		");
+	}
+	public function insertStudentSubject() {
+		date_default_timezone_set('Asia/Ho_Chi_Minh');
+		$date = date('Y-m-d H:i:s');
+		$id_student = $_SESSION['info']['id'];
+		$id_subject = $_POST['id_subject'];
+		$isDuplicate = $this->connection->query("SELECT id FROM student_subject WHERE id_subject = '$id_subject' AND id_student = '$id_student'");
+		if(mysqli_num_rows($isDuplicate) > 0){
+			return;
+		}
+		$this->connection->query("INSERT INTO student_subject(id_student,id_subject,registration_date)
+		value('$id_student','$id_subject','$date');
+		");
+	}
 }
