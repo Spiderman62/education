@@ -145,12 +145,13 @@ class QuizzStudentModel extends DB
 			$questions[] = $row;
 		};
 		$result = [
-			'infor'=>$infor,
-			'questions'=>$questions
+			'infor' => $infor,
+			'questions' => $questions
 		];
 		echo json_encode($result);
 	}
-	public function insertScoreStudent() {
+	public function insertScoreStudent()
+	{
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
 		header('Content-Type: application/json');
 		$score = $_POST['score'];
@@ -163,7 +164,7 @@ class QuizzStudentModel extends DB
 		$id_student = $_SESSION['info']['id'];
 		$date = date('Y-m-d H:i:s');
 		$isDuplicate = $this->connection->query("SELECT id FROM score_student WHERE id_student = '$id_student' AND id_quizz = '$id_quizz'");
-		if(mysqli_num_rows($isDuplicate) > 0){
+		if (mysqli_num_rows($isDuplicate) > 0) {
 			$row = mysqli_fetch_assoc($isDuplicate);
 			$id_score = $row['id'];
 			$this->connection->query("UPDATE score_student SET 
@@ -176,17 +177,60 @@ class QuizzStudentModel extends DB
 		value('$totalQuestion','$countCorrect','$countIncorrect','$id_student','$id_quizz','$gradeLevel','$score','$date');
 		");
 	}
-	public function insertStudentSubject() {
+	public function insertStudentSubject()
+	{
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
 		$date = date('Y-m-d H:i:s');
 		$id_student = $_SESSION['info']['id'];
 		$id_subject = $_POST['id_subject'];
 		$isDuplicate = $this->connection->query("SELECT id FROM student_subject WHERE id_subject = '$id_subject' AND id_student = '$id_student'");
-		if(mysqli_num_rows($isDuplicate) > 0){
+		if (mysqli_num_rows($isDuplicate) > 0) {
 			return;
 		}
 		$this->connection->query("INSERT INTO student_subject(id_student,id_subject,registration_date)
 		value('$id_student','$id_subject','$date');
 		");
+	}
+	public function callAPIResult()
+	{
+		header('Content-Type: application');
+		$result = [];
+		$id_student = $_SESSION['info']['id'];
+		$data = $this->connection->query("SELECT score_student.correct,score_student.incorrect,score_student.grade_level,
+		DATE_FORMAT(score_student.create_at,'%d/%m/%Y - %H:%i:%s') as create_at,score_student.total,quizzs.quizz_name,score_student.score,
+		subject.subject_name
+		FROM score_student 
+		inner join quizzs on quizzs.id = score_student.id_quizz
+		inner join subject on subject.id = quizzs.id_subject
+		WHERE score_student.id_student = '$id_student';
+		");
+		while ($row = mysqli_fetch_assoc($data)) {
+			$result[] = $row;
+		}
+		echo json_encode($result);
+	}
+	public function callAPIRankking()
+	{
+		header('Content-Type: application/json');
+		$result = [];
+		$studentArray = [];
+		$subjectArray = [];
+		$students = $this->connection->query("SELECT sum(score) as score,student.image,student.user_name from score_student 
+		inner join student on student.id = score_student.id_student group by id_student order by score desc limit 10;");
+		while($student = mysqli_fetch_assoc($students)){
+			$studentArray[] = $student;
+		}
+		$subjects = $this->connection->query("SELECT count(*) as total,subject.subject_name,lecturer.image as lecturer_image,lecturer.user_name,subject.image as subject_image from student_subject
+		inner join subject on subject.id = student_subject.id_subject
+		inner join lecturer on lecturer.id = subject.id_lecturer
+		group by id_subject order by total desc limit 10;");
+		while($subject = mysqli_fetch_assoc($subjects)){
+			$subjectArray[] = $subject;
+		}
+		$result = [
+			'students'=>$studentArray,
+			'subjects'=>$subjectArray
+		];
+		echo json_encode($result);
 	}
 }

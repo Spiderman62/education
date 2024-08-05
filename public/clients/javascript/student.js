@@ -22,8 +22,8 @@ $(function () {
 		main() {
 			$('aside .menu ul li').on('click', handleTabs);
 			$('aside ul li').removeClass('mark');
-			$('aside ul li').eq(1).addClass('mark');
-			$('.expand .tab').eq(1).fadeIn(300);
+			$('aside ul li').eq(2).addClass('mark');
+			$('.expand .tab').eq(2).fadeIn(300);
 			function handleTabs(e) {
 				const index = $(this).index();
 				$('aside ul li').removeClass('mark');
@@ -187,6 +187,7 @@ $(function () {
 				callback(forms) {
 					let [name] = forms;
 					name = name.value;
+					$('.expand .tab.courses .quizz').hide(0);
 					_this.detailSubject(null, 1, name);
 				}
 			})
@@ -301,7 +302,7 @@ $(function () {
 				},
 				handleQuestionList() {
 					const _this = this;
-					$('.expand .courses .start-education .list-question ul li').on('click', function () {
+					$('.expand .courses .start-education .list-question ul li').off('click').on('click', function () {
 						_this.currentIndex = $(this).index();
 						_this.renderCurrentQuestion();
 						$('.expand .courses .start-education .list-question ul li').removeClass('selected');
@@ -326,7 +327,7 @@ $(function () {
 				},
 				handleAnswers() {
 					const _this = this;
-					$('.expand .courses .start-education .question ul li').on('click', function () {
+					$('.expand .courses .start-education .question ul li').off('click').on('click', function () {
 						if (!_this.isSubmit) {
 							$('.expand .courses .start-education .question ul li').removeClass('active');
 							$('.expand .courses .start-education .question ul li').eq($(this).index()).addClass('active');
@@ -357,7 +358,7 @@ $(function () {
 				},
 				handleNext() {
 					const _this = this;
-					$('.expand .courses .start-education .question .wrapper-button button.next').on('click', function () {
+					$('.expand .courses .start-education .question .wrapper-button button.next').off('click').on('click', function () {
 						_this.currentIndex++;
 						if (_this.currentIndex > _this.data.length - 1) {
 							_this.currentIndex = 0;
@@ -368,7 +369,7 @@ $(function () {
 				},
 				handlePrev() {
 					const _this = this;
-					$('.expand .courses .start-education .question .wrapper-button button.prev').on('click', function () {
+					$('.expand .courses .start-education .question .wrapper-button button.prev').off('click').on('click', function () {
 						_this.currentIndex--;
 						if (_this.currentIndex < 0) {
 							_this.currentIndex = _this.data.length - 1;
@@ -378,10 +379,9 @@ $(function () {
 				},
 				handleSubmit() {
 					const _this = this;
-					$('.expand .courses .start-education .end-quizz').on('click', function () {
+					$('.expand .courses .start-education .end-quizz').off('click').on('click', function () {
 						const progressLength = _this.listsSubmit.filter(item => item >= 0);
 						if (progressLength.length === _this.data.length) {
-							swal(`Chúc mừng bạn đã hoàn thành ${_this.data.length} câu`, { icon: 'success', timer: 1000, button: false });
 							let correct = 0;
 							_this.data.forEach((itemParent, index) => {
 								const answerArray = itemParent.answers.split(',');
@@ -430,7 +430,7 @@ $(function () {
 				},
 				handleKeyDown() {
 					const _this = this;
-					$(document).on('keydown', function (e) {
+					$(document).off('keydown').on('keydown', function (e) {
 						const direction = e.keyCode;
 						switch (direction) {
 							case 39:
@@ -451,28 +451,34 @@ $(function () {
 					const totalQuestion = _this.data.length;
 					const score = parseFloat(((countCorrect / totalQuestion) * 10).toFixed(1));
 					const gradeLevel = this.calculatorGradeLevel(score);
+					swal({
+						title: `Kết quả làm bài của bạn đã hoàn thành là:`,
+						text: `Số câu đúng: ${countCorrect} | Số câu sai: ${countIncorrect} | Điểm của của bạn là: ${score} | Học lực của bạn là: ${gradeLevel}`,
+						icon: 'success',
+						button: false
+					});
 					const result = {
-						countCorrect:countCorrect,
-						countIncorrect:countIncorrect,
-						totalQuestion:totalQuestion,
-						score:score,
-						gradeLevel:gradeLevel,
-						id_quizz:_this.infor.id_quizz
+						countCorrect: countCorrect,
+						countIncorrect: countIncorrect,
+						totalQuestion: totalQuestion,
+						score: score,
+						gradeLevel: gradeLevel,
+						id_quizz: _this.infor.id_quizz
 					}
-					$.post(ROOT+"quizzStudent/insertScoreStudent", result,
+					$.post(ROOT + "quizzStudent/insertScoreStudent", result,
 						function (data, textStatus, jqXHR) {
-							
+
 						},
 						"json"
 					);
-					$.post(ROOT+"quizzStudent/insertStudentSubject", {id_subject:_this.infor.id_subject},
+					$.post(ROOT + "quizzStudent/insertStudentSubject", { id_subject: _this.infor.id_subject },
 						function (data, textStatus, jqXHR) {
-							
+
 						},
 						"json"
 					);
 					$('.expand .courses .start-education .turn-back').on('click', function () {
-						window.location.href = ROOT+"quiz/student";
+						window.location.href = ROOT + "quiz/student";
 					});
 				},
 				calculatorGradeLevel(score) {
@@ -490,6 +496,8 @@ $(function () {
 				},
 				main() {
 					this.inforQuizz();
+					$('.expand .courses .start-education .end-quizz').fadeIn(300);
+					$('.expand .courses .start-education .turn-back').removeClass('active');
 					this.randomQuestion();
 					this.renderQuestionList();
 					this.handleAnswers();
@@ -507,5 +515,84 @@ $(function () {
 			this.detailSubjectPrivate();
 		}
 	}
-	callAPISubject.main();
+	// callAPISubject.main();
+	const callAPIResult = {
+		call() {
+			const _this = this;
+			$.post(ROOT + "quizzStudent/callAPIResult", {},
+				function (data, textStatus, jqXHR) {
+					_this.render(data);
+				},
+				"json"
+			);
+		},
+		render(data = []) {
+			let html = data.map(item => `
+				<div class="item">
+							<p>${item.subject_name}</p>
+							<p>${item.quizz_name}</p>
+							<p>${item.total}</p>
+							<p>${item.correct}</p>
+							<p>${item.incorrect}</p>
+							<p>${item.score}</p>
+							<p class="${item.grade_level === 'Yếu' ? 'bad' : item.grade_level === 'Xuất sắc' ? 'excelent' : null}">${item.grade_level}</p>
+							<p>${item.create_at}</p>
+						</div>
+				`).join('');
+			$('.expand .result.tab .infor-quizz-done .wrapper .wrapper-info .content').html(html);
+
+		},
+		main() {
+			this.call();
+		}
+	}
+	// callAPIResult.main();
+	const callRankking = {
+		call() {
+			const _this = this;
+			$.post(ROOT + "quizzStudent/callAPIRankking", {},
+				function (data, textStatus, jqXHR) {
+					const { students, subjects } = data;
+					_this.render(students, subjects);
+				},
+				"json"
+			);
+		},
+		render(students = [], subjects = []) {
+			const studentHTML = students.map(item => `
+				<div class="item">
+						<div class="wrapper-image">
+							<img src=${item.image !== null?ROOT+`public/image/${item.image}`:ROOT+'public/images/anonymous.jpg'} alt="">
+						</div>
+						<div class="info">
+							<div class="username">${item.user_name}</div>
+							<div class="count"><i class='bx bxs-edit'></i><span>${item.score}</span></div>
+						</div>
+					</div>
+				`).join('');
+			$('.expand .rank.tab .wrapper .col-left .content').html(studentHTML);
+			const subjectHTML = subjects.map(item => `
+				<div class="item">
+						<div class="wrapper-image">
+							<img src=${item.subject_image !== null?ROOT+`public/images/${item.subject_image}`:ROOT+'public/images/default_image.avif'} alt="">
+						</div>
+						<div class="info">
+							<div class="subject">${item.subject_name}</div>
+							<div class="infor-lecturer">
+								<div class="wrapper-lecturer">
+									<img src=${item.lecturer_image !== null?ROOT+`public/images/${item.lecturer_image}`:ROOT+'public/images/anonymous.jpg'} alt="">
+								</div>
+								<div class="username">${item.user_name}</div>
+							</div>
+							<div class="count"><i class='bx bxs-bar-chart-square'></i><span>${item.total}</span></div>
+						</div>
+					</div>
+				`).join('');
+			$('.expand .rank.tab .wrapper .col-right .content').html(subjectHTML);
+		},
+		main() {
+			this.call();
+		}
+	}
+	callRankking.main()
 });

@@ -27,4 +27,10 @@ class QuizzStudent extends Controller
 	public function insertStudentSubject() {
 		$this->QuizzStudentModel->insertStudentSubject();
 	}
+	public function callAPIResult() {
+		$this->QuizzStudentModel->callAPIResult();
+	}
+	public function callAPIRankking() {
+		$this->QuizzStudentModel->callAPIRankking();
+	}
 }

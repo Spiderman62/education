@@ -206,18 +206,52 @@
 					<h1>Mục lục câu hỏi</h1>
 					<div class="line"></div>
 					<ul>
-						
+
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 	</div>
-	<div class="tab">
-		xep hang
+	<div class="rank tab">
+		<div class="wrapper">
+			<div class="col-left">
+				<h1>Top 10 thí sinh có số điểm thi cao nhất</h1>
+				<div class="content">
+				</div>
+			</div>
+			<div class="col-right">
+				<h1>Top 10 môn học có lượng truy cập nhiều nhất</h1>
+				<div class="content">
+					
+					
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="tab">
-		bang diem
+	<div class="result tab">
+		<div class="infor-quizz-done">
+			<div class="wrapper">
+				<div class="wrapper-info">
+					<header>
+						<h1>Danh sách kết quả đề thi đã làm</h1>
+						<div class="title">
+							<p>Tên môn học</p>
+							<p>Tên trắc nhiệm</p>
+							<p>Tổng số câu hỏi</p>
+							<p>Số câu đúng</p>
+							<p>Số câu sai</p>
+							<p>Điểm số</p>
+							<p>Xếp loại</p>
+							<p>Thời gian kết thúc bài thi</p>
+						</div>
+					</header>
+					<div class="content">
+
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="tab">
 		truy cap gan day
