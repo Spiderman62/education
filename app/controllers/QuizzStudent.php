@@ -33,4 +33,13 @@ class QuizzStudent extends Controller
 	public function callAPIRankking() {
 		$this->QuizzStudentModel->callAPIRankking();
 	}
+	public function changePasswordStudent(){
+		$this->QuizzStudentModel->changePasswordStudent();
+	}
+	public function getProfileStudent() {
+		$this->QuizzStudentModel->getProfileStudent();
+	}
+	public function updateStudent() {
+		$this->QuizzStudentModel->updateStudent();
+	}
 }

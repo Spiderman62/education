@@ -22,8 +22,8 @@ $(function () {
 		main() {
 			$('aside .menu ul li').on('click', handleTabs);
 			$('aside ul li').removeClass('mark');
-			$('aside ul li').eq(2).addClass('mark');
-			$('.expand .tab').eq(2).fadeIn(300);
+			$('aside ul li').eq(1).addClass('mark');
+			$('.expand .tab').eq(1).fadeIn(300);
 			function handleTabs(e) {
 				const index = $(this).index();
 				$('aside ul li').removeClass('mark');
@@ -515,7 +515,7 @@ $(function () {
 			this.detailSubjectPrivate();
 		}
 	}
-	// callAPISubject.main();
+	callAPISubject.main();
 	const callAPIResult = {
 		call() {
 			const _this = this;
@@ -529,7 +529,7 @@ $(function () {
 		render(data = []) {
 			let html = data.map(item => `
 				<div class="item">
-							<p>${item.subject_name}</p>
+							<p class="subject_name">${item.subject_name}</p>
 							<p>${item.quizz_name}</p>
 							<p>${item.total}</p>
 							<p>${item.correct}</p>
@@ -546,7 +546,7 @@ $(function () {
 			this.call();
 		}
 	}
-	// callAPIResult.main();
+	callAPIResult.main();
 	const callRankking = {
 		call() {
 			const _this = this;
@@ -559,14 +559,15 @@ $(function () {
 			);
 		},
 		render(students = [], subjects = []) {
-			const studentHTML = students.map(item => `
+			const ranking = ['top', 'second', 'third'];
+			const studentHTML = students.map((item, index) => `
 				<div class="item">
 						<div class="wrapper-image">
-							<img src=${item.image !== null?ROOT+`public/image/${item.image}`:ROOT+'public/images/anonymous.jpg'} alt="">
+							<img src=${item.image !== null ? ROOT + `public/images/${item.image}` : ROOT + 'public/images/anonymous.jpg'} alt="">
 						</div>
 						<div class="info">
 							<div class="username">${item.user_name}</div>
-							<div class="count"><i class='bx bxs-edit'></i><span>${item.score}</span></div>
+							<div class="count"><i class='bx bxs-crown ${ranking[index] ? ranking[index] : ""}'></i><span>${item.score}</span></div>
 						</div>
 					</div>
 				`).join('');
@@ -574,17 +575,17 @@ $(function () {
 			const subjectHTML = subjects.map(item => `
 				<div class="item">
 						<div class="wrapper-image">
-							<img src=${item.subject_image !== null?ROOT+`public/images/${item.subject_image}`:ROOT+'public/images/default_image.avif'} alt="">
+							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.avif'} alt="">
 						</div>
 						<div class="info">
 							<div class="subject">${item.subject_name}</div>
 							<div class="infor-lecturer">
 								<div class="wrapper-lecturer">
-									<img src=${item.lecturer_image !== null?ROOT+`public/images/${item.lecturer_image}`:ROOT+'public/images/anonymous.jpg'} alt="">
+									<img src=${item.lecturer_image !== null ? ROOT + `public/images/${item.lecturer_image}` : ROOT + 'public/images/anonymous.jpg'} alt="">
 								</div>
 								<div class="username">${item.user_name}</div>
 							</div>
-							<div class="count"><i class='bx bxs-bar-chart-square'></i><span>${item.total}</span></div>
+							<div class="count"><i class='bx bxs-user' ></i><span>${item.total}</span></div>
 						</div>
 					</div>
 				`).join('');
@@ -595,4 +596,128 @@ $(function () {
 		}
 	}
 	callRankking.main()
+	const profile = {
+		formData: null,
+		call() {
+			const _this = this;
+			$.post(ROOT + "quizzStudent/getProfileStudent", {},
+				function (data, textStatus, jqXHR) {
+					const { profile, accurate, total_quizz, total_subject } = data;
+					_this.render(profile, accurate, total_quizz, total_subject);
+					_this.renderChangeProfile(profile);
+				},
+				"json"
+			);
+		},
+		render(profile, accurate, total_quizz, total_subject) {
+			$('.expand .tab.profile .profile-card .avatar img').attr('src', profile.image !== null ? ROOT + `public/images/${profile.image}` : ROOT + 'public/images/anonymous.jpg');
+			$('.expand .tab.profile .profile-card .details h1').text(profile.user_name);
+			$('.expand .tab.profile .profile-card .details h2').text(profile.major_name);
+			$('.expand .tab.profile .profile-card .numbers .item.subject h2').text(total_subject.total_subject);
+			$('.expand .tab.profile .profile-card .numbers .item.quizz h2').text(total_quizz.total_quizz);
+			$('.expand .tab.profile .profile-card .numbers .item.accurate h2').text(`${accurate.average_accuracy_percent}%`);
+		},
+		renderChangeProfile(profile) {
+			$('.popup-change-profile .wrapper .wrapper-image img').attr('src', profile.image !== null ? ROOT + `public/images/${profile.image}` : ROOT + 'public/images/anonymous.jpg');
+			$('.popup-change-profile .wrapper .input-box input[name="username"]').val(profile.user_name);
+		},
+		changePassword() {
+			$('.expand .tab.profile .profile-card .btns button.outline').on('click', function () {
+				$('.popup-change-password').addClass('active');
+			});
+			$('.popup-change-password').on('click', function () {
+				$('.popup-change-password').removeClass('active');
+				$('.form-change-password input[name="old_password"]').val('');
+				$('.form-change-password input[name="new_password"]').val('');
+				$('.form-change-password input[name="confirm_new_password"]').val('');
+			});
+			$('.popup-change-password .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			validate({
+				form: '.form-change-password',
+				selectors: [
+					checkBlank('input[name="old_password"]'),
+					checkLength('input[name="old_password"]', 5),
+					checkBlank('input[name="new_password"]'),
+					checkLength('input[name="new_password"]', 5),
+					checkBlank('input[name="confirm_new_password"]'),
+					checkLength('input[name="confirm_new_password"]', 5),
+					checkMatch('input[name="confirm_new_password"]', () => $('input[name="new_password"]').val())
+				],
+				callback(forms) {
+					$.post(ROOT + "quizzStudent/changePasswordStudent", forms,
+						function (data, textStatus, jqXHR) {
+							if (data) {
+								swal(`Đổi mật khẩu thành công`, { icon: 'success', timer: 2000, button: false });
+								$('.popup-change-password').removeClass('active');
+							} else {
+								swal(`Mật khẩu cũ không khớp!`, { icon: 'error', button: false });
+							}
+						},
+						"json"
+					);
+				}
+			});
+		},
+		changeProfile() {
+			const _this = this;
+			$('.expand .tab.profile .profile-card .btns button.fill').on('click', function () {
+				$('.popup-change-profile').addClass('active');
+			});
+			$('.popup-change-profile').on('click', function () {
+				$('.popup-change-profile').removeClass('active');
+				$('.popup-change-profile .wrapper .upload-file-text').text('');
+				$('.form-change-profile input[name="image-text"]').val('');
+			});
+			$('.popup-change-profile .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			$('.popup-change-profile .wrapper .upload-file').on('click', function () {
+				$('.form-change-profile input[name="image"]').click();
+			});
+			$('.form-change-profile input[name="image"]').on('change', function () {
+				const text = this.value;
+				const formData = new FormData();
+				if (this.files.length > 0) {
+					formData.append('image', this.files[0]);
+					_this.formData = formData;
+					$('.popup-change-profile .wrapper .upload-file-text').text(text);
+					$('.form-change-profile input[name="image-text"]').val(this.files[0].name);
+				} else {
+					$('.popup-change-profile .wrapper .upload-file-text').text('');
+					$('.form-change-profile input[name="image-text"]').val('');
+				}
+			})
+			validate({
+				form: '.form-change-profile',
+				selectors: [
+					checkBlank('input[name="username"]'),
+					checkLength('input[name="username"]', 5),
+				],
+				callback(forms) {
+					fetch(ROOT + "admin/addImage", {
+						method: 'POST',
+						body: _this.formData
+					});
+					$.post(ROOT + "quizzStudent/updateStudent", forms,
+						function (data, textStatus, jqXHR) {
+							console.log(data)
+							swal('Cập nhật thành công', { timer: 1000, button: false, icon: 'success' });
+							$('.popup-change-profile').removeClass('active');
+							$('.popup-change-profile .wrapper .upload-file-text').text('');
+							_this.call();
+						},
+						"json"
+					);
+				}
+			})
+		},
+		main() {
+			this.call();
+			this.changePassword();
+			this.changeProfile();
+		}
+	}
+	profile.main();
 });

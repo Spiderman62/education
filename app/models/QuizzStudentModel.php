@@ -233,4 +233,55 @@ class QuizzStudentModel extends DB
 		];
 		echo json_encode($result);
 	}
+	public function changePasswordStudent() {
+		header('Content-Type: application/json');
+		$old_password = $_POST['old_password'];
+		$confirm_new_password = $_POST['confirm_new_password'];
+		$id_student = $_SESSION['info']['id'];
+		$isHas = $this->connection->query("SELECT * FROM student WHERE id = '$id_student' AND password = '$old_password'");
+		if(mysqli_num_rows($isHas) > 0){
+			$this->connection->query("UPDATE student SET password = '$confirm_new_password' WHERE id = '$id_student'");
+			echo json_encode(true);
+			return;
+		}
+		echo json_encode(false);
+	}
+	public function getProfileStudent() {
+		header('Content-Type: application/json');
+		$result = [];
+		$id_student = $_SESSION['info']['id'];
+		$dataProfileStudent = mysqli_fetch_assoc($this->connection->query("SELECT student.user_name,major.major_name,student.image FROM student inner join major on major.id = student.id_major WHERE student.id = '$id_student'"));
+		$dataTotalQuizz = mysqli_fetch_assoc($this->connection->query("SELECT count(score_student.id) as total_quizz FROM student 
+		inner join score_student on score_student.id_student = student.id
+		WHERE student.id = '$id_student'
+		group by student.id;"));
+		$dataTotalSubject = mysqli_fetch_assoc($this->connection->query("SELECT count(student_subject.id) as total_subject FROM student 
+		inner join student_subject on student_subject.id_student = student.id
+		WHERE student.id = '$id_student'
+		group by student.id;"));
+		$dataAccurate = mysqli_fetch_assoc($this->connection->query("SELECT ROUND(AVG(score_student.correct) * 100 / MAX(score_student.total), 0) AS average_accuracy_percent
+		FROM student 
+		INNER JOIN score_student ON score_student.id_student = student.id
+		WHERE student.id = '$id_student'"));
+		$result = [
+			'profile'=>$dataProfileStudent,
+			'total_quizz'=>$dataTotalQuizz,
+			'total_subject'=>$dataTotalSubject,
+			'accurate'=>$dataAccurate,
+		];
+		echo json_encode($result);
+		$this->connection->close();
+	}
+	public function updateStudent() {
+		header('Content-Type: application/json');
+		$id_student = $_SESSION['info']['id'];
+		$image = $_POST['image-text'];
+		$username = $_POST['username'];
+		if(!empty($image)){
+			$this->connection->query("UPDATE student SET image = '$image',user_name = '$username' WHERE id = '$id_student'");
+		}else{
+			$this->connection->query("UPDATE student SET user_name = '$username' WHERE id = '$id_student'");
+		}
+		echo json_encode($image);
+	}
 }

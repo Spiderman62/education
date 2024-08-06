@@ -64,7 +64,7 @@
 		?>
 			<li class="session">
 				<div class="wrapper-icon-session">
-					<img src=<?php echo empty($_SESSION['info']['image']) ? __ROOT__ . "public/clients/images/anonymous.jpg" : __ROOT__ . "public/clients/images/" . $_SESSION['info']['image']; ?> alt="">
+					<img src=<?php echo empty($_SESSION['info']['image']) ? __ROOT__ . "public/images/anonymous.jpg" : __ROOT__ . "public/images/" . $_SESSION['info']['image']; ?> alt="">
 				</div>
 				<div class="content">
 					<div class="username"><?php echo $_SESSION['info']['user_name']; ?></div>
