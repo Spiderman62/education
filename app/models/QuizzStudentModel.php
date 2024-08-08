@@ -118,6 +118,16 @@ class QuizzStudentModel extends DB
 				return;
 			}
 		}
+		$rankingSubjects = $this->connection->query("SELECT max(score_student.score) as max_score,quizzs.quizz_name, student.user_name,student.image,score_student.grade_level FROM score_student
+		inner join student on student.id = score_student.id_student
+		inner join quizzs on quizzs.id = score_student.id_quizz
+		inner join subject on subject.id = quizzs.id_subject
+		where subject.id = '$id_subject'
+		group by score_student.id_student,score_student.grade_level,quizzs.quizz_name
+		order by max_score desc limit 10;");
+		while ($rankingSubject = mysqli_fetch_assoc($rankingSubjects)) {
+			$result['rankingSubject'][] = $rankingSubject;
+		};
 		echo json_encode($result);
 	}
 	public function getAllQuizz()
@@ -217,36 +227,38 @@ class QuizzStudentModel extends DB
 		$subjectArray = [];
 		$students = $this->connection->query("SELECT sum(score) as score,student.image,student.user_name from score_student 
 		inner join student on student.id = score_student.id_student group by id_student order by score desc limit 10;");
-		while($student = mysqli_fetch_assoc($students)){
+		while ($student = mysqli_fetch_assoc($students)) {
 			$studentArray[] = $student;
 		}
 		$subjects = $this->connection->query("SELECT count(*) as total,subject.subject_name,lecturer.image as lecturer_image,lecturer.user_name,subject.image as subject_image from student_subject
 		inner join subject on subject.id = student_subject.id_subject
 		inner join lecturer on lecturer.id = subject.id_lecturer
 		group by id_subject order by total desc limit 10;");
-		while($subject = mysqli_fetch_assoc($subjects)){
+		while ($subject = mysqli_fetch_assoc($subjects)) {
 			$subjectArray[] = $subject;
 		}
 		$result = [
-			'students'=>$studentArray,
-			'subjects'=>$subjectArray
+			'students' => $studentArray,
+			'subjects' => $subjectArray
 		];
 		echo json_encode($result);
 	}
-	public function changePasswordStudent() {
+	public function changePasswordStudent()
+	{
 		header('Content-Type: application/json');
 		$old_password = $_POST['old_password'];
 		$confirm_new_password = $_POST['confirm_new_password'];
 		$id_student = $_SESSION['info']['id'];
 		$isHas = $this->connection->query("SELECT * FROM student WHERE id = '$id_student' AND password = '$old_password'");
-		if(mysqli_num_rows($isHas) > 0){
+		if (mysqli_num_rows($isHas) > 0) {
 			$this->connection->query("UPDATE student SET password = '$confirm_new_password' WHERE id = '$id_student'");
 			echo json_encode(true);
 			return;
 		}
 		echo json_encode(false);
 	}
-	public function getProfileStudent() {
+	public function getProfileStudent()
+	{
 		header('Content-Type: application/json');
 		$result = [];
 		$id_student = $_SESSION['info']['id'];
@@ -264,22 +276,23 @@ class QuizzStudentModel extends DB
 		INNER JOIN score_student ON score_student.id_student = student.id
 		WHERE student.id = '$id_student'"));
 		$result = [
-			'profile'=>$dataProfileStudent,
-			'total_quizz'=>$dataTotalQuizz,
-			'total_subject'=>$dataTotalSubject,
-			'accurate'=>$dataAccurate,
+			'profile' => $dataProfileStudent,
+			'total_quizz' => $dataTotalQuizz,
+			'total_subject' => $dataTotalSubject,
+			'accurate' => $dataAccurate,
 		];
 		echo json_encode($result);
 		$this->connection->close();
 	}
-	public function updateStudent() {
+	public function updateStudent()
+	{
 		header('Content-Type: application/json');
 		$id_student = $_SESSION['info']['id'];
 		$image = $_POST['image-text'];
 		$username = $_POST['username'];
-		if(!empty($image)){
+		if (!empty($image)) {
 			$this->connection->query("UPDATE student SET image = '$image',user_name = '$username' WHERE id = '$id_student'");
-		}else{
+		} else {
 			$this->connection->query("UPDATE student SET user_name = '$username' WHERE id = '$id_student'");
 		}
 		echo json_encode($image);

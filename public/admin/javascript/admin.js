@@ -949,7 +949,7 @@ $(function () {
 				html += `<div data-id="${data[i].id}" class="item">
 						<div class="wrapper">
 							<div class="top">		
-									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.avif"}" alt="">
+									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.webp"}" alt="">
 								<div class="content">
 									<p class="update-at">Ngày tạo ${data[i].create_at}</p>
 									<p class="title">${data[i].subject_name}</p>
@@ -966,7 +966,7 @@ $(function () {
 							</div>
 							<div class="bottom">
 								<div class="wrapper-profile">
-									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.avif"}" alt="">
+									<img src="${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/default_image.webp"}" alt="">
 								</div>
 								<div class="wrapper-action">
 									<p><i class='bx bx-list-ul list'></i>Danh sách câu hỏi</p>

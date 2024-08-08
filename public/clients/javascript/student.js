@@ -53,7 +53,7 @@ $(function () {
 					htmlSubjects += `
 					<div data-id="${subject[j].id_subject}" class="item">
 						<div class="wrapper-image">
-							<img src=${subject[j].subject_image !== null ? ROOT + `public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.avif"} alt="">
+							<img src=${subject[j].subject_image !== null ? ROOT + `public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.webp"} alt="">
 						</div>
 						<div class="content">
 							<h1 class="subject_name">${subject[j].subject_name}</h1>
@@ -128,7 +128,7 @@ $(function () {
 				<div class="item">
 						<div data-id="${data[i].id_subject}" class="item">
 							<div class="wrapper-image">
-								<img src=${data[i].subject_image !== null ? ROOT + `public/images/${data[i].subject_image}` : ROOT + "public/images/default_image.avif"}  alt="">
+								<img src=${data[i].subject_image !== null ? ROOT + `public/images/${data[i].subject_image}` : ROOT + "public/images/default_image.webp"}  alt="">
 							</div>
 							<div class="content">
 								<h1 class="subject_name">${data[i].subject_name}</h1>
@@ -150,11 +150,12 @@ $(function () {
 				`
 			};
 			$('.expand .tab.courses .show--more-courses .bottom').html(html).hide().fadeIn(300);
-			$('.expand .tab.courses .show--more-courses .bottom .item .start').on('click', function () {
+			$('.expand .tab.courses .show--more-courses .bottom .item .start').off('click').on('click', function () {
 				const id_subject = parseInt($(this).attr('data-id'));
 				$('.expand .tab.courses .show--more-courses').fadeOut(200);
 				_this.detailSubject(id_subject);
 			});
+			
 		},
 		detailSubject(id_subject = null, is_private = 0, subject_code = null) {
 			const _this = this;
@@ -194,7 +195,7 @@ $(function () {
 		},
 		renderDetailSubject(data) {
 			const subject = $('.expand .courses .detail-course .wrapper .detail-subject');
-			subject.find('.wrapper-image img').attr('src', `${data.subject_image !== null ? ROOT + `public/images/${data.subject_image}` : ROOT + "public/images/default_image.avif"}`);
+			subject.find('.wrapper-image img').attr('src', `${data.subject_image !== null ? ROOT + `public/images/${data.subject_image}` : ROOT + "public/images/default_image.webp"}`);
 			subject.find('.infor-lecturer .profile-image img').attr('src', `${data.lecturer_image !== null ? ROOT + `public/images/${data.lecturer_image}` : ROOT + "public/images/anonymous.jpg"}`);
 			subject.find('.subject_name').html(data.subject_name);
 			subject.find('.description').html(data.description);
@@ -203,6 +204,29 @@ $(function () {
 			subject.find('.wrapper-icon .question').html(`<i class='bx bxs-help-circle questions'></i>Câu hỏi: ${data.total_questions}`);
 			subject.find('.wrapper-icon .book').html(`<i class='bx bxs-book book'></i>Trắc nhiệm: ${data.total_quizzes}`);
 			subject.find('.start').attr('data-id', `${data.id_subject}`);
+			////////////////////////////////////////////////////////////////////////////
+			const isExist = data.rankingSubject ? data.rankingSubject : [];
+			let rankingSubjectHTML = isExist.map(item=>`
+					<div class="item">
+					<div class="wrapper-image">
+						<img src=${item.image !== null ? ROOT+ `public/images/${item.image}`: ROOT+'public/images/anonymous.jpg'} alt="">
+					</div>
+					<p>${item.quizz_name}</p>
+					<p>${item.user_name}</p>
+					<p>${item.max_score}</p>
+					<p>${item.grade_level}</p>
+				</div>
+				`);
+			$('.popup-show-ranking-subject .wrapper .content').html(rankingSubjectHTML);
+			$('.expand .courses .detail-course .wrapper .detail-subject .show-ranking').off('click').on('click',function(){
+				$('.popup-show-ranking-subject').addClass('active');
+			});
+			$('.popup-show-ranking-subject').on('click',function(){
+				$('.popup-show-ranking-subject').removeClass('active');
+			})
+			$('.popup-show-ranking-subject .wrapper').on('click',function(e){
+				e.stopPropagation();
+			})
 			this.getIdSubject();
 		},
 		getIdSubject() {
@@ -575,7 +599,7 @@ $(function () {
 			const subjectHTML = subjects.map(item => `
 				<div class="item">
 						<div class="wrapper-image">
-							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.avif'} alt="">
+							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.webp'} alt="">
 						</div>
 						<div class="info">
 							<div class="subject">${item.subject_name}</div>
@@ -595,7 +619,7 @@ $(function () {
 			this.call();
 		}
 	}
-	callRankking.main()
+	callRankking.main();
 	const profile = {
 		formData: null,
 		call() {
@@ -651,6 +675,9 @@ $(function () {
 							if (data) {
 								swal(`Đổi mật khẩu thành công`, { icon: 'success', timer: 2000, button: false });
 								$('.popup-change-password').removeClass('active');
+								$('.form-change-password input[name="old_password"]').val('');
+								$('.form-change-password input[name="new_password"]').val('');
+								$('.form-change-password input[name="confirm_new_password"]').val('');
 							} else {
 								swal(`Mật khẩu cũ không khớp!`, { icon: 'error', button: false });
 							}

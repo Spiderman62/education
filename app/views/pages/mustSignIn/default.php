@@ -40,18 +40,7 @@
 					</div>
 					<span>Xếp hạng</span>
 				</li>
-				<li data-type="score">
-					<div class="icon">
-						<i class='bx bx-news'></i>
-					</div>
-					<span>Bảng điểm</span>
-				</li>
-				<li data-type="score">
-					<div class="icon">
-						<i class='bx bx-info-square'></i>
-					</div>
-					<span>Hồ sơ của bạn</span>
-				</li>
+				
 			</ul>
 		</div>
 		<div class="information">
@@ -65,17 +54,6 @@
 					<div class="switch"></div>
 				</div>
 			</div>
-
-			<div class="profile">
-				<div class="user_image">
-					<img src=<?php echo !empty($_SESSION['info']['image']) ? __ROOT__ . "public/images/" . $_SESSION['info']['image'] : __ROOT__ . "public/images/anonymous.jpg" ?> alt="">
-				</div>
-				<div class="infor">
-					<span class="name"><?php echo $_SESSION['info']['user_name']; ?></span>
-					<span class="major"><?php echo $_SESSION['info']['major_name'] ?></span>
-				</div>
-			</div>
-
 		</div>
 	</div>
 </aside>
@@ -227,60 +205,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="result tab">
-		<div class="infor-quizz-done">
-			<div class="wrapper">
-				<div class="wrapper-info">
-					<header>
-						<h1>Danh sách kết quả đề thi đã làm</h1>
-						<div class="title">
-							<p>Tên môn học</p>
-							<p>Tên trắc nhiệm</p>
-							<p>Tổng số câu hỏi</p>
-							<p>Số câu đúng</p>
-							<p>Số câu sai</p>
-							<p>Điểm số</p>
-							<p>Xếp loại</p>
-							<p>Thời gian kết thúc bài thi</p>
-						</div>
-					</header>
-					<div class="content">
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tab profile">
-		<div class="profile-card">
-			<div class="profile-type">PRO</div>
-			<div class="avatar">
-				<img src="" alt="">
-			</div>
-			<div class="details">
-				<h1></h1>
-				<h2></h2>
-			</div>
-			<div class="numbers">
-				<div class="item subject">
-					<p>Tổng môn học</p>
-					<h2></h2>
-				</div>
-				<div class="item quizz">
-					<p>Tổng bài làm</p>
-					<h2></h2>
-				</div>
-				<div class="item accurate">
-					<p>Độ chính xác</p>
-					<h2></h2>
-				</div>
-			</div>
-			<div class="btns">
-				<button class="outline">Đổi mật khẩu</button>
-				<button class="fill">Cập nhật</button>
-			</div>
-		</div>
-	</div>
+	
+	
 </section>
 <div class="popup-show-ranking-subject">
 	<div class="wrapper">
@@ -300,79 +226,20 @@
 		</div>
 	</div>
 </div>
-<div class="popup-choose-quizz">
-	<div class="wrapper">
-		<div class="icon">
-			<svg class="logo" viewBox="0 0 128 128" width="50" height="50" data-v-3fd5be35="">
-				<path fill="#42b883" d="M78.8,10L64,35.4L49.2,10H0l64,110l64-110C128,10,78.8,10,78.8,10z" data-v-3fd5be35=""></path>
-				<path fill="#35495e" d="M78.8,10L64,35.4L49.2,10H25.6L64,76l38.4-66H78.8z" data-v-3fd5be35=""></path>
-			</svg>
+<div class="popup_authorization">
+	<div class="popup">
+		<div class="wrapper_icon">
+		<i class='bx bxs-lock-alt'></i>
+		<i class='bx bx-lock-open-alt' ></i>
 		</div>
-		<div class="content">
-			<h1>Welcome to the brand new world!</h1>
-			<p class="description">Trước khi làm bài hãy chọn trắc nhiệm mà bạn muốn</p>
-			<div class="show-screen">
-				<div class="screen">Vui Lòng chọn trắc nhiệm</div>
-				<ul>
-
-				</ul>
-				<div class="confirm">Xác nhận</div>
-			</div>
-			<form class="select-quizz">
-				<div class="input-box">
-					<input type="text" hidden name="id_quizz">
-					<p class="message"></p>
-				</div>
-				<input hidden type="submit">
-			</form>
+		<div class="title">Vui lòng đăng nhập</div>
+		<ul>
+			<li data-action="lecturer">Giảng viên</li>
+			<li data-action="student">Sinh viên</li>
+		</ul>
+		<div class="confirm">
+			Vui lòng chọn!
 		</div>
-	</div>
-</div>
-<div class="popup-change-password">
-	<div class="wrapper">
-		<h1>Đổi mật khẩu</h1>
-		<p>Để đảm bảo tính bảo mật, bạn nên nhập mật khẩu hiện tại trước khi đổi mật khẩu mới</p>
-		<form class="form-change-password">
-			<div class="input-box">
-				<input type="text" name="old_password" placeholder="Nhập mật khẩu cũ">
-				<p class="message"></p>
-			</div>
-			<div class="input-box">
-				<input type="text" name="new_password" placeholder="Nhập mật khẩu mới">
-				<p class="message"></p>
-			</div>
-			<div class="input-box">
-				<input type="text" name="confirm_new_password" placeholder="Nhập lại mật khẩu mới">
-				<p class="message"></p>
-			</div>
-			<input type="submit" value="Xác nhận">
-		</form>
-	</div>
-</div>
-<div class="popup-change-profile">
-	<div class="wrapper">
-		<h1>Cập nhật hồ sơ</h1>
-		<form class="form-change-profile">
-			<div class="wrapper-image">
-				<img src=<?php echo __ROOT__ . 'public/images/anonymous.jpg' ?> alt="">
-			</div>
-			<div class="block-upload-file">
-				<div class="upload-file">
-					<i class='bx bx-upload'></i>
-					Upload file
-				</div>
-			</div>
-			<div class="upload-file-text"></div>
-			<div class="input-box">
-				<input hidden name="image" type="file">
-				<input hidden name="image-text" type="text">
-				<p class="message"></p>
-			</div>
-			<div class="input-box">
-				<input type="text" name="username" placeholder="Họ và tên">
-				<p class="message"></p>
-			</div>
-			<input type="submit" value="Lưu thay đổi">
-		</form>
+		<a class="decentralization" hidden href=""></a>
 	</div>
 </div>
