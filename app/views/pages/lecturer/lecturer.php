@@ -263,6 +263,42 @@
 					<h1>Quản lý môn học của bạn <span>( Nhấn vào môn học để thêm trắc nhiệm )</span></h1>
 				</header>
 				<div class="content">
+
+
+				</div>
+			</div>
+		</div>
+		<div class="control">
+			<div class="show-list-quizz">
+				<header>
+					<h1>Quay về</h1>
+					<div class="item">
+						<p>Tên trắc nhiệm</p>
+						<p>Tổng số câu hỏi</p>
+						<p>Thêm câu hỏi</p>
+					</div>
+				</header>
+				<div class="content">
+
+				</div>
+			</div>
+		</div>
+		<div class="show-question">
+			<div class="show-list-question">
+				<header>
+					<div class="wrapper-top-turn--add">
+						<h1 class="turn-back">Quay về</h1>
+						<h1 class="add">Thêm câu hỏi</h1>
+					</div>
+					<div class="item">
+						<p>Câu hỏi</p>
+						<p>Câu trả lời</p>
+						<p>Đáp án đúng</p>
+						<p>Sửa</p>
+						<p>Xoá</p>
+					</div>
+				</header>
+				<div class="content">
 					
 					
 				</div>
@@ -388,6 +424,28 @@
 			</div>
 			<div class="input-box">
 				<input type="text" name="username" placeholder="Họ và tên">
+				<p class="message"></p>
+			</div>
+			<input type="submit" value="Lưu thay đổi">
+		</form>
+	</div>
+</div>
+<div class="popup-edit-question">
+	<div class="wrapper">
+		<h1>Sửa thông tin câu hỏi</h1>
+		<form class="form-edit-question">
+			<div class="input-box">
+				<input type="text" name="question" placeholder="Câu hỏi...">
+				<input hidden type="text" name="id_quizz">
+				<input hidden type="text" name="id">
+				<p class="message"></p>
+			</div>
+			<div class="input-box">
+				<input type="text" name="answers" placeholder="Câu trả lời">
+				<p class="message"></p>
+			</div>
+			<div class="input-box">
+				<input type="text" name="result" placeholder="Đáp án đúng">
 				<p class="message"></p>
 			</div>
 			<input type="submit" value="Lưu thay đổi">

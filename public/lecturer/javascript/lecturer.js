@@ -748,20 +748,21 @@ $(function () {
 	}
 	// profile.main();
 	const callAPICreateSubject = {
-		call(){
+		id_quizz: null,
+		call() {
 			const _this = this;
-			$.post(ROOT+"quizzLecturer/getSubjectOwnLecturer",{},
+			$.post(ROOT + "quizzLecturer/getSubjectOwnLecturer", {},
 				function (data, textStatus, jqXHR) {
 					_this.render(data);
 				},
 				"json"
 			);
 		},
-		render(data){
-			let html = data.map(item=>`
+		render(data) {
+			let html = data.map(item => `
 				<div data-id="${item.id_subject}" class="item">
 						<div class="wrapper-image">
-							<img src=${item.subject_image !== null ? ROOT+`public/images/${item.subject_image}` :ROOT+'public/images/default_image.webp'} alt="">
+							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.webp'} alt="">
 						</div>
 						<div class="content-subject">
 							<p class="create_at">${item.update_at}</p>
@@ -780,17 +781,153 @@ $(function () {
 			$('.expand .tab.subject-management .own-subject .block .content').html(html);
 			this.getIDSubject();
 		},
-		getIDSubject(){
+		getIDSubject() {
 			const _this = this;
-			$('.expand .tab.subject-management .own-subject .content .item').off('click').on('click',function(){
+			$('.expand .tab.subject-management .own-subject .content .item').off('click').on('click', function () {
 				const id_subject = parseInt($(this).closest('.item').attr('data-id'));
-				_this.renderQuizz(id_subject);
+				$('.expand .tab.subject-management .own-subject').hide(1);
+				$('.expand .tab.subject-management .show-list-quizz').show(200);
+				_this.callQuizz(id_subject);
+			});
+			$('.expand .tab.subject-management .show-list-quizz h1').off('click').on('click', () => {
+				$('.expand .tab.subject-management .show-list-quizz').hide(1);
+				$('.expand .tab.subject-management .own-subject').show(10);
+			});
+		},
+		callQuizz(id_subject) {
+			const _this = this;
+			$.post(ROOT + "quizzLecturer/getQuizzFromSubject", { id_subject: id_subject },
+				function (data, textStatus, jqXHR) {
+					_this.renderQuizz(data);
+				},
+				"json"
+			);
+		},
+		renderQuizz(data) {
+			const _this = this;
+			let html = data.map(item => `
+				<div data-id="${item.id}" class="item">
+						<p>${item.quizz_name}</p>
+						<p>${item.total_question}</p>
+						<p><i class='bx bx-plus-circle'></i></p>
+					</div>
+				`).join('');
+			$('.expand .tab.subject-management .show-list-quizz .content').html(html);
+			$('.expand .tab.subject-management .show-list-quizz .content .item p i').off('click').on('click', function () {
+				_this.id_quizz = parseInt($(this).closest('.item').attr('data-id'));
+				$('.expand .tab.subject-management .show-list-quizz').hide(10);
+				$('.expand .tab.subject-management .show-question').show(200);
+				_this.callQuestion()
+			});
+		},
+		callQuestion() {
+			const _this = this;
+			$.post(ROOT + "quizzLecturer/getQuestionFromQuizz", { id_quizz: _this.id_quizz },
+				function (data, textStatus, jqXHR) {
+					_this.renderQuestion(data);
+				},
+				"json"
+			);
+		},
+		renderQuestion(data) {
+			const html = data.map(item => `
+				<div data-id="${item.id}" class="item">
+						<p>${item.question}</p>
+						<p>${item.answers}</p>
+						<p>${item.result}</p>
+						<p><i class='bx bxs-edit edit'></i></p>
+						<p><i class='bx bx-trash trash'></i></p>
+					</div>
+			`).join('');
+			$('.expand .tab.subject-management .show-list-question .content').html(html);
+			$('.expand .tab.subject-management .show-list-question header .wrapper-top-turn--add .turn-back').off('click').on('click', function () {
+				$('.expand .tab.subject-management .show-list-quizz').show(200);
+				$('.expand .tab.subject-management .show-question').hide(10);
+			});
+			this.editQuestion(data);
+			this.deleteQuestion(data);
+			this.addQuestion(data);
+		},
+		editQuestion(data) {
+			const _this = this;
+			$('.expand .tab.subject-management .show-list-question .content .item p i.edit').off('click').on('click', function () {
+				const id_quizz = parseInt($(this).closest('.item').attr('data-id'));
+				$('.popup-edit-question').addClass('active');
+				const matchFound = data.filter(item => parseInt(item.id) === id_quizz);
+				_this.renderEditQuestion(matchFound);
+			});
+			$('.popup-edit-question').off('click').on('click', function () {
+				$('.popup-edit-question').removeClass('active');
+				const form = $('.popup-edit-question .wrapper .form-edit-question');
+				form.find('input[name="question"]').val('');
+				form.find('input[name="answers"]').val('');
+				form.find('input[name="result"]').val('');
+				form.find('input[name="id_quizz"]').val('');
+				form.find('input[name="id"]').val('');
+			})
+			$('.popup-edit-question .wrapper').off('click').on('click', function (e) {
+				e.stopPropagation();
 			})
 		},
-		renderQuizz(id_subject){
+		renderEditQuestion(matchFound) {
+			const _this = this;
+			[matchFound] = matchFound;
+			const form = $('.popup-edit-question .wrapper .form-edit-question');
+			form.find('input[name="question"]').val(matchFound.question);
+			form.find('input[name="answers"]').val(matchFound.answers);
+			form.find('input[name="result"]').val(matchFound.result);
+			form.find('input[name="id_quizz"]').val(matchFound.id_quizz);
+			form.find('input[name="id"]').val(matchFound.id);
+			validate({
+				form: '.popup-edit-question .wrapper .form-edit-question',
+				selectors: [
+					checkBlank('input[name="question"]'),
+					checkLength('input[name="question"]', 5),
+					checkBlank('input[name="answers"]'),
+					checkLength('input[name="answers"]', 4),
+					checkBlank('input[name="result"]'),
+					checkLength('input[name="result"]', 1),
+				],
+				callback(forms) {
+					const obj = forms.reduce((accum, curr) => {
+						accum[curr.name] = curr.value;
+						return accum
+					}, {});
+					const answersArray = obj.answers.split(',').map(item => item.trim());
+					obj.answers = answersArray.join(',');
+					if (answersArray.includes(obj.result)) {
+						$.post(ROOT + "quizzLecturer/updateQuestion", obj,
+							function (data, textStatus, jqXHR) {
+								if (data) {
+									swal('Cập nhật thành công', { timer: 1000, button: false, icon: 'success' });
+									const form = $('.popup-edit-question .wrapper .form-edit-question');
+									form.find('input[name="question"]').val('');
+									form.find('input[name="answers"]').val('');
+									form.find('input[name="result"]').val('');
+									form.find('input[name="id_quizz"]').val('');
+									form.find('input[name="id"]').val('');
+									_this.callQuestion();
+									$('.popup-edit-question').removeClass('active');
+								} else {
+									swal('Không được trùng câu hỏi đã tồn tại', { button: false, icon: 'error' });
+								}
+							},
+							"json"
+						);
+					} else {
+						swal('Bắt buộc phải khớp 1 trong 4 đáp án trên!', { button: false, icon: 'error' });
+					}
+
+				}
+			})
+		},
+		deleteQuestion() {
 
 		},
-		main(){
+		addQuestion() {
+
+		},
+		main() {
 			this.call();
 		}
 	}

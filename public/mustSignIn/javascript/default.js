@@ -53,7 +53,7 @@ $(function () {
 					htmlSubjects += `
 					<div data-id="${subject[j].id_subject}" class="item">
 						<div class="wrapper-image">
-							<img src=${subject[j].subject_image !== null ? ROOT + `public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.avif"} alt="">
+							<img src=${subject[j].subject_image !== null ? ROOT + `public/images/${subject[j].subject_image}` : ROOT + "public/images/default_image.webp"} alt="">
 						</div>
 						<div class="content">
 							<h1 class="subject_name">${subject[j].subject_name}</h1>
@@ -128,7 +128,7 @@ $(function () {
 				<div class="item">
 						<div data-id="${data[i].id_subject}" class="item">
 							<div class="wrapper-image">
-								<img src=${data[i].subject_image !== null ? ROOT + `public/images/${data[i].subject_image}` : ROOT + "public/images/default_image.avif"}  alt="">
+								<img src=${data[i].subject_image !== null ? ROOT + `public/images/${data[i].subject_image}` : ROOT + "public/images/default_image.webp"}  alt="">
 							</div>
 							<div class="content">
 								<h1 class="subject_name">${data[i].subject_name}</h1>
@@ -195,7 +195,7 @@ $(function () {
 		},
 		renderDetailSubject(data) {
 			const subject = $('.expand .courses .detail-course .wrapper .detail-subject');
-			subject.find('.wrapper-image img').attr('src', `${data.subject_image !== null ? ROOT + `public/images/${data.subject_image}` : ROOT + "public/images/default_image.avif"}`);
+			subject.find('.wrapper-image img').attr('src', `${data.subject_image !== null ? ROOT + `public/images/${data.subject_image}` : ROOT + "public/images/default_image.webp"}`);
 			subject.find('.infor-lecturer .profile-image img').attr('src', `${data.lecturer_image !== null ? ROOT + `public/images/${data.lecturer_image}` : ROOT + "public/images/anonymous.jpg"}`);
 			subject.find('.subject_name').html(data.subject_name);
 			subject.find('.description').html(data.description);
@@ -327,7 +327,7 @@ $(function () {
 			const subjectHTML = subjects.map(item => `
 				<div class="item">
 						<div class="wrapper-image">
-							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.avif'} alt="">
+							<img src=${item.subject_image !== null ? ROOT + `public/images/${item.subject_image}` : ROOT + 'public/images/default_image.webp'} alt="">
 						</div>
 						<div class="info">
 							<div class="subject">${item.subject_name}</div>

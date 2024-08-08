@@ -27,4 +27,13 @@ class QuizzLecturer extends Controller
 	public function getSubjectOwnLecturer() {
 		$this->QuizzLecturerModel->getSubjectOwnLecturer();
 	}
+	public function getQuizzFromSubject() {
+		$this->QuizzLecturerModel->getQuizzFromSubject();
+	}
+	public function getQuestionFromQuizz() {
+		$this->QuizzLecturerModel->getQuestionFromQuizz();
+	}
+	public function updateQuestion() {
+		$this->QuizzLecturerModel->updateQuestion();
+	}
 }
