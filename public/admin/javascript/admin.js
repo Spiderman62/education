@@ -210,7 +210,7 @@ $(function () {
 					</div>
 					<div class="wrapper-image-account">
 						<div class="image">
-							<img src=${data[i].image !== null ? data[i].image : ROOT + "public/clients/images/anonymous.jpg"} alt="">
+							<img src=${data[i].image !== null ? ROOT + `public/images/${data[i].image}` : ROOT + "public/images/anonymous.jpg"} alt="">
 						</div>
 						<div class="account">${data[i].account}</div>
 					</div>
@@ -476,7 +476,7 @@ $(function () {
 					</div>
 					<div class="wrapper-image-account">
 						<div class="image">
-							<img src=${data[i].image !== null ? data[i].image : ROOT + "public/clients/images/anonymous.jpg"} alt="">
+							<img src=${data[i].image !== null ?ROOT+`public/images/${data[i].image}` : ROOT + "public/images/anonymous.jpg"} alt="">
 						</div>
 						<div class="account">${data[i].account}</div>
 					</div>
