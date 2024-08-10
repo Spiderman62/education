@@ -36,4 +36,10 @@ class QuizzLecturer extends Controller
 	public function updateQuestion() {
 		$this->QuizzLecturerModel->updateQuestion();
 	}
+	public function deleteQuestion() {
+		$this->QuizzLecturerModel->deleteQuestion();
+	}
+	public function addQuestion() {
+		$this->QuizzLecturerModel->addQuestion();
+	}
 }

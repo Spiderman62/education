@@ -33,6 +33,11 @@
 	?>
 	<script src=<?php echo __ROOT__ . "public/root.js?v=" . time(); ?>></script>
 	<?php }?>
+	<?php
+		if(!empty($validate)){
+	?>
+	<script src=<?php echo __ROOT__ . "public/validate.js?v=" . time(); ?>></script>
+	<?php }?>
 	<?php if (!empty($gsap)) {
 	?>
 		<script src=<?php echo __ROOT__ . "public/gsap/umd/gsap.js?v=" . time(); ?>></script>

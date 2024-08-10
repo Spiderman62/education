@@ -172,4 +172,42 @@ class DecentralizationModel extends DB
 		}
 		
 	}
+	public function getInformationStudent($email) {
+		$data = $this->connection->query("SELECT student.id,user_name,image,major_name FROM student inner join major on major.id = student.id_major WHERE student.email = '$email'");
+		$result = [];
+		if(mysqli_num_rows($data) > 0){
+			while($row = mysqli_fetch_assoc($data)){
+				$result = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
+	public function authenticationPasswordStudent() {
+		header('Content-Type: application/json');
+		$id = $_POST['id'];
+		$password = $_POST['confirm_password'];
+		$this->connection->query("UPDATE student SET password = '$password' WHERE id = '$id'");
+		echo json_encode(true);
+	}
+	public function getInformationLecturer($email) {
+		$data = $this->connection->query("SELECT lecturer.id,lecturer.user_name,lecturer.image,education.education_name FROM lecturer
+		inner join education on education.id = lecturer.id_education
+		WHERE lecturer.email = '$email';");
+		$result = [];
+		if(mysqli_num_rows($data) > 0){
+			while($row = mysqli_fetch_assoc($data)){
+				$result = $row;
+			}
+			return $result;
+		}
+		return false;
+	}
+	public function authenticationPasswordLecturer() {
+		header('Content-Type: application/json');
+		$id = $_POST['id'];
+		$password = $_POST['confirm_password'];
+		$this->connection->query("UPDATE lecturer SET password = '$password' WHERE id = '$id'");
+		echo json_encode(true);
+	}
 }

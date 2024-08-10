@@ -156,17 +156,19 @@ class QuizzLecturerModel extends DB
 		};
 		echo json_encode($result);
 	}
-	public function getQuestionFromQuizz() {
+	public function getQuestionFromQuizz()
+	{
 		header('Content-Type: application/json');
 		$result = [];
 		$id_quizz = $_POST['id_quizz'];
 		$data = $this->connection->query("SELECT * FROM question WHERE id_quizz = '$id_quizz'");
-		while($row = mysqli_fetch_assoc($data)){
+		while ($row = mysqli_fetch_assoc($data)) {
 			$result[] = $row;
 		}
 		echo json_encode($result);
 	}
-	public function updateQuestion() {
+	public function updateQuestion()
+	{
 		header('Content-Type: application/json');
 		$id = $_POST['id'];
 		$id_quizz = $_POST['id_quizz'];
@@ -174,11 +176,33 @@ class QuizzLecturerModel extends DB
 		$answers = $_POST['answers'];
 		$result = $_POST['result'];
 		$isDuplicate = $this->connection->query("SELECT * FROM question WHERE question = '$question' AND id_quizz = '$id_quizz'");
-		if(mysqli_num_rows($isDuplicate) > 0){
+		if (mysqli_num_rows($isDuplicate) > 0) {
 			echo json_encode(false);
 			return;
 		}
 		$this->connection->query("UPDATE question SET question = '$question',answers = '$answers',result = '$result' WHERE id = '$id'");
+		echo json_encode(true);
+	}
+	public function deleteQuestion()
+	{
+		header('Content-Type: application/json');
+		$id_question = $_POST['id_question'];
+		$this->connection->query("DELETE FROM question WHERE id = '$id_question'");
+	}
+	public function addQuestion()
+	{
+		header('Content-Type: application/json');
+		$question = $_POST['question'];
+		$answers = $_POST['answers'];
+		$result = $_POST['result'];
+		$id_quizz = $_POST['id_quizz'];
+		$isDuplicate = $this->connection->query("SELECT * FROM question WHERE question = '$question' AND id_quizz = '$id_quizz'");
+		if (mysqli_num_rows($isDuplicate) > 0) {
+			echo json_encode(false);
+			return;
+		}
+		$this->connection->query("INSERT INTO question (question,answers,result,id_quizz) 
+		value('$question','$answers','$result','$id_quizz');");
 		echo json_encode(true);
 	}
 }

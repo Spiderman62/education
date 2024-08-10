@@ -22,8 +22,8 @@ $(function () {
 		main() {
 			$('aside .menu ul li').on('click', handleTabs);
 			$('aside ul li').removeClass('mark');
-			$('aside ul li').eq(4).addClass('mark');
-			$('.expand .tab').eq(4).fadeIn(300);
+			$('aside ul li').eq(1).addClass('mark');
+			$('.expand .tab').eq(1).fadeIn(300);
 			function handleTabs(e) {
 				const index = $(this).index();
 				$('aside ul li').removeClass('mark');
@@ -316,7 +316,7 @@ $(function () {
 					$('.expand .courses .start-education .progress .name-quizz').text(_this.infor.quizz_name);
 					$('.expand .courses .start-education .progress .info-lecturer .wrapper-image img').attr('src', `${_this.infor.image !== null ? ROOT + `public/images/${_this.infor.image}` : ROOT + 'public/images/anonymous.jpg'}`);
 					$('.expand .courses .start-education .progress .info-lecturer .name-lecturer').text(_this.infor.user_name);
-
+					
 				},
 				renderQuestionList() {
 					const _this = this;
@@ -539,7 +539,7 @@ $(function () {
 			this.detailSubjectPrivate();
 		}
 	}
-	// callAPISubject.main();
+	callAPISubject.main();
 	const callAPIResult = {
 		call() {
 			const _this = this;
@@ -570,7 +570,7 @@ $(function () {
 			this.call();
 		}
 	}
-	// callAPIResult.main();
+	callAPIResult.main();
 	const callRankking = {
 		call() {
 			const _this = this;
@@ -619,7 +619,7 @@ $(function () {
 			this.call();
 		}
 	}
-	// callRankking.main();
+	callRankking.main();
 	const profile = {
 		formData: null,
 		call() {
@@ -746,7 +746,7 @@ $(function () {
 			this.changeProfile();
 		}
 	}
-	// profile.main();
+	profile.main();
 	const callAPICreateSubject = {
 		id_quizz: null,
 		call() {
@@ -921,11 +921,86 @@ $(function () {
 				}
 			})
 		},
-		deleteQuestion() {
-
+		deleteQuestion(data) {
+			const _this = this;
+			$('.expand .tab.subject-management .show-list-question .content .item p i.trash').off('click').on('click', function () {
+				const id_question = parseInt($(this).closest('.item').attr('data-id'));
+				let matchFound = data.filter(item => parseInt(item.id) === id_question);
+				[matchFound] = matchFound;
+				swal({
+					title: 'Bạn có chắc chắn muốn xoá!',
+					text: matchFound.question,
+					icon: 'info',
+					buttons: {
+						cancel: true,
+						confirm: true
+					}
+				}).then(type => {
+					if (type) {
+						swal(`Xoá thành công`, { icon: 'success', timer: 1000, button: false });
+						$.post(ROOT + "quizzLecturer/deleteQuestion", { id_question: matchFound.id },
+							function (data, textStatus, jqXHR) {
+							},
+							"json"
+						);
+						_this.callQuestion();
+					}
+				})
+			})
 		},
 		addQuestion() {
+			const _this = this;
+			$('.expand .tab.subject-management .show-list-question header .wrapper-top-turn--add .add').off('click').on('click', function () {
+				$('.popup-add-question').addClass('active');
+			});
+			$('.popup-add-question').on('click', function () {
+				$('.popup-add-question').removeClass('active');
+			})
+			$('.popup-add-question .wrapper').on('click', function (e) {
+				e.stopPropagation();
+			});
+			validate({
+				form: '.form-add-question',
+				selectors: [
+					checkBlank('input[name="question"]'),
+					checkLength('input[name="question"]', 5),
+					checkBlank('input[name="answers"]'),
+					checkLength('input[name="answers"]', 4),
+					checkBlank('input[name="result"]'),
+					checkLength('input[name="result"]', 1),
+				],
+				callback(forms) {
+					const obj = forms.reduce((accum, curr) => {
+						accum[curr.name] = curr.value;
+						return accum
+					}, {});
+					obj.id_quizz = _this.id_quizz;
+					const answersArray = obj.answers.split(',').map(item => item.trim());
+					obj.answers = answersArray.join(',');
+					if (answersArray.includes(obj.result)) {
+						$.post(ROOT + "quizzLecturer/addQuestion", obj,
+							function (data, textStatus, jqXHR) {
+								if (data) {
+									swal('Thêm thành công', { timer: 1000, button: false, icon: 'success' });
+									const form = $('.popup-add-question .wrapper .form-add-question');
+									form.find('input[name="question"]').val('');
+									form.find('input[name="answers"]').val('');
+									form.find('input[name="result"]').val('');
+									form.find('input[name="id_quizz"]').val('');
+									form.find('input[name="id"]').val('');
+									_this.callQuestion();
+								} else {
+									swal('Không được phép trùng câu hỏi đã tồn tại', {button: false, icon: 'error' });
+								}
+							},
+							"json"
+						);
+					} else {
+						swal('Bắt buộc phải khớp 1 trong 4 đáp án trên!', { button: false, icon: 'error' });
 
+					}
+				}
+			})
 		},
 		main() {
 			this.call();

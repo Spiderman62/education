@@ -15,6 +15,7 @@
 						<input type="password" id="password" name="password" placeholder="Password">
 						<span class="message"></span>
 					</div>
+					<div class="forgot-password">Forgot the password?<span data-role="forget_student">Click here!</span></div>
 					<input type="submit" value="login" class="btn solid">
 				</form>
 				<form class="sign-up-form">
@@ -77,6 +78,7 @@
 						<input type="password" id="password" name="password" placeholder="Password">
 						<span class="message"></span>
 					</div>
+					<div class="forgot-password">Forgot the password?<span data-role="forget_lecturer">Click here!</span></div>
 					<input type="submit" value="login" class="btn solid">
 				</form>
 				<form class="sign-up-form">
@@ -117,7 +119,7 @@
 						<input type="password" id="confirm_password" placeholder="Confirm password">
 						<span class="message"></span>
 					</div>
-					
+
 					<input type="submit" value="register" class="btn solid">
 				</form>
 			<?php } ?>
@@ -150,5 +152,22 @@
 			<div class="box five"></div>
 			<div class="box six"></div>
 		</div>
+	</div>
+</div>
+<div class="popup-forget-passwrod">
+	<div class="wrapper">
+		<div class="icon">
+			<i class="fa-solid fa-magnifying-glass"></i>
+		</div>
+		<h1>Forgot password?</h1>
+		<p>No worries, we'll send you reset instructions.</p>
+		<form class="form-forget-password">
+			<div class="input-box">
+				<div class="email"><i class="fa-solid fa-envelope"></i></div>
+				<input type="text" name="email">
+				<p class="message">sdfsd</p>
+			</div>
+			<input type="submit" value="Send">
+		</form>
 	</div>
 </div>

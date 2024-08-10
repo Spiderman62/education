@@ -305,6 +305,7 @@ $(function () {
 		question_quizz(data) {
 			const { infor, questions } = data;
 			const quizz = {
+				catchCheat:0,
 				infor: infor,
 				data: questions,
 				currentIndex: null,
@@ -316,7 +317,40 @@ $(function () {
 					$('.expand .courses .start-education .progress .name-quizz').text(_this.infor.quizz_name);
 					$('.expand .courses .start-education .progress .info-lecturer .wrapper-image img').attr('src', `${_this.infor.image !== null ? ROOT + `public/images/${_this.infor.image}` : ROOT + 'public/images/anonymous.jpg'}`);
 					$('.expand .courses .start-education .progress .info-lecturer .name-lecturer').text(_this.infor.user_name);
+					$(document).off('visibilitychange').on('visibilitychange',function(){
+						if(document.hidden){
+							_this.catchCheat++;
+						}
+						if(_this.catchCheat === 1){
+							swal(`Cảnh báo`,{
+								text:`Nếu bạn thoát ra bên ngoài thêm 1 lần nữa coi như bài làm của bạn bị huỷ bỏ`,
+								icon:'error',
+								button:false
+							})
+						}
+						if(_this.catchCheat === 2){
+							swal(`Rất tiếc`,{
+								text:`Bài làm của bạn bị huỷ bỏ`,
+								icon:'error',
+								button:false
+							})
+							$(document).off('click').on('click',(e)=>{
+								swal(`Rất tiếc`,{
+									text:`Bài làm của bạn bị huỷ bỏ`,
+									icon:'error',
+									button:false
+								})
+							})
+							out();
+						}
 
+						
+					})
+					const out = ()=>{
+						setTimeout(()=>{
+							window.location.href = ROOT+'quiz/student';
+						},3000);
+					}
 				},
 				renderQuestionList() {
 					const _this = this;

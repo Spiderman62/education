@@ -452,3 +452,24 @@
 		</form>
 	</div>
 </div>
+<div class="popup-add-question">
+	<div class="wrapper">
+		<h1>Thêm câu hỏi</h1>
+		<form class="form-add-question">
+			<div class="input-box">
+				<input type="text" name="question" placeholder="Câu hỏi...">
+				<input hidden type="text" name="id_quizz">
+				<p class="message"></p>
+			</div>
+			<div class="input-box">
+				<input type="text" name="answers" placeholder="Câu trả lời">
+				<p class="message"></p>
+			</div>
+			<div class="input-box">
+				<input type="text" name="result" placeholder="Đáp án đúng">
+				<p class="message"></p>
+			</div>
+			<input type="submit" value="Thêm">
+		</form>
+	</div>
+</div>

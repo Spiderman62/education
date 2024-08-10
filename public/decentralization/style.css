@@ -771,7 +771,94 @@ form.sign-up-form {
 
 	}
 }
+.forgot-password{
+	font-size: 1.6rem;
+	width: 100%;
+	margin: 15px 0 10px 0;
+	text-align: center;
+}
+.forgot-password span{
+	font-size: 1.6rem;
+	margin-left: 4px;
+	color: rgb(52,144,240);
+	cursor: pointer;
+	text-underline-offset: 2px;
+	&:hover{
+		text-decoration: underline;
+	}
+}
+.popup-forget-passwrod{
+	position: fixed;
+	inset: 0;
+	backdrop-filter: blur(10px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(0);
+	transition: .3s ease-in-out;
+}
+.popup-forget-passwrod.active{
+	opacity: 1;
+	visibility: visible;
+	transform: scale(1);
+}
+.popup-forget-passwrod .wrapper{
+	width: 500px;
+	background-color: white;
+	padding: 30px;
+	border-radius: 10px;
+	box-shadow: 0 0 12px 2px rgb(195, 195, 195);
+}
+.popup-forget-passwrod .wrapper .icon{
+	text-align: center;
+}
 
+.popup-forget-passwrod .wrapper .icon i{
+	font-size: 2.0rem;
+	background-color: #4481eb;
+	padding: 15px;
+	border-radius: 50%;
+	color: white;
+}
+.popup-forget-passwrod .wrapper h1{
+	text-align: center;
+	font-weight: 600;
+	margin: 15px 0 10px 0;
+	font-size: 2.0rem;
+}
+.popup-forget-passwrod .wrapper p{
+	font-size: 1.6rem;
+	text-align: center;
+	color:gray;
+}
+.popup-forget-passwrod .wrapper form{
+	padding: 0 10px;
+}
+.popup-forget-passwrod .wrapper .input-box{
+	padding: 0 15px 0 25px;
+}
+.popup-forget-passwrod .wrapper .input-box input{
+	font-size: 2.0rem;
+}
+.popup-forget-passwrod .wrapper input[type="submit"]{
+	height: 40px;
+	width: 100%;
+	border: none;
+	outline: none;
+	color: white;
+	background-color: #4481eb;
+	border-radius: 3px;
+	font-size: 1.6rem;
+	margin-top: 20px;
+	cursor: pointer;
+	transition: .3s ease-in-out;
+	&:hover{
+		transform: scale(1.05);
+	}
+}
 /* ///////////////////////////////// */
 /* sweet alert */
 .swal-text {
