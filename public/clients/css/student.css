@@ -2331,7 +2331,7 @@ aside.close+section {
 
 .expand .tab.subject-management .show-list-quizz header .item {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	column-gap: 10px;
 	place-items: center center;
 }
@@ -2362,7 +2362,7 @@ aside.close+section {
 .expand .tab.subject-management .show-list-quizz .content .item {
 	margin-bottom: 20px;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(2, 1fr);
 	column-gap: 10px;
 	place-items: center center;
 	border-bottom: 1px solid rgb(218, 216, 216);

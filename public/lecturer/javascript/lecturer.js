@@ -626,8 +626,9 @@ $(function () {
 			const _this = this;
 			$.post(ROOT + "quizzLecturer/getProfileLecturer", {},
 				function (data, textStatus, jqXHR) {
-					const { profile, accurate, total_quizz, total_subject } = data;
-					_this.render(profile, accurate, total_quizz, total_subject);
+					const { profile, accurate, total_quizz,total_subject } = data;
+
+					_this.render(profile, accurate, total_quizz,total_subject);
 					_this.renderChangeProfile(profile);
 				},
 				"json"
@@ -637,9 +638,9 @@ $(function () {
 			$('.expand .tab.profile .profile-card .avatar img').attr('src', profile.image !== null ? ROOT + `public/images/${profile.image}` : ROOT + 'public/images/anonymous.jpg');
 			$('.expand .tab.profile .profile-card .details h1').text(profile.user_name);
 			$('.expand .tab.profile .profile-card .details h2').text(profile.major_name);
-			$('.expand .tab.profile .profile-card .numbers .item.subject h2').text(total_subject.total_subject);
-			$('.expand .tab.profile .profile-card .numbers .item.quizz h2').text(total_quizz.total_quizz);
-			$('.expand .tab.profile .profile-card .numbers .item.accurate h2').text(`${accurate.average_accuracy_percent}%`);
+			$('.expand .tab.profile .profile-card .numbers .item.subject h2').text(total_subject?.total_subject ?? 0);
+			$('.expand .tab.profile .profile-card .numbers .item.quizz h2').text(total_quizz?.total_quizz ?? 0);
+			$('.expand .tab.profile .profile-card .numbers .item.accurate h2').text(accurate?.average_accuracy_percent ?? 0+'%');
 		},
 		renderChangeProfile(profile) {
 			$('.popup-change-profile .wrapper .wrapper-image img').attr('src', profile.image !== null ? ROOT + `public/images/${profile.image}` : ROOT + 'public/images/anonymous.jpg');
@@ -754,6 +755,7 @@ $(function () {
 			$.post(ROOT + "quizzLecturer/getSubjectOwnLecturer", {},
 				function (data, textStatus, jqXHR) {
 					_this.render(data);
+					console.log(data)
 				},
 				"json"
 			);
@@ -775,6 +777,7 @@ $(function () {
 							<p class="total_quizz">Số lượng trắc nhiệm: <span>${item.total_quizzes}</span></p>
 							<p class="total_quizz">Số lượng câu hỏi: <span>${item.total_questions}</span></p>
 							<p class="course">Khoá học: <span>${item.course_name}</span></p>
+							${item.subject_code ? `<p class="course">Mã riêng tư: <span>${item.subject_code}</span></p>`: ""}
 						</div>
 					</div>
 				`).join('');
@@ -808,10 +811,11 @@ $(function () {
 			let html = data.map(item => `
 				<div data-id="${item.id}" class="item">
 						<p>${item.quizz_name}</p>
-						<p>${item.total_question}</p>
+						
 						<p><i class='bx bx-plus-circle'></i></p>
 					</div>
 				`).join('');
+				// <p>${item.total_question}</p>
 			$('.expand .tab.subject-management .show-list-quizz .content').html(html);
 			$('.expand .tab.subject-management .show-list-quizz .content .item p i').off('click').on('click', function () {
 				_this.id_quizz = parseInt($(this).closest('.item').attr('data-id'));

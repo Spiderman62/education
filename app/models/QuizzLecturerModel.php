@@ -126,6 +126,7 @@ class QuizzLecturerModel extends DB
     	subject.update_at,
     	subject.image AS subject_image,
         subject.description,
+		subject.subject_code,
     	lecturer.user_name,
 		education.education_name,
     	COALESCE(COUNT(DISTINCT quizzs.id), 0) AS total_quizzes,
@@ -136,7 +137,7 @@ class QuizzLecturerModel extends DB
 		INNER JOIN education ON education.id = lecturer.id_education
 		LEFT JOIN quizzs ON quizzs.id_subject = subject.id
 		LEFT JOIN question ON question.id_quizz = quizzs.id
-		WHERE subject.id_lecturer = '$id_lecturer' AND subject.status = 1 AND subject.is_private = 0 
+		WHERE subject.id_lecturer = '$id_lecturer' AND subject.status = 1
 		GROUP BY subject.id");
 		while ($row = mysqli_fetch_assoc($subjects)) {
 			$result[] = $row;
@@ -148,9 +149,8 @@ class QuizzLecturerModel extends DB
 		header('Content-Type: application/json');
 		$result = [];
 		$id_subject = $_POST['id_subject'];
-		$data = $this->connection->query("SELECT count(question.id) as total_question,quizzs.quizz_name,quizzs.id from quizzs  
-		inner join question on question.id_quizz = quizzs.id
-		WHERE id_subject = '$id_subject' group by question.id_quizz;");
+		$data = $this->connection->query("SELECT quizzs.quizz_name,quizzs.id from quizzs  
+		WHERE id_subject = '$id_subject'");
 		while ($row = mysqli_fetch_assoc($data)) {
 			$result[] = $row;
 		};

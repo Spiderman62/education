@@ -274,7 +274,6 @@
 					<h1>Quay về</h1>
 					<div class="item">
 						<p>Tên trắc nhiệm</p>
-						<p>Tổng số câu hỏi</p>
 						<p>Thêm câu hỏi</p>
 					</div>
 				</header>
