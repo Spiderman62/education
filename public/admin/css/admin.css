@@ -593,7 +593,7 @@ section .tabs main .wrapper-content{
 
 section .tabs main .wrapper-content .title{
 	display: grid;
-	grid-template-columns: auto 1.3fr 1.3fr 1.7fr 1fr 1.5fr .7fr repeat(3,.5fr);
+	grid-template-columns: auto 1.3fr 1.3fr 1.7fr 1fr 1.5fr repeat(3,.5fr);
 	place-items: center start;
 	column-gap: 10px;
 	margin-bottom: 20px;

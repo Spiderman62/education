@@ -218,7 +218,6 @@ $(function () {
 					<p class="email">${data[i].email}</p>
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
 					<p>${data[i].education_name}</p>
-					<p>${data[i].password}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bx-send send'></i>" : "<i class='bx bxs-show'></i>"}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
@@ -484,7 +483,6 @@ $(function () {
 					<p>${data[i].email}</p>
 					<p>${data[i].phone !== null ? data[i].phone : `Chưa cung cấp`}</p>
 					<p>${data[i].major_name}</p>
-					<p>${data[i].password}</p>
 					<p class="icon">${parseInt(data[i].status) === 0 ? "<i class='bx bxs-lock-alt status-lock'></i>" : "<i class='bx bxs-lock-open-alt status-unlock' ></i>"}</p>
 					<p class="icon"><i class='bx bx-edit edit'></i></p>
 					<p class="icon"><i class='bx bx-trash trash'></i></p>

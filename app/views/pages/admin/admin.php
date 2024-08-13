@@ -126,7 +126,6 @@
 							<p>Email</p>
 							<p>Số điện thoại</p>
 							<p>Nghành học</p>
-							<p>Mật khẩu</p>
 							<p>Status</p>
 						</div>
 						<div class="content">
@@ -158,7 +157,6 @@
 							<p>Email</p>
 							<p>Số điện thoại</p>
 							<p>Trình độ học vấn</p>
-							<p>Mật khẩu</p>
 							<p>Activity</p>
 							<p>Status</p>
 						</div>
