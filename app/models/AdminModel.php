@@ -17,7 +17,7 @@ class AdminModel extends DB
 		student.status,
 		student.password,
 		major.id as id_major
-		FROM student inner join major on major.id = student.id_major LIMIT $itemPerPages OFFSET $offset;");
+		FROM student inner join major on major.id = student.id_major WHERE student.status = 1 LIMIT $itemPerPages OFFSET $offset;");
 		$getTotalStudentPages = $this->connection->query("SELECT * FROM student");
 		$getTotalStudentPages = ceil(mysqli_num_rows($getTotalStudentPages) / $itemPerPages);
 		while ($row = mysqli_fetch_assoc($dataStudent)) {
@@ -108,7 +108,7 @@ class AdminModel extends DB
 	public function deleteStudent()
 	{
 		$id = (int)$_POST['id'];
-		$this->connection->query("DELETE FROM student WHERE id = '$id';");
+		$this->connection->query("UPDATE student SET status = 0 WHERE id = '$id';");
 		header('Content-Type: application/json');
 		echo json_encode(true);
 	}
